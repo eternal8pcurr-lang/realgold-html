@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Real.Gold — Value Rooted in the Land</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E2C97E;
+    --gold-dark: #8B6914;
+    --black: #0A0A08;
+    --off-black: #111109;
+    --dark: #161612;
+    --text: #E8E0CC;
+    --text-muted: #8A8270;
+    --white: #F5F0E8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── GRAIN OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9999; opacity: .4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.5rem 4rem;
+    background: linear-gradient(to bottom, rgba(10,10,8,.95) 0%, transparent 100%);
+  }
+
+  .nav-logo {
+    display: flex; align-items: center; gap: .75rem;
+    text-decoration: none;
+  }
+  .nav-logo img { height: 36px; }
+  .nav-logo-text {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 1.1rem;
+    color: var(--gold-light);
+    letter-spacing: .2em;
+    text-transform: lowercase;
+  }
+  .nav-logo-text strong { font-weight: 600; }
+
+  .nav-links {
+    display: flex; gap: 2.5rem; list-style: none;
+  }
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: .8rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    transition: color .3s;
+  }
+  .nav-links a:hover { color: var(--gold-light); }
+
+  .nav-cta {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold-light);
+    padding: .6rem 1.8rem;
+    font-family: 'Jost', sans-serif;
+    font-size: .75rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background .3s, color .3s;
+    text-decoration: none;
+  }
+  .nav-cta:hover { background: var(--gold); color: var(--black); }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    height: 100vh; min-height: 700px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 40%, #2a1e00 0%, #0A0A08 70%);
+  }
+  .hero-bg::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(201,168,76,.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(201,168,76,.05) 0%, transparent 50%);
+  }
+
+  /* Animated concentric rings */
+  .hero-rings {
+    position: absolute;
+    width: 700px; height: 700px;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .hero-rings span {
+    position: absolute; border-radius: 50%;
+    border: 1px solid rgba(201,168,76,.12);
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    animation: ring-pulse 6s ease-in-out infinite;
+  }
+  .hero-rings span:nth-child(1) { width: 220px; height: 220px; animation-delay: 0s; }
+  .hero-rings span:nth-child(2) { width: 380px; height: 380px; animation-delay: 1s; border-color: rgba(201,168,76,.08); }
+  .hero-rings span:nth-child(3) { width: 560px; height: 560px; animation-delay: 2s; border-color: rgba(201,168,76,.05); }
+  .hero-rings span:nth-child(4) { width: 700px; height: 700px; animation-delay: 3s; border-color: rgba(201,168,76,.03); }
+
+  @keyframes ring-pulse {
+    0%, 100% { opacity: .6; }
+    50% { opacity: 1; }
+  }
+
+  .hero-symbol {
+    position: relative; z-index: 2;
+    width: 80px; height: 80px; margin-bottom: 2rem;
+    opacity: .9;
+    animation: symbol-glow 4s ease-in-out infinite;
+  }
+  @keyframes symbol-glow {
+    0%, 100% { filter: drop-shadow(0 0 12px rgba(201,168,76,.4)); }
+    50% { filter: drop-shadow(0 0 28px rgba(201,168,76,.8)); }
+  }
+
+  .hero-eyebrow {
+    font-size: .7rem; letter-spacing: .4em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 1.5rem; position: relative; z-index: 2;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 300;
+    line-height: 1.05;
+    color: var(--white);
+    position: relative; z-index: 2;
+    margin-bottom: 1.5rem;
+    letter-spacing: -.01em;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .hero-sub {
+    font-size: 1rem;
+    color: var(--text-muted);
+    letter-spacing: .05em;
+    max-width: 480px;
+    line-height: 1.8;
+    position: relative; z-index: 2;
+    margin-bottom: 3rem;
+  }
+
+  .hero-actions {
+    display: flex; gap: 1.5rem; align-items: center;
+    position: relative; z-index: 2;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--black);
+    padding: 1rem 2.5rem;
+    font-family: 'Jost', sans-serif;
+    font-size: .8rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    font-weight: 500;
+    border: none; cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background .3s;
+  }
+  .btn-primary:hover { background: var(--gold-light); }
+
+  .btn-ghost {
+    color: var(--text-muted);
+    font-size: .8rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: flex; align-items: center; gap: .5rem;
+    transition: color .3s;
+  }
+  .btn-ghost:hover { color: var(--gold-light); }
+  .btn-ghost::before {
+    content: '▶';
+    font-size: .6rem;
+    color: var(--gold);
+  }
+
+  .hero-scroll {
+    position: absolute; bottom: 2.5rem; left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex; flex-direction: column; align-items: center; gap: .75rem;
+  }
+  .hero-scroll span {
+    font-size: .65rem; letter-spacing: .3em; color: var(--text-muted); text-transform: uppercase;
+  }
+  .scroll-line {
+    width: 1px; height: 50px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scroll-drop 2s ease-in-out infinite;
+  }
+  @keyframes scroll-drop {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  /* ── SECTION BASE ── */
+  section { padding: 8rem 4rem; }
+
+  .section-label {
+    font-size: .65rem; letter-spacing: .4em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.5rem; display: block;
+  }
+
+  h2.display {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--white);
+    margin-bottom: 1.5rem;
+  }
+  h2.display em { font-style: italic; color: var(--gold-light); }
+
+  .body-text {
+    color: var(--text-muted);
+    line-height: 1.9;
+    font-size: .95rem;
+    max-width: 540px;
+  }
+
+  /* ── INTRO BAND ── */
+  .intro-band {
+    background: var(--dark);
+    border-top: 1px solid rgba(201,168,76,.15);
+    border-bottom: 1px solid rgba(201,168,76,.15);
+    padding: 3rem 4rem;
+    display: flex; align-items: center; justify-content: center;
+    gap: 4rem; flex-wrap: wrap;
+  }
+  .intro-stat {
+    text-align: center;
+  }
+  .intro-stat .number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem;
+    font-weight: 300;
+    color: var(--gold-light);
+    display: block;
+  }
+  .intro-stat .label {
+    font-size: .7rem; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--text-muted); margin-top: .25rem;
+  }
+  .intro-divider {
+    width: 1px; height: 60px;
+    background: rgba(201,168,76,.2);
+  }
+
+  /* ── VIDEO SECTION ── */
+  .videos-section { background: var(--off-black); }
+
+  .videos-header {
+    text-align: center; margin-bottom: 5rem;
+  }
+
+  .video-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1200px; margin: 0 auto;
+  }
+
+  .video-card {
+    position: relative; background: var(--dark);
+    border: 1px solid rgba(201,168,76,.1);
+    overflow: hidden;
+    transition: border-color .3s;
+    cursor: pointer;
+  }
+  .video-card:hover { border-color: rgba(201,168,76,.4); }
+  .video-card.featured {
+    grid-column: 1 / -1;
+    display: grid; grid-template-columns: 1fr 1fr;
+  }
+
+  .video-thumb {
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, #1a1408 0%, #2a1e00 100%);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .video-card.featured .video-thumb { aspect-ratio: auto; min-height: 300px; }
+
+  .video-thumb::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, rgba(201,168,76,.15) 0%, transparent 70%);
+  }
+
+  .play-btn {
+    width: 64px; height: 64px;
+    border: 1px solid rgba(201,168,76,.6);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold-light);
+    font-size: .8rem;
+    transition: background .3s, transform .3s;
+    position: relative; z-index: 1;
+  }
+  .video-card:hover .play-btn {
+    background: rgba(201,168,76,.15);
+    transform: scale(1.1);
+  }
+
+  .video-info {
+    padding: 1.75rem;
+  }
+  .video-card.featured .video-info {
+    padding: 3rem;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+
+  .video-number {
+    font-size: .65rem; letter-spacing: .3em; color: var(--gold);
+    text-transform: uppercase; margin-bottom: .75rem;
+  }
+  .video-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-weight: 400;
+    color: var(--white); margin-bottom: .75rem;
+    line-height: 1.2;
+  }
+  .video-card.featured .video-title { font-size: 2rem; }
+  .video-desc {
+    font-size: .82rem; color: var(--text-muted); line-height: 1.7;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .how-section {
+    background: var(--black);
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 6rem; align-items: center; max-width: 1200px; margin: 0 auto;
+  }
+  .how-steps { list-style: none; }
+  .how-step {
+    display: flex; gap: 2rem;
+    padding: 2rem 0;
+    border-bottom: 1px solid rgba(201,168,76,.08);
+  }
+  .how-step:last-child { border-bottom: none; }
+  .step-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem; font-weight: 300;
+    color: rgba(201,168,76,.2);
+    line-height: 1; flex-shrink: 0;
+    width: 3.5rem;
+  }
+  .step-content h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; font-weight: 400;
+    color: var(--white); margin-bottom: .5rem;
+  }
+  .step-content p { font-size: .85rem; color: var(--text-muted); line-height: 1.7; }
+
+  /* ── DUAL PATH ── */
+  .dual-section {
+    background: var(--dark);
+    max-width: 100%;
+    padding: 8rem 4rem;
+  }
+  .dual-header { text-align: center; margin-bottom: 5rem; }
+
+  .dual-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    max-width: 1100px; margin: 0 auto;
+    border: 1px solid rgba(201,168,76,.15);
+  }
+
+  .dual-card {
+    padding: 4rem;
+    border-right: 1px solid rgba(201,168,76,.15);
+  }
+  .dual-card:last-child { border-right: none; }
+
+  .dual-icon {
+    width: 56px; height: 56px; margin-bottom: 2rem;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(201,168,76,.3);
+    color: var(--gold-light); font-size: 1.5rem;
+  }
+
+  .dual-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem; font-weight: 300;
+    color: var(--white); margin-bottom: 1rem;
+  }
+  .dual-card .eyebrow {
+    font-size: .65rem; letter-spacing: .3em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1rem; display: block;
+  }
+  .dual-card p { font-size: .85rem; color: var(--text-muted); line-height: 1.8; }
+
+  .dual-features {
+    list-style: none; margin-top: 2rem;
+  }
+  .dual-features li {
+    font-size: .8rem; color: var(--text-muted);
+    padding: .5rem 0;
+    border-bottom: 1px solid rgba(201,168,76,.06);
+    display: flex; align-items: center; gap: .75rem;
+  }
+  .dual-features li::before {
+    content: '—';
+    color: var(--gold);
+  }
+
+  /* ── TRIPARTITE ── */
+  .tri-section {
+    max-width: 1200px; margin: 0 auto;
+    padding: 8rem 4rem;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 6rem; align-items: center;
+  }
+  .tri-visual {
+    position: relative; display: flex;
+    align-items: center; justify-content: center;
+    height: 420px;
+  }
+  .tri-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center;
+  }
+  .tri-ring-1 {
+    width: 160px; height: 160px;
+    border-color: rgba(201,168,76,.6);
+    background: rgba(201,168,76,.05);
+    z-index: 3;
+  }
+  .tri-ring-2 {
+    width: 280px; height: 280px;
+    border-color: rgba(201,168,76,.3);
+    background: rgba(201,168,76,.02);
+    z-index: 2;
+  }
+  .tri-ring-3 {
+    width: 400px; height: 400px;
+    border-color: rgba(201,168,76,.15);
+    z-index: 1;
+  }
+  .tri-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: .9rem; color: var(--gold-light);
+    letter-spacing: .1em;
+    position: absolute;
+  }
+  .tri-label-1 { z-index: 4; font-size: 1rem; }
+  .tri-label-2 { top: 50%; left: 50%; transform: translate(-50%, -160px); z-index: 4; font-size: .8rem; color: var(--text-muted); white-space: nowrap; }
+  .tri-label-3 { bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 4; font-size: .75rem; color: var(--text-muted); white-space: nowrap; }
+
+  /* ── INVESTOR TYPES ── */
+  .investor-section {
+    background: var(--off-black);
+    padding: 8rem 4rem;
+  }
+  .investor-header { text-align: center; margin-bottom: 5rem; }
+
+  .investor-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem; max-width: 1100px; margin: 0 auto;
+  }
+
+  .investor-card {
+    padding: 3rem 2.5rem;
+    border: 1px solid rgba(201,168,76,.1);
+    background: var(--dark);
+    position: relative; overflow: hidden;
+    transition: border-color .3s;
+  }
+  .investor-card:hover { border-color: rgba(201,168,76,.3); }
+
+  .investor-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    opacity: 0; transition: opacity .3s;
+  }
+  .investor-card:hover::before { opacity: 1; }
+
+  .investor-card .type {
+    font-size: .65rem; letter-spacing: .35em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 1.25rem; display: block;
+  }
+  .investor-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 300;
+    color: var(--white); margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+  .investor-card p {
+    font-size: .82rem; color: var(--text-muted); line-height: 1.75;
+  }
+
+  /* ── CTA ── */
+  .cta-section {
+    text-align: center;
+    padding: 10rem 4rem;
+    background: var(--black);
+    position: relative; overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(201,168,76,.06) 0%, transparent 70%);
+  }
+  .cta-section h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 300;
+    line-height: 1.1; color: var(--white);
+    margin-bottom: 1.5rem; position: relative; z-index: 1;
+  }
+  .cta-section h2 em { font-style: italic; color: var(--gold-light); }
+  .cta-section p {
+    color: var(--text-muted); font-size: 1rem;
+    max-width: 480px; margin: 0 auto 3rem;
+    line-height: 1.8; position: relative; z-index: 1;
+  }
+  .cta-actions {
+    display: flex; gap: 1.5rem; justify-content: center; align-items: center;
+    position: relative; z-index: 1;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark);
+    border-top: 1px solid rgba(201,168,76,.1);
+    padding: 4rem;
+  }
+  .footer-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 4rem;
+  }
+  .footer-brand p {
+    font-size: .82rem; color: var(--text-muted);
+    line-height: 1.8; margin-top: 1.25rem; max-width: 280px;
+  }
+  .footer-col h4 {
+    font-size: .65rem; letter-spacing: .3em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.5rem;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: .75rem; }
+  .footer-col a {
+    color: var(--text-muted); text-decoration: none;
+    font-size: .82rem; transition: color .3s;
+  }
+  .footer-col a:hover { color: var(--gold-light); }
+  .footer-bottom {
+    max-width: 1200px; margin: 3rem auto 0;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(201,168,76,.08);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-bottom p { font-size: .75rem; color: var(--text-muted); }
+
+  /* ── ANNOTATION LABELS (design mockup) ── */
+  .annotation {
+    display: inline-block;
+    background: rgba(201,168,76,.12);
+    border: 1px dashed rgba(201,168,76,.4);
+    color: var(--gold);
+    font-size: .65rem; letter-spacing: .1em;
+    padding: .25rem .75rem;
+    margin-bottom: 1rem;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--black); }
+  ::-webkit-scrollbar-thumb { background: var(--gold-dark); }
+
+  /* Responsive Video Container */
+.video-thumb {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* This creates the perfect 16:9 aspect ratio */
+  background-color: #000;
+  overflow: hidden;
+  border-radius: 8px; /* Optional: rounds the corners of the video */
+}
+
+/* Force the iframe to fill the container */
+.video-thumb iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Keep the placeholder play button centered for the ones without iframes yet */
+.video-thumb .play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════ NAV ══════════════════════════════════════ -->
+<nav>
+  <a href="#" class="nav-logo">
+    <svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="18" stroke="#C9A84C" stroke-width="3" fill="none"/>
+      <g stroke="#C9A84C" stroke-width="3" stroke-linecap="round">
+        <line x1="50" y1="20" x2="50" y2="10"/>
+        <line x1="74" y1="32" x2="80" y2="24"/>
+        <line x1="80" y1="62" x2="88" y2="66"/>
+        <line x1="60" y1="82" x2="62" y2="92"/>
+        <line x1="38" y1="82" x2="36" y2="92"/>
+        <line x1="20" y1="62" x2="12" y2="66"/>
+        <line x1="26" y1="32" x2="20" y2="24"/>
+      </g>
+    </svg>
+    <span class="nav-logo-text">real<strong>gold</strong></span>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#videos">Videos</a></li>
+    <li><a href="#ownership">Ownership</a></li>
+    <li><a href="#invest">Invest</a></li>
+    <li><a href="#stewardship">Stewardship</a></li>
+  </ul>
+
+  <a href="#contact" class="nav-cta">Invest Now</a>
+</nav>
+
+<!-- ══════════════════════════════════════ HERO ══════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-rings">
+    <span></span><span></span><span></span><span></span>
+  </div>
+
+  <!--<svg class="hero-symbol" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="16" stroke="#C9A84C" stroke-width="2.5" fill="none"/>
+    <g stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round">
+      <line x1="50" y1="22" x2="50" y2="12"/>
+      <line x1="72" y1="34" x2="79" y2="27"/>
+      <line x1="78" y1="60" x2="86" y2="64"/>
+      <line x1="62" y1="80" x2="64" y2="90"/>
+      <line x1="38" y1="80" x2="36" y2="90"/>
+      <line x1="22" y1="60" x2="14" y2="64"/>
+      <line x1="28" y1="34" x2="21" y2="27"/>
+    </g>
+  </svg>-->
+<svg class="hero-symbol" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- ── ANNULAR RING ──────────────────────────────────────────── -->
+  <!-- evenodd fill-rule = outer circle MINUS inner circle = donut -->
+  <!-- outer r=25.78  inner r=18.75  (center: 50,50)              -->
+  <path fill="#C9A84C" fill-rule="evenodd" d="M 75.78,50
+       A 25.78,25.78 0 1,0 24.22,50
+       A 25.78,25.78 0 1,0 75.78,50 Z
+       M 68.75,50
+       A 18.75,18.75 0 1,1 31.25,50
+       A 18.75,18.75 0 1,1 68.75,50 Z"/>
+
+  <!-- ── RAY 1 — 25° ──────────────────────────────────────────── -->
+  <path fill="#C9A84C" d="M 71.75,66.57 C 72.11,67.12 72.65,68.44 73.54,69.34 C 74.43,70.24 74.9,70.66 76.18,71.05 C 77.46,71.44 78.45,71.19 79.93,71.27 C 81.41,71.35 82.05,71.54 83.57,71.47 C 85.09,71.4 85.77,71.58 87.54,70.9 C 89.31,70.22 90.87,69.24 92.4,68.08 C 93.93,66.92 94.44,66.07 95.19,65.12 C 95.94,64.17 95.94,64.09 96.16,63.32 C 96.38,62.55 96.52,62.02 96.3,61.29 C 96.08,60.56 96.07,60.18 95.07,59.66 C 94.07,59.14 92.51,58.92 91.28,58.7 C 90.05,58.48 90.36,57.55 88.91,58.56 C 87.46,59.57 85.68,62.76 84.05,63.76 C 82.42,64.76 82.0,63.79 80.74,63.56 C 79.48,63.33 78.71,63.58 77.75,62.59 C 76.79,61.6 76.32,59.39 75.96,58.59 A 20.14,20.14 0 0,1 71.75,66.57 Z"/>
+  <!-- ── RAY 2 — 70° ──────────────────────────────────────────── -->
+  <path fill="#C9A84C" d="M 53.66,77.1 C 53.52,77.74 52.98,79.06 52.97,80.32 C 52.96,81.58 53.0,82.22 53.63,83.4 C 54.26,84.58 55.13,85.1 56.12,86.2 C 57.11,87.3 57.43,87.89 58.56,88.91 C 59.69,89.93 60.04,90.55 61.77,91.32 C 63.5,92.09 65.29,92.5 67.19,92.77 C 69.09,93.04 70.05,92.79 71.26,92.65 C 72.47,92.51 72.52,92.45 73.22,92.06 C 73.92,91.67 74.4,91.39 74.76,90.72 C 75.12,90.05 75.38,89.78 75.04,88.7 C 74.7,87.62 73.75,86.37 73.04,85.34 C 72.33,84.31 73.21,83.88 71.47,83.57 C 69.73,83.26 66.21,84.25 64.35,83.8 C 62.49,83.35 62.88,82.38 62.15,81.32 C 61.42,80.26 60.69,79.9 60.72,78.52 C 60.75,77.14 61.98,75.25 62.29,74.43 A 20.14,20.14 0 0,1 53.66,77.1 Z"/>
+  <!-- ── RAY 3 — 115° ─────────────────────────────────────────── -->
+  <path fill="#C9A84C" d="M 33.43,71.75 C 32.88,72.11 31.56,72.65 30.66,73.54 C 29.76,74.43 29.34,74.9 28.95,76.18 C 28.56,77.46 28.81,78.45 28.73,79.93 C 28.65,81.41 28.46,82.05 28.53,83.57 C 28.6,85.09 28.42,85.77 29.1,87.54 C 29.78,89.31 30.76,90.87 31.92,92.4 C 33.08,93.93 33.93,94.44 34.88,95.19 C 35.83,95.94 35.91,95.94 36.68,96.16 C 37.45,96.38 37.98,96.52 38.71,96.3 C 39.44,96.08 39.82,96.07 40.34,95.07 C 40.86,94.07 41.08,92.51 41.3,91.28 C 41.52,90.05 42.45,90.36 41.44,88.91 C 40.43,87.46 37.24,85.68 36.24,84.05 C 35.24,82.42 36.21,82.0 36.44,80.74 C 36.67,79.48 36.42,78.71 37.41,77.75 C 38.4,76.79 40.61,76.32 41.41,75.96 A 20.14,20.14 0 0,1 33.43,71.75 Z"/>
+  <!-- ── RAY 4 — 160° ─────────────────────────────────────────── -->
+  <path fill="#C9A84C" d="M 22.9,53.66 C 22.26,53.52 20.94,52.98 19.68,52.97 C 18.42,52.96 17.78,53.0 16.6,53.63 C 15.42,54.26 14.9,55.13 13.8,56.12 C 12.7,57.11 12.11,57.43 11.09,58.56 C 10.07,59.69 9.45,60.04 8.68,61.77 C 7.91,63.5 7.5,65.29 7.23,67.19 C 6.96,69.09 7.21,70.05 7.35,71.26 C 7.49,72.47 7.55,72.52 7.94,73.22 C 8.33,73.92 8.61,74.4 9.28,74.76 C 9.95,75.12 10.22,75.38 11.3,75.04 C 12.38,74.7 13.63,73.75 14.66,73.04 C 15.69,72.33 16.12,73.21 16.43,71.47 C 16.74,69.73 15.75,66.21 16.2,64.35 C 16.65,62.49 17.62,62.88 18.68,62.15 C 19.74,61.42 20.1,60.69 21.48,60.72 C 22.86,60.75 24.75,61.98 25.57,62.29 A 20.14,20.14 0 0,1 22.9,53.66 Z"/>
+  <!-- ── RAY 5 — 205° ─────────────────────────────────────────── -->
+  <path fill="#C9A84C" d="M 28.25,33.43 C 27.89,32.88 27.35,31.56 26.46,30.66 C 25.57,29.76 25.1,29.34 23.82,28.95 C 22.54,28.56 21.55,28.81 20.07,28.73 C 18.59,28.65 17.95,28.46 16.43,28.53 C 14.91,28.6 14.23,28.42 12.46,29.1 C 10.69,29.78 9.13,30.76 7.6,31.92 C 6.07,33.08 5.56,33.93 4.81,34.88 C 4.06,35.83 4.06,35.91 3.84,36.68 C 3.62,37.45 3.48,37.98 3.7,38.71 C 3.92,39.44 3.93,39.82 4.93,40.34 C 5.93,40.86 7.49,41.08 8.72,41.3 C 9.95,41.52 9.64,42.45 11.09,41.44 C 12.54,40.43 14.32,37.24 15.95,36.24 C 17.58,35.24 18.0,36.21 19.26,36.44 C 20.52,36.67 21.29,36.42 22.25,37.41 C 23.21,38.4 23.68,40.61 24.04,41.41 A 20.14,20.14 0 0,1 28.25,33.43 Z"/>
+  <!-- ── RAY 6 — 250° ─────────────────────────────────────────── -->
+  <path fill="#C9A84C" d="M 46.34,22.9 C 46.48,22.26 47.02,20.94 47.03,19.68 C 47.04,18.42 47.0,17.78 46.37,16.6 C 45.74,15.42 44.87,14.9 43.88,13.8 C 42.89,12.7 42.57,12.11 41.44,11.09 C 40.31,10.07 39.96,9.45 38.23,8.68 C 36.5,7.91 34.71,7.5 32.81,7.23 C 30.91,6.96 29.95,7.21 28.74,7.35 C 27.53,7.49 27.48,7.55 26.78,7.94 C 26.08,8.33 25.6,8.61 25.24,9.28 C 24.88,9.95 24.62,10.22 24.96,11.3 C 25.3,12.38 26.25,13.63 26.96,14.66 C 27.67,15.69 26.79,16.12 28.53,16.43 C 30.27,16.74 33.79,15.75 35.65,16.2 C 37.51,16.65 37.12,17.62 37.85,18.68 C 38.58,19.74 39.31,20.1 39.28,21.48 C 39.25,22.86 38.02,24.75 37.71,25.57 A 20.14,20.14 0 0,1 46.34,22.9 Z"/>
+  <!-- ── RAY 7 — 295° ─────────────────────────────────────────── -->
+  <path fill="#C9A84C" d="M 66.57,28.25 C 67.12,27.89 68.44,27.35 69.34,26.46 C 70.24,25.57 70.66,25.1 71.05,23.82 C 71.44,22.54 71.19,21.55 71.27,20.07 C 71.35,18.59 71.54,17.95 71.47,16.43 C 71.4,14.91 71.58,14.23 70.9,12.46 C 70.22,10.69 69.24,9.13 68.08,7.6 C 66.92,6.07 66.07,5.56 65.12,4.81 C 64.17,4.06 64.09,4.06 63.32,3.84 C 62.55,3.62 62.02,3.48 61.29,3.7 C 60.56,3.92 60.18,3.93 59.66,4.93 C 59.14,5.93 58.92,7.49 58.7,8.72 C 58.48,9.95 57.55,9.64 58.56,11.09 C 59.57,12.54 62.76,14.32 63.76,15.95 C 64.76,17.58 63.79,18.0 63.56,19.26 C 63.33,20.52 63.58,21.29 62.59,22.25 C 61.6,23.21 59.39,23.68 58.59,24.04 A 20.14,20.14 0 0,1 66.57,28.25 Z"/>
+  <!-- ── RAY 8 — 340° ─────────────────────────────────────────── -->
+  <path fill="#C9A84C" d="M 77.1,46.34 C 77.74,46.48 79.06,47.02 80.32,47.03 C 81.58,47.04 82.22,47.0 83.4,46.37 C 84.58,45.74 85.1,44.87 86.2,43.88 C 87.3,42.89 87.89,42.57 88.91,41.44 C 89.93,40.31 90.55,39.96 91.32,38.23 C 92.09,36.5 92.5,34.71 92.77,32.81 C 93.04,30.91 92.79,29.95 92.65,28.74 C 92.51,27.53 92.45,27.48 92.06,26.78 C 91.67,26.08 91.39,25.6 90.72,25.24 C 90.05,24.88 89.78,24.62 88.7,24.96 C 87.62,25.3 86.37,26.25 85.34,26.96 C 84.31,27.67 83.88,26.79 83.57,28.53 C 83.26,30.27 84.25,33.79 83.8,35.65 C 83.35,37.51 82.38,37.12 81.32,37.85 C 80.26,38.58 79.9,39.31 78.52,39.28 C 77.14,39.25 75.25,38.02 74.43,37.71 A 20.14,20.14 0 0,1 77.1,46.34 Z"/>
+</svg>
+ <!-- <span class="hero-eyebrow">Courbet Mine · Esmeralda County, Nevada</span>-->
+
+  <h1>Value <em>Rooted</em><br>in the Land</h1>
+
+  <p class="hero-sub">Land ownership anchored by precisely measured, independently verified gold in the ground. Structured for 1031 exchange and tokenized liquidity.</p>
+
+  <div class="hero-actions">
+    <a href="#invest" class="btn-primary">Explore Investment</a>
+    <a href="#videos" class="btn-ghost">Watch the Overview</a>
+  </div>
+
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ STATS BAND ══════════════════════════════════════ -->
+<div class="intro-band">
+  <div class="intro-stat">
+    <span class="number">123</span>
+    <span class="label">Acres · 7 Patented Claims</span>
+  </div>
+  <div class="intro-divider"></div>
+  <div class="intro-stat">
+    <span class="number">5×5m</span>
+    <span class="label">Block Model Precision</span>
+  </div>
+  <div class="intro-divider"></div>
+  <div class="intro-stat">
+    <span class="number">AIPG</span>
+    <span class="label">Certified Geologists</span>
+  </div>
+  <div class="intro-divider"></div>
+  <div class="intro-stat">
+    <span class="number">1031</span>
+    <span class="label">Exchange Eligible</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ VIDEOS ══════════════════════════════════════ -->
+<section class="videos-section" id="videos" style="padding:8rem 4rem;">
+  <div class="videos-header">
+    <span class="section-label">The RealGold Series</span>
+    <h2 class="display">Everything you need to<br><em>understand the vision</em></h2>
+  </div>
+
+  <div class="video-grid">
+    <!-- Featured -->
+    <div class="video-card featured">
+      <div class="video-thumb">
+        <!-- YouTube Embed Iframe -->
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/-ktFkmuHKs4?si=pes4tYtiSyL0HG3C" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+      <div class="video-info">
+        <span class="video-number">Video 01 · Overview</span>
+        <div class="video-title">The Courbet Mine &amp; the RealGold Model</div>
+        <p class="video-desc">The flagship project. Seven patented claims in Nevada's historic Gold Mountain District. Learn how the Earth Block Model connects you directly to verified, traceable land and gold assets.</p>
+        <div style="margin-top:2rem;">
+          <!-- Changed to "Watch on YouTube" since it plays inline now -->
+          <a href="https://youtu.be/-ktFkmuHKs4" class="btn-primary" target="_blank">Watch on YouTube</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grid cards (You can replace these with their respective iframe embeds as well) -->
+    <div class="video-card">
+      <div class="video-thumb"><div class="play-btn">▶</div></div>
+      <div class="video-info">
+        <span class="video-number">Video 02</span>
+        <div class="video-title">Verified Gold</div>
+        <p class="video-desc">XRF analysis, RTK geolocation, LiDAR drone mapping, and independent lab verification — the MAPS 43-99 report system explained.</p>
+      </div>
+    </div>
+
+    <div class="video-card">
+      <div class="video-thumb"><div class="play-btn">▶</div></div>
+      <div class="video-info">
+        <span class="video-number">Video 03</span>
+        <div class="video-title">Investor Benefits</div>
+        <p class="video-desc">Dual-pathway architecture: 1031 &amp; DST structures for stability, and Holochain tokenization for peer-to-peer liquidity.</p>
+      </div>
+    </div>
+
+    <div class="video-card">
+      <div class="video-thumb"><div class="play-btn">▶</div></div>
+      <div class="video-info">
+        <span class="video-number">Video 04</span>
+        <div class="video-title">The Tripartite Estate</div>
+        <p class="video-desc">RealGold's stewardship model mirrors Earth's own economy — mineral, biological, and human social estates in balance.</p>
+      </div>
+    </div>
+
+    <div class="video-card">
+      <div class="video-thumb"><div class="play-btn">▶</div></div>
+      <div class="video-info">
+        <span class="video-number">Video 05</span>
+        <div class="video-title">Ownership</div>
+        <p class="video-desc">Direct access to land ownership under U.S. property law. View your block, access your deed, track real-time value via your digital wallet.</p>
+      </div>
+    </div>
+
+    <div class="video-card">
+      <div class="video-thumb"><div class="play-btn">▶</div></div>
+      <div class="video-info">
+        <span class="video-number">Video 07</span>
+        <div class="video-title">DST Investment Structure</div>
+        <p class="video-desc">Fractionalized land ownership backed by verified in-ground gold through a Delaware Statutory Trust — structured for long-term capital alignment.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════ HOW IT WORKS ══════════════════════════════════════ -->
+<section id="about" style="padding:8rem 4rem; background:var(--black);">
+  <div class="how-section">
+    <div>
+      <span class="section-label">The Process</span>
+      <h2 class="display">Gold verified,<br><em>ownership secured</em></h2>
+      <p class="body-text" style="margin-top:1.5rem;">Every Real.Gold asset undergoes rigorous independent verification before ownership is established. Modern science meets centuries of mineral law.</p>
+    </div>
+
+    <ul class="how-steps">
+      <li class="how-step">
+        <span class="step-num">01</span>
+        <div class="step-content">
+          <h3>On-Site Verification</h3>
+          <p>XRF analysis, RTK geolocation accurate to 2 centimeters, LiDAR drone mapping, and core sampling programs conducted at the Courbet Mine.</p>
+        </div>
+      </li>
+      <li class="how-step">
+        <span class="step-num">02</span>
+        <div class="step-content">
+          <h3>MAPS 43-99 Reporting</h3>
+          <p>Independent third-party laboratory results verified by AIPG-certified geologists, resulting in a Verified Gold Report with precise geolocation, tonnage, and grade.</p>
+        </div>
+      </li>
+      <li class="how-step">
+        <span class="step-num">03</span>
+        <div class="step-content">
+          <h3>Earth Block Model</h3>
+          <p>Property ownership is tied to specific, traceable 5×5 meter blocks. You own the land and the defined gold within it.</p>
+        </div>
+      </li>
+      <li class="how-step">
+        <span class="step-num">04</span>
+        <div class="step-content">
+          <h3>Structured Ownership</h3>
+          <p>DST &amp; 1031-eligible real estate interests, or tokenization via Holochain. Your choice, legally protected under U.S. property law.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ DUAL PATH ══════════════════════════════════════ -->
+<section class="dual-section" id="invest">
+  <div class="dual-header">
+    <span class="section-label">Two Pathways</span>
+    <h2 class="display">Real estate stability.<br><em>Digital liquidity.</em></h2>
+  </div>
+
+  <div class="dual-grid">
+    <div class="dual-card">
+      <div class="dual-icon">◈</div>
+      <span class="eyebrow">Pathway One</span>
+      <h3>DST &amp; 1031 Exchange</h3>
+      <p>Tax-advantaged fractionalized land ownership through a Delaware Statutory Trust. Real-world market scrutiny that demands accuracy, legality, and transparency. Eligible for 1031 like-kind exchanges.</p>
+      <ul class="dual-features">
+        <li>U.S. property law protection</li>
+        <li>Deeded land structure</li>
+        <li>Tax-advantaged exchange</li>
+        <li>Professionally verified mineral reporting</li>
+        <li>Long-term capital alignment</li>
+      </ul>
+    </div>
+    <div class="dual-card">
+      <div class="dual-icon">⬡</div>
+      <span class="eyebrow">Pathway Two</span>
+      <h3>Tokenized Liquidity</h3>
+      <p>Holochain infrastructure enables secure peer-to-peer transactions — supporting clear, reliable exchange between gold, digital currencies, national currencies, wallets, and payment cards.</p>
+      <ul class="dual-features">
+        <li>Holochain peer-to-peer infrastructure</li>
+        <li>Unit accounting transparency</li>
+        <li>Digital &amp; national currency bridges</li>
+        <li>Wallet &amp; payment card integration</li>
+        <li>Path from DST to token liquidity</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ TRIPARTITE ══════════════════════════════════════ -->
+<section id="stewardship" style="padding:0;">
+  <div class="tri-section">
+    <div>
+      <span class="section-label">The Tripartite Estate</span>
+      <h2 class="display">A model built on<br><em>Earth's own logic</em></h2>
+      <p class="body-text" style="margin-top:1.5rem;">RealGold's foundation mirrors the natural order — from mineral stability, to living systems, to human civilization. Capital recirculates, strengthens, and grows in alignment with the planet that sustains us.</p>
+      <p class="body-text" style="margin-top:1rem;">The majority of capital from DST and token purchases flows directly back into the Tripartite stewardship program. This isn't just an investment — it's a return to balance.</p>
+    </div>
+
+    <div class="tri-visual">
+      <div class="tri-ring tri-ring-3"></div>
+      <div class="tri-ring tri-ring-2"></div>
+      <div class="tri-ring tri-ring-1">
+        <span class="tri-label tri-label-1">Mineral<br>Estate</span>
+      </div>
+      <span class="tri-label tri-label-2">Biological Estate</span>
+      <span class="tri-label tri-label-3">Human Social Estate</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ INVESTORS ══════════════════════════════════════ -->
+<section class="investor-section">
+  <div class="investor-header">
+    <span class="section-label">Who This Is For</span>
+    <h2 class="display">Three ways to<br><em>participate</em></h2>
+  </div>
+
+  <div class="investor-grid">
+    <div class="investor-card">
+      <span class="type">Opportunity-Focused</span>
+      <h3>The Grounded Investor</h3>
+      <p>Strong, tangible returns backed by verified physical assets — land and in-ground gold with provable intrinsic value. A stable financial instrument eligible for 1031 exchange.</p>
+    </div>
+    <div class="investor-card">
+      <span class="type">Impact-Focused</span>
+      <h3>The Steward</h3>
+      <p>Aligned with regenerative land stewardship. Your capital directly funds the Tripartite estate model, protecting ecosystems while building long-term value.</p>
+    </div>
+    <div class="investor-card">
+      <span class="type">Innovation-Focused</span>
+      <h3>The Early Adopter</h3>
+      <p>Shape the future of earth-based currencies. Participate in the dual-pathway model and help build financial systems that serve people and planet in harmony.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ CTA ══════════════════════════════════════ -->
+<section class="cta-section" id="contact">
+  <h2>Gold's value endures<br>when it stays <em>connected<br>to the land</em></h2>
+  <p>RealGold is accepting investors now. Reach out to learn more about DST participation, 1031 exchange options, and the path to tokenized ownership.</p>
+  <div class="cta-actions">
+    <a href="#" class="btn-primary">Get in Touch</a>
+    <a href="#videos" class="btn-ghost">Watch All Videos</a>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ FOOTER ══════════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="18" stroke="#C9A84C" stroke-width="2.5" fill="none"/>
+        <g stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round">
+          <line x1="50" y1="20" x2="50" y2="10"/>
+          <line x1="74" y1="32" x2="80" y2="24"/>
+          <line x1="80" y1="62" x2="88" y2="66"/>
+          <line x1="62" y1="80" x2="64" y2="90"/>
+          <line x1="38" y1="80" x2="36" y2="90"/>
+          <line x1="22" y1="62" x2="14" y2="66"/>
+          <line x1="26" y1="32" x2="20" y2="24"/>
+        </g>
+      </svg>
+      <p>Value rooted in the land — measured with precision, verified with certainty, held in service of long-term stewardship.</p>
+    </div>
+
+    <div class="footer-col">
+      <h4>Invest</h4>
+      <ul>
+        <li><a href="#">DST Overview</a></li>
+        <li><a href="#">1031 Exchange</a></li>
+        <li><a href="#">Tokenization</a></li>
+        <li><a href="#">Get Started</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Learn</h4>
+      <ul>
+        <li><a href="#">Video Series</a></li>
+        <li><a href="#">Verification Process</a></li>
+        <li><a href="#">Block Model</a></li>
+        <li><a href="#">Courbet Mine</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Stewardship</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Legal</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 Real.Gold. All rights reserved. This is not financial advice. Investments subject to risk.</p>
+    <p style="color: var(--gold); font-size:.7rem; letter-spacing:.15em;">REAL.GOLD</p>
+  </div>
+</footer>
+
+</body>
+</html>
