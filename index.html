@@ -343,14 +343,110 @@
 </section>
 
 <!-- ══════════════════════════════════════ CTA ══════════════════════════════════════ -->
-<section class="cta-section" id="contact">
-  <h2>Gold's value endures<br>when it stays <em>connected<br>to the land</em></h2>
-  <p>RealGold is accepting investors now. Reach out to learn more about DST participation, 1031 exchange options, and the path to tokenized ownership.</p>
-  <div class="cta-actions">
-    <a href="#" class="btn-primary">Get in Touch</a>
-    <a href="#videos" class="btn-ghost">Watch All Videos</a>
+
+    <section class="contact-section" id="contact">
+
+  <div class="contact-header">
+    <span class="section-label">Get in Touch</span>
+    <h2 class="display">Contact <em>Us</em></h2>
   </div>
+
+  <div class="contact-grid">
+
+    <!-- LEFT — Contact Info -->
+    <div class="contact-info">
+
+      <div class="contact-info-item">
+        <div class="contact-info-icon">✉</div>
+        <div>
+          <span class="contact-info-label">Email</span>
+          <p class="contact-info-text">info@realassets.foundation</p>
+        </div>
+      </div>
+
+      <div class="contact-info-item">
+        <div class="contact-info-icon">◈</div>
+        <div>
+          <span class="contact-info-label">General Inquiries</span>
+          <p class="contact-info-text">Partnerships, media, and<br>community questions welcome.</p>
+        </div>
+      </div>
+
+      <div class="contact-info-item">
+        <div class="contact-info-icon">◇</div>
+        <div>
+          <span class="contact-info-label">Investor Relations</span>
+          <p class="contact-info-text">Learn how to participate in<br>RealGold DST offerings.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT — Form -->
+    <div class="contact-form-wrap">
+
+      <form id="rg-contact-form" novalidate>
+
+        <!-- StaticForms hidden fields -->
+        <input type="hidden" name="apiKey"     value="sf_djm4df4m45f6b89n8ke1l64d">
+        <input type="hidden" name="redirectTo" value="">   <!-- JS fills this -->
+        <input type="hidden" name="replyTo"    id="rg-reply-to" value="">
+        <!-- Honeypot — must stay empty -->
+        <input type="text" name="honeypot" style="display:none" tabindex="-1" autocomplete="off">
+
+        <!-- Name + Phone row -->
+        <div class="rg-row">
+          <div class="rg-field">
+            <label for="rg-name">Name</label>
+            <input type="text" id="rg-name" name="name" placeholder="Your name" maxlength="100" required>
+          </div>
+          <div class="rg-field">
+            <label for="rg-phone">Phone <span style="opacity:.4;font-size:.9em">(optional)</span></label>
+            <input type="tel" id="rg-phone" name="phone" placeholder="+1 (555) 000-0000">
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="rg-field">
+          <label for="rg-email">Email</label>
+          <input type="email" id="rg-email" name="email" placeholder="your@email.com" required>
+        </div>
+
+        <!-- Inquiry type -->
+        <div class="rg-field">
+          <label for="rg-type">Inquiry Type</label>
+          <select id="rg-type" name="subject">
+            <option value="" disabled selected>Select a topic</option>
+            <option value="Investor Relations — DST / 1031">Investor Relations — DST / 1031</option>
+            <option value="RealGold Token">RealGold Token</option>
+            <option value="Partnership">Partnership</option>
+            <option value="Media">Media</option>
+            <option value="General Question">General Question</option>
+          </select>
+        </div>
+
+        <!-- Message -->
+        <div class="rg-field">
+          <label for="rg-message">Message</label>
+          <textarea id="rg-message" name="message" placeholder="How can we help?"></textarea>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="rg-submit" id="rg-submit-btn">Send Message</button>
+
+       
+       
+        <div class="rg-message success" id="rg-success">Message sent — we'll be in touch shortly.</div>
+        <div class="rg-message error" id="rg-error">Something went wrong. Please email us at info@realassets.foundation</div>
+
+      </form>
+
+    </div><!-- .contact-form-wrap -->
+
+  </div><!-- .contact-grid -->
+
 </section>
+    
 
 <!-- ══════════════════════════════════════ FOOTER ══════════════════════════════════════ -->
 <footer>
@@ -407,6 +503,63 @@
     <p style="color: var(--gold); font-size:.7rem; letter-spacing:.15em;">REAL.GOLD</p>
   </div>
 </footer>
+<script>
+(function () {
 
+  var form    = document.getElementById('rg-contact-form');
+  var btn     = document.getElementById('rg-submit-btn');
+  var success = document.getElementById('rg-success');
+  var error   = document.getElementById('rg-error');
+
+  if (!form) return;
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    /* ── Basic client-side validation ── */
+    var name  = document.getElementById('rg-name').value.trim();
+    var email = document.getElementById('rg-email').value.trim();
+
+    if (!name || !email) {
+      error.textContent = 'Please fill in your name and email.';
+      error.className = 'rg-message error';
+      return;
+    }
+
+    /* ── Wire up reply-to and redirectTo ── */
+    document.getElementById('rg-reply-to').value = email;
+
+    /* ── Build form data ── */
+    var data = new FormData(form);
+
+    /* ── Submit to StaticForms ── */
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    success.className = 'rg-message';
+    error.className   = 'rg-message';
+
+    fetch('https://api.staticforms.dev/submit', {
+      method: 'POST',
+      body: data
+    })
+    .then(function (res) {
+      if (res.ok) {
+        form.reset();
+        success.className = 'rg-message success';
+        btn.textContent = 'Message Sent';
+      } else {
+        throw new Error('Server error ' + res.status);
+      }
+    })
+    .catch(function () {
+      error.className = 'rg-message error';
+      btn.disabled = false;
+      btn.textContent = 'Send Message';
+    });
+
+  });
+
+})();
+</script>
 </body>
 </html>

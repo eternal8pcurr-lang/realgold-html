@@ -638,3 +638,206 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+/* ── Contact Section Layout ─────────────────────────────────── */
+  .contact-section {
+    padding: 8rem 4rem;
+    background: var(--dark);
+    max-width: 100%;
+  }
+
+  .contact-header {
+    text-align: center;
+    margin-bottom: 5rem;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    align-items: start;
+  }
+
+  /* ── Left Column — Contact Info ──────────────────────────────── */
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .contact-info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(201,168,76,.08);
+  }
+
+  .contact-info-item:last-child {
+    border-bottom: none;
+  }
+
+  .contact-info-icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border: 1px solid rgba(201,168,76,.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-size: .9rem;
+    margin-top: .1rem;
+  }
+
+  .contact-info-label {
+    font-size: .6rem;
+    letter-spacing: .35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: .4rem;
+    display: block;
+  }
+
+  .contact-info-text {
+    font-size: .875rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* ── Right Column — The Form ─────────────────────────────────── */
+  .contact-form-wrap {
+    background: rgba(255,255,255,.02);
+    border: 1px solid rgba(201,168,76,.15);
+    border-radius: 4px;
+    padding: 3rem;
+  }
+
+  /* Form fields */
+  .rg-field {
+    margin-bottom: 1.25rem;
+  }
+
+  .rg-field label {
+    display: block;
+    font-size: .65rem;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: .5rem;
+  }
+
+  .rg-field input,
+  .rg-field textarea,
+  .rg-field select {
+    width: 100%;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(201,168,76,.2);
+    border-radius: 0;
+    color: var(--text);
+    font-family: 'Jost', sans-serif;
+    font-size: .875rem;
+    font-weight: 300;
+    padding: .85rem 1rem;
+    transition: border-color .3s;
+    outline: none;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+  }
+
+  .rg-field input::placeholder,
+  .rg-field textarea::placeholder {
+    color: rgba(138,130,112,.4);
+  }
+
+  .rg-field input:focus,
+  .rg-field textarea:focus,
+  .rg-field select:focus {
+    border-color: rgba(201,168,76,.6);
+  }
+
+  .rg-field textarea {
+    resize: vertical;
+    min-height: 130px;
+  }
+
+  .rg-field select option {
+    background: var(--dark);
+    color: var(--text);
+  }
+
+  /* Two-column row for name + phone */
+  .rg-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  /* Submit button — reuses .btn-primary from realgold.css */
+  .rg-submit {
+    width: 100%;
+    margin-top: .5rem;
+    background: var(--gold);
+    color: var(--black);
+    padding: 1rem 2.5rem;
+    font-family: 'Jost', sans-serif;
+    font-size: .8rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: background .3s;
+  }
+
+  .rg-submit:hover { background: var(--gold-light); }
+
+  .rg-submit:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+  }
+
+  /* Success / error messages */
+  .rg-message {
+    display: none;
+    padding: 1rem 1.25rem;
+    font-size: .82rem;
+    letter-spacing: .05em;
+    margin-top: 1rem;
+    border-radius: 0;
+  }
+
+  .rg-message.success {
+    display: block;
+    background: rgba(201,168,76,.1);
+    border: 1px solid rgba(201,168,76,.4);
+    color: var(--gold-light);
+  }
+
+  .rg-message.error {
+    display: block;
+    background: rgba(180,50,50,.1);
+    border: 1px solid rgba(180,50,50,.4);
+    color: #e07070;
+  }
+
+  /* ── Responsive ──────────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+    .contact-section {
+      padding: 6rem 2rem;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .contact-form-wrap {
+      padding: 2rem 1.5rem;
+    }
+    .rg-row {
+      grid-template-columns: 1fr;
+    }
+  }
