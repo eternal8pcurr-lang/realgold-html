@@ -82,7 +82,9 @@
     text-decoration: none;
   }
   .nav-cta:hover { background: var(--gold); color: var(--black); }
-
+.nav-hamburger {
+  display: none;
+}
   /* ── HERO ── */
   .hero {
     position: relative;
@@ -131,7 +133,7 @@
 
   .hero-symbol {
     position: relative; z-index: 2;
-    width: 80px; height: 80px; margin-bottom: 2rem;
+    width: 80px; height: auto; margin-bottom: 2rem;
     opacity: .9;
     animation: symbol-glow 4s ease-in-out infinite;
   }
