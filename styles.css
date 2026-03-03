@@ -416,6 +416,12 @@
     border: 1px solid rgba(201,168,76,.3);
     color: var(--gold-light); font-size: 1.5rem;
   }
+  .dual-icon-2 {
+    width: 56px; height: 56px; margin-bottom: 2rem;
+    display: flex; align-items: center; justify-content: center;
+    border: 0px solid rgba(201,168,76,.3);
+    color: var(--gold-light); font-size: 1.5rem;
+  }
 
   .dual-card h3 {
     font-family: 'Cormorant Garamond', serif;
