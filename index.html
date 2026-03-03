@@ -6,7 +6,7 @@
 <title>Real.Gold — Value Rooted in the Land</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
-
+<link rel="stylesheet" href="mobile.css">
 </head>
 <body>
 
@@ -622,6 +622,39 @@
 
   });
 
+})();
+</script>
+<script>
+(function() {
+  var nav = document.querySelector('nav');
+  var links = nav.querySelector('.nav-links');
+  var cta = nav.querySelector('.nav-cta');
+
+  var btn = document.createElement('button');
+  btn.className = 'nav-hamburger';
+  btn.setAttribute('aria-label', 'Toggle menu');
+  btn.innerHTML = '<span></span><span></span><span></span>';
+  nav.appendChild(btn);
+
+  if (cta) {
+    var mobileCta = cta.cloneNode(true);
+    mobileCta.className = 'nav-close-cta';
+    links.appendChild(mobileCta);
+  }
+
+  btn.addEventListener('click', function() {
+    var isOpen = links.classList.toggle('open');
+    btn.classList.toggle('active', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+
+  links.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', function() {
+      links.classList.remove('open');
+      btn.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+  });
 })();
 </script>
 </body>

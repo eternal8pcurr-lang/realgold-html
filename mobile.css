@@ -1,0 +1,428 @@
+/* ══════════════════════════════════════════════════════════════
+   mobile.css — Real.Gold mobile-responsive styles
+   HOW TO USE:
+   Add this line inside <head> of index.html, AFTER styles.css:
+   <link rel="stylesheet" href="mobile.css">
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── TABLET (≤ 1024px) ─────────────────────────────────────── */
+@media (max-width: 1024px) {
+
+  nav {
+    padding: 1.25rem 2rem;
+  }
+
+  .nav-links {
+    gap: 1.5rem;
+  }
+
+  section { padding: 6rem 2.5rem; }
+
+  .how-section {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .tri-section {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    padding: 6rem 2.5rem;
+  }
+
+  .tri-visual {
+    height: 320px;
+  }
+
+  .tri-ring-3 { width: 300px; height: 300px; }
+  .tri-ring-2 { width: 210px; height: 210px; }
+  .tri-ring-1 { width: 120px; height: 120px; }
+
+  .video-card.featured {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+}
+
+
+/* ── MOBILE (≤ 768px) ──────────────────────────────────────── */
+@media (max-width: 768px) {
+
+  /* ─ NAV: hide links, show hamburger menu ─ */
+  nav {
+    padding: 1rem 1.25rem;
+    background: rgba(10,10,8,.98);
+  }
+
+  .nav-links {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(10,10,8,.97);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5rem;
+    z-index: 200;
+    backdrop-filter: blur(8px);
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links a {
+    font-size: 1.1rem;
+    letter-spacing: .2em;
+  }
+
+  .nav-cta {
+    display: none;
+  }
+
+  /* Hamburger button (injected by JS below) */
+  .nav-hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: .5rem;
+    z-index: 300;
+    position: relative;
+  }
+
+  .nav-hamburger span {
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--gold-light);
+    transition: transform .3s, opacity .3s;
+  }
+
+  .nav-hamburger.active span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+  .nav-hamburger.active span:nth-child(2) {
+    opacity: 0;
+  }
+  .nav-hamburger.active span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  .nav-logo-text {
+    font-size: 1.6rem;
+  }
+
+  .nav-logo svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  /* Nav close button inside open menu */
+  .nav-close-cta {
+    margin-top: 1.5rem;
+    padding: .75rem 2rem;
+    border: 1px solid var(--gold);
+    color: var(--gold-light);
+    font-family: 'Jost', sans-serif;
+    font-size: .75rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  /* ─ HERO ─ */
+  .hero {
+    min-height: 100svh;
+    padding: 0 1.5rem;
+  }
+
+  .hero-rings {
+    width: 100vw;
+    height: 100vw;
+  }
+
+  .hero-symbol {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.5rem, 11vw, 3.5rem);
+  }
+
+  .hero-sub {
+    font-size: .95rem;
+    max-width: 100%;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .btn-primary {
+    width: 100%;
+    text-align: center;
+    padding: 1rem 1.5rem;
+  }
+
+  /* ─ STATS BAND ─ */
+  .intro-band {
+    padding: 2.5rem 1.5rem;
+    gap: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .intro-stat {
+    padding: 1.25rem .5rem;
+  }
+
+  .intro-stat .number {
+    font-size: 2rem;
+  }
+
+  .intro-divider {
+    display: none;
+  }
+
+  /* ─ SECTIONS ─ */
+  section {
+    padding: 4rem 1.5rem;
+  }
+
+  .videos-section {
+    padding: 4rem 1.5rem !important;
+  }
+
+  /* ─ VIDEO GRID ─ */
+  .video-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .video-card.featured {
+    grid-column: 1;
+    grid-template-columns: 1fr;
+  }
+
+  .video-card.featured .video-thumb {
+    min-height: auto;
+    aspect-ratio: 16/9;
+  }
+
+  .video-card.featured .video-info {
+    padding: 1.75rem;
+  }
+
+  .video-card.featured .video-title {
+    font-size: 1.5rem;
+  }
+
+  /* ─ HOW IT WORKS ─ */
+  #about {
+    padding: 4rem 1.5rem !important;
+  }
+
+  .how-section {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .how-step {
+    gap: 1.25rem;
+    padding: 1.5rem 0;
+  }
+
+  .step-num {
+    font-size: 2.2rem;
+    width: 2.5rem;
+  }
+
+  /* ─ DUAL PATH ─ */
+  .dual-section {
+    padding: 4rem 1.5rem !important;
+  }
+
+  .dual-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dual-card {
+    padding: 2.5rem 1.75rem;
+    border-right: none;
+    border-bottom: 1px solid rgba(201,168,76,.15);
+  }
+
+  .dual-card:last-child {
+    border-bottom: none;
+  }
+
+  /* ─ TRIPARTITE ─ */
+  #stewardship {
+    padding: 0;
+  }
+
+  .tri-section {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 4rem 1.5rem;
+  }
+
+  .tri-visual {
+    height: 280px;
+    order: -1; /* show visual above text on mobile */
+  }
+
+  .tri-ring-3 { width: 260px; height: 260px; }
+  .tri-ring-2 { width: 182px; height: 182px; }
+  .tri-ring-1 { width: 104px; height: 104px; }
+
+  /* ─ INVESTOR TYPES ─ */
+  .investor-section {
+    padding: 4rem 1.5rem !important;
+  }
+
+  .investor-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .investor-card {
+    padding: 2rem 1.75rem;
+  }
+
+  /* ─ CONTACT ─ */
+  .contact-section {
+    padding: 4rem 1.5rem !important;
+  }
+
+  .contact-header {
+    margin-bottom: 3rem;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .contact-form-wrap {
+    padding: 2rem 1.25rem;
+  }
+
+  .rg-row {
+    grid-template-columns: 1fr;
+  }
+
+  /* ─ FOOTER ─ */
+  footer {
+    padding: 3rem 1.5rem;
+  }
+
+  .footer-inner {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .footer-brand {
+    grid-column: 1;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: .75rem;
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  /* ─ TYPOGRAPHY ─ */
+  h2.display {
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+
+  .body-text {
+    font-size: 1rem;
+  }
+
+  .videos-header,
+  .dual-header,
+  .investor-header {
+    margin-bottom: 2.5rem;
+  }
+}
+
+
+/* ── SMALL PHONES (≤ 390px) ────────────────────────────────── */
+@media (max-width: 390px) {
+  .hero h1 {
+    font-size: 2.3rem;
+  }
+
+  .intro-band {
+    grid-template-columns: 1fr;
+  }
+
+  .intro-stat {
+    border-bottom: 1px solid rgba(201,168,76,.08);
+  }
+
+  .intro-stat:last-child {
+    border-bottom: none;
+  }
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   HAMBURGER MENU — injected via JS (paste this script into
+   index.html just before </body>):
+
+   <script>
+   (function() {
+     var nav = document.querySelector('nav');
+     var links = nav.querySelector('.nav-links');
+     var cta = nav.querySelector('.nav-cta');
+
+     // Create hamburger
+     var btn = document.createElement('button');
+     btn.className = 'nav-hamburger';
+     btn.setAttribute('aria-label', 'Toggle menu');
+     btn.innerHTML = '<span></span><span></span><span></span>';
+     nav.appendChild(btn);
+
+     // Clone CTA into mobile menu
+     if (cta) {
+       var mobileCta = cta.cloneNode(true);
+       mobileCta.className = 'nav-close-cta';
+       links.appendChild(mobileCta);
+     }
+
+     btn.addEventListener('click', function() {
+       var isOpen = links.classList.toggle('open');
+       btn.classList.toggle('active', isOpen);
+       document.body.style.overflow = isOpen ? 'hidden' : '';
+     });
+
+     // Close menu on link click
+     links.querySelectorAll('a').forEach(function(a) {
+       a.addEventListener('click', function() {
+         links.classList.remove('open');
+         btn.classList.remove('active');
+         document.body.style.overflow = '';
+       });
+     });
+   })();
+   </script>
+
+   ══════════════════════════════════════════════════════════════ */
