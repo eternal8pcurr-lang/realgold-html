@@ -159,7 +159,7 @@
     letter-spacing: -.01em;
   }
   .hero h1 em {
-    font-style: italic;
+    font-style: normal;
     color: var(--gold-light);
   }
 
