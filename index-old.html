@@ -360,7 +360,7 @@
         <div class="contact-info-icon">✉</div>
         <div>
           <span class="contact-info-label">Email</span>
-          <p class="contact-info-text"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="731a1d151c330116121f1200001607005d151c061d1712071a1c1d">[email&#160;protected]</a></p>
+          <p class="contact-info-text">info@realassets.foundation</p>
         </div>
       </div>
 
@@ -436,8 +436,8 @@
 
        
        
-        <div class="rg-message" id="rg-success">Message sent — we'll be in touch shortly.</div>
-        <div class="rg-message" id="rg-error">Something went wrong. Please email us at info@realassets.foundation</div>
+        <div class="rg-message success" id="rg-success">Message sent — we'll be in touch shortly.</div>
+        <div class="rg-message error" id="rg-error">Something went wrong. Please email us at info@realassets.foundation</div>
 
       </form>
 
@@ -503,7 +503,7 @@
     <p style="color: var(--gold); font-size:.7rem; letter-spacing:.15em;">REAL.GOLD</p>
   </div>
 </footer>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 (function () {
 
   var form    = document.getElementById('rg-contact-form');
@@ -545,4 +545,21 @@
     .then(function (res) {
       if (res.ok) {
         form.reset();
-        succes
+        success.className = 'rg-message success';
+        btn.textContent = 'Message Sent';
+      } else {
+        throw new Error('Server error ' + res.status);
+      }
+    })
+    .catch(function () {
+      error.className = 'rg-message error';
+      btn.disabled = false;
+      btn.textContent = 'Send Message';
+    });
+
+  });
+
+})();
+</script>
+</body>
+</html>
