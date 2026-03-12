@@ -379,7 +379,7 @@
   .step-num {
     font-family: 'Cormorant Garamond', serif;
     font-size: 3rem; font-weight: 300;
-    color: rgba(201,168,76,.2);
+    color: rgba(255, 217, 0, 0.747);
     line-height: 1; flex-shrink: 0;
     width: 3.5rem;
   }
