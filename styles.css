@@ -7,8 +7,8 @@
     --off-black: #111109;
     --dark: #161612;
     --text: #E8E0CC;
-    --text-muted: #8A8270;
     --white: #F5F0E8;
+    --text-muted: #faf9f7;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
