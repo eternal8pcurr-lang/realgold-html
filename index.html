@@ -294,7 +294,7 @@
 
         <!-- StaticForms hidden fields -->
         <input type="hidden" name="apiKey"     value="sf_djm4df4m45f6b89n8ke1l64d">
-        <input type="hidden" name="accessKey"  value="6LcGBY4sAAAAAJLbojWyy_oCYN6GTLOi63-iceUk">
+      
         <input type="hidden" name="redirectTo" value="">
         <input type="hidden" name="replyTo"    id="rg-reply-to" value="">
         <!-- Honeypot — must stay empty -->
@@ -336,13 +336,15 @@
           <label for="rg-message">Message</label>
           <textarea id="rg-message" name="message" placeholder="How can we help?"></textarea>
         </div>
-
+<!-- reCAPTCHA v2 widget - Replace YOUR_SITE_KEY -->
+  <div class="g-recaptcha" data-sitekey="6LcGBY4sAAAAAOw0t9RlBVmy_uy0vMKiQTbx0EEe"></div>
         <!-- Submit -->
         <button type="submit" class="rg-submit" id="rg-submit-btn">Send Message</button>
 
         <div class="rg-message" id="rg-success" style="display:none;"></div>
         <div class="rg-message" id="rg-error" style="display:none;"></div>
-
+<!-- Include reCAPTCHA JavaScript -->
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
       </form>
 
     </div><!-- .contact-form-wrap -->
