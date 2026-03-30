@@ -1,7 +1,9 @@
 
   :root {
-    --gold: #C9A84C;
-    --gold-light: #E2C97E;
+    /*--gold: #C9A84C;*/
+    --gold: #D8A857;
+    /*--gold-light: #E2C97E;*/
+    --gold-light: #D3B25B;
     --gold-dark: #8B6914;
     --black: #0A0A08;
     --off-black: #111109;
