@@ -89,59 +89,6 @@ nav {
   .nav-cta:hover { background: var(--gold); color: var(--black); }
 
 
-media (max-width: 768px) {
-  .nav-links {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 100%;
-    left: 0; right: 0;
-    background: var(--black);
-    border-top: 1px solid rgba(201,168,76,0.2);
-    padding: 1.5rem 2rem;
-    gap: 1.25rem;
-    z-index: 999;
-  }
-  .nav-links.nav-open {
-    display: flex;
-  }
-  .nav-cta {
-    display: none;
-  }
-  .nav-cta.nav-open {
-    display: block;
-    margin: 0 2rem 1.5rem;
-  }
-  .nav-hamburger {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 28px;
-    height: 20px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-  }
-  .nav-hamburger span {
-    display: block;
-    width: 100%;
-    height: 2px;
-    background: var(--gold);
-    border-radius: 2px;
-    transition: transform 0.25s ease, opacity 0.25s ease;
-  }
-  /* Animate to X when open */
-  .nav-hamburger.is-open span:nth-child(1) {
-    transform: translateY(9px) rotate(45deg);
-  }
-  .nav-hamburger.is-open span:nth-child(2) {
-    opacity: 0;
-  }
-  .nav-hamburger.is-open span:nth-child(3) {
-    transform: translateY(-9px) rotate(-45deg);
-  }
-}
   /* ── HERO ── */
 .hero {
   position: relative;
