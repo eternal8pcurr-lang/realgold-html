@@ -87,11 +87,9 @@ nav {
     text-decoration: none;
   }
   .nav-cta:hover { background: var(--gold); color: var(--black); }
-.nav-hamburger {
-  display: none;
-}
 
-@media (max-width: 768px) {
+
+media (max-width: 768px) {
   .nav-links {
     display: none;
     flex-direction: column;
