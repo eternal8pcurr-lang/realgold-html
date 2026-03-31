@@ -35,14 +35,14 @@
   }
 
   /* ── NAV ── */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 1.5rem 4rem;
-    background: linear-gradient(to bottom, rgba(10,10,8,.95) 0%, transparent 100%);
-  }
-
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.5rem 4rem;
+  height: 80px;                    /* ADD THIS */
+  background: linear-gradient(to bottom, rgba(10,10,8,.95) 0%, transparent 100%);
+}
   .nav-logo {
     display: flex; align-items: center; gap: .75rem;
     text-decoration: none;
@@ -124,7 +124,6 @@
     border: none;
     cursor: pointer;
     padding: 0;
-    margin-left: auto;
   }
   .nav-hamburger span {
     display: block;
@@ -146,15 +145,15 @@
   }
 }
   /* ── HERO ── */
-  .hero {
-    position: relative;
-    height: 100vh; min-height: 700px;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    text-align: center;
-    overflow: hidden;
-  }
-
+.hero {
+  position: relative;
+  height: 100vh; min-height: 700px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  padding-top: 0;  /* remove the 80px */
+}
   .hero-bg {
     position: absolute; inset: 0;
     /*background: radial-gradient(ellipse 80% 60% at 50% 40%, #2a1e00 0%, #0A0A08 70%);*/
@@ -210,7 +209,7 @@
   }
 
   .hero h1 {
-    font-family: museo-sans, sans-serif;
+    font-family: "Work Sans", sans-serif;
     font-size: clamp(3rem, 7vw, 6rem);
     font-weight: 100;
     line-height: 1.05;
@@ -302,7 +301,7 @@
 
   h2.display {
     /*font-family: 'Cormorant Garamond', serif; */
-    font-family: museo-sans, sans-serif;
+    font-family: "Work Sans", sans-serif;
     font-size: clamp(2.5rem, 5vw, 4rem);
     font-weight: 300;
     line-height: 1.1;
