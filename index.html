@@ -29,6 +29,11 @@
 
 <!-- ══════════════════════════════════════ NAV ══════════════════════════════════════ -->
 <nav>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
   <a href="#" class="nav-logo">
     <!--<img src="assets/RealGold-Logo-Type.png" alt="RealGold Logo" class="Logo" width="182" height="auto">-->
     <img src="assets/RealGold-Symbol-Clear.png" alt="RealGold Logo" class="Logo" width="100%" height="auto">
@@ -481,6 +486,15 @@
 
 })();
 </script>
-
+<script>
+  const hamburger = document.getElementById('navHamburger');
+  const navLinks = document.querySelector('.nav-links');
+  const navCta = document.querySelector('.nav-cta');
+  hamburger.addEventListener('click', () => {
+    const open = navLinks.classList.toggle('nav-open');
+    hamburger.classList.toggle('is-open', open);
+    navCta.classList.toggle('nav-open', open);
+  });
+</script>
 </body>
 </html>
