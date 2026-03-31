@@ -20,7 +20,7 @@
   body {
     background: var(--black);
     color: var(--text);
-    /*font-family: 'Work Sans', sans-serif;*/
+    /*font-family: "Work Sans", sans-serif;*/
     font-family: "Work Sans", sans-serif;
     font-weight: 300;
     overflow-x: hidden;
@@ -49,7 +49,7 @@
   }
   .nav-logo img { height: 56px; }
   .nav-logo-text {
-    /*font-family: 'Work Sans', sans-serif;*/
+    /*font-family: "Work Sans", sans-serif;*/
     font-family: "Work Sans", Helvetica, Arial, sans-serif;
     font-weight: 300;
     font-size: 2.2rem;
@@ -78,7 +78,7 @@
     border: 1px solid var(--gold);
     color: var(--gold-light);
     padding: .6rem 1.8rem;
-    font-family: 'Work Sans', sans-serif;
+    font-family: "Work Sans", sans-serif;
     font-size: .75rem;
     letter-spacing: .2em;
     text-transform: uppercase;
@@ -188,7 +188,7 @@
     background: var(--gold);
     color: var(--black);
     padding: 1rem 2.5rem;
-    font-family: 'Work Sans', sans-serif;
+    font-family: "Work Sans", sans-serif;
     font-size: .8rem;
     letter-spacing: .2em;
     text-transform: uppercase;
@@ -276,7 +276,7 @@
     text-align: center;
   }
   .intro-stat .number {
-    font-family: 'Work Sans', serif;
+    font-family: "Work Sans", serif;
     font-size: 2.8rem;
     font-weight: 300;
     color: var(--gold-light);
@@ -386,14 +386,14 @@
   }
   .how-step:last-child { border-bottom: none; }
   .step-num {
-    font-family: 'Work Sans', serif;
+    font-family: "Works Sans", sans-serif;
     font-size: 3rem; font-weight: 300;
     color: rgba(255, 217, 0, 0.747);
     line-height: 1; flex-shrink: 0;
     width: 3.5rem;
   }
   .step-content h3 {
-    font-family: 'Works Sans', serif;
+    font-family: "Works Sans", sans-serif;
     font-size: 1.3rem; font-weight: 400;
     color: var(--white); margin-bottom: .5rem;
   }
@@ -433,7 +433,7 @@
   }
 
   .dual-card h3 {
-    font-family: 'Work Sans', serif;
+    font-family: "Work Sans", sans-serif;
     font-size: 1.8rem; font-weight: 300;
     color: var(--white); margin-bottom: 1rem;
   }
@@ -494,7 +494,7 @@
     z-index: 1;
   }
   .tri-label {
-    font-family: 'Work Sans', serif;
+    font-family: "Work Sans", sans-serif;
     font-size: .9rem; color: var(--gold-light);
     letter-spacing: .1em;
     position: absolute;
@@ -539,7 +539,7 @@
     margin-bottom: 1.25rem; display: block;
   }
   .investor-card h3 {
-    font-family: 'Work Sans', serif;
+    font-family: "Work Sans", sans-serif;
     font-size: 1.6rem; font-weight: 300;
     color: var(--white); margin-bottom: 1rem;
     line-height: 1.2;
@@ -561,7 +561,7 @@
     background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(201,168,76,.06) 0%, transparent 70%);
   }
   .cta-section h2 {
-    font-family: 'Work Sans', serif;
+    font-family: "Work Sans", sans-serif;
     font-size: clamp(2.5rem, 5vw, 4.5rem);
     font-weight: 300;
     line-height: 1.1; color: var(--white);
@@ -753,7 +753,7 @@
     border: 1px solid rgba(201,168,76,.2);
     border-radius: 0;
     color: var(--text);
-    font-family: 'Work Sans', sans-serif;
+    font-family: "Work Sans", sans-serif;
     font-size: .875rem;
     font-weight: 300;
     padding: .85rem 1rem;
@@ -798,7 +798,7 @@
     background: var(--gold);
     color: var(--black);
     padding: 1rem 2.5rem;
-    font-family: 'Work Sans', sans-serif;
+    font-family: "Work Sans", sans-serif;
     font-size: .8rem;
     letter-spacing: .2em;
     text-transform: uppercase;
