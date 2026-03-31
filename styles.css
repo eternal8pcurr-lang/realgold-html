@@ -87,7 +87,13 @@ nav {
     text-decoration: none;
   }
   .nav-cta:hover { background: var(--gold); color: var(--black); }
+.nav-hamburger {
+  display: none;
+}
 
+.nav-close-cta {
+  display: none;
+}
 
   /* ── HERO ── */
 .hero {
