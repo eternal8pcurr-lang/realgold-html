@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+  <title>RealGold – Prototype v0.8</title>
+  <style>
+    :root{
+      --bg:#0b0f15;--panel:#0f1622;--panel-2:#0c121b;--muted:#8da3be;--text:#eef5ff;--accent:#70e0a7;--accent-2:#ffd46b;--danger:#ff7f7f;--good:#a4f9a3;
+      --qz:#5b6c8a;--schist:#4a6b4d;--green:#2f7f55;--intrusive:#6b4a8a;--basin:#7a6e4f;--river:#1e6fb0;
+      --grid:#1e2a3b;--grid-strong:#2a3b55;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:radial-gradient(1200px 800px at 70% -10%, #132033 0%, #0b0f15 55%);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+    .app{display:grid;grid-template-rows:auto 1fr auto;min-height:100vh}
+
+    header{position:sticky;top:0;z-index:5;background:rgba(12,18,28,.9);backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+    .bar{display:flex;gap:.6rem;align-items:center;justify-content:space-between;padding:.55rem .9rem;flex-wrap:wrap}
+    .stat{display:flex;align-items:center;gap:.45rem;padding:.35rem .55rem;border:1px solid rgba(255,255,255,.06);border-radius:12px;background:rgba(255,255,255,.03)}
+    .pill{padding:.45rem .7rem;border-radius:999px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);font-weight:700}
+
+    .controls{display:flex;gap:.4rem;flex-wrap:wrap}
+    button{appearance:none;border:none;border-radius:10px;padding:.55rem .7rem;color:var(--text);font-weight:700;background:#1b2636;cursor:pointer;transition:transform .05s ease, background .2s, box-shadow .2s}
+    button:hover{background:#223246;box-shadow:0 6px 16px rgba(0,0,0,.25)}
+    button:active{transform:scale(.98)}
+    button[disabled]{opacity:.5;cursor:not-allowed}
+    .group{display:flex;gap:.4rem;flex-wrap:wrap}
+    .group .label{font-size:.8rem;opacity:.8;align-self:center;margin-right:.2rem}
+
+    main{display:grid;grid-template-columns:1.2fr 380px 320px;gap:.9rem;padding:.9rem;max-width:1500px;margin:0 auto;width:100%}
+    @media (max-width: 1200px){ main{grid-template-columns:1fr} aside#inspector{order:-1} aside#activity{order:2} }
+
+    .panel{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    .panel.secondary{background:var(--panel-2)}
+    .map-wrap{padding:.7rem}
+
+    /* SimCity-like Grid */
+    .grid{--cols:12;--gap:0;display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));gap:var(--gap);max-width:100%;margin:0 auto;position:relative;perspective:900px}
+    .tile{position:relative;aspect-ratio:1;border-radius:3px;display:flex;align-items:flex-end;justify-content:flex-end;font-size:1rem;font-weight:800;letter-spacing:.2px;user-select:none;touch-action:manipulation;overflow:hidden;min-height:64px;box-shadow:inset 0 0 0 1px var(--grid);transform-style:preserve-3d}
+    .iso .tile{transform:skewY(-26deg) scaleY(.6); border-radius:0; box-shadow:none}
+    .tile::after{content:""; position:absolute; inset:0; pointer-events:none; background:linear-gradient(90deg,transparent calc(100% - 1px), var(--grid) calc(100% - 1px)), linear-gradient(0deg,transparent calc(100% - 1px), var(--grid) calc(100% - 1px));}
+    .tile[data-major="true"]{box-shadow:inset 0 0 0 2px var(--grid-strong)}
+    .tile.sel{outline:3px solid #7fdcff; outline-offset:-3px}
+    .tile .mark{position:absolute;right:6px;top:6px;font-size:22px;filter:drop-shadow(0 1px 1px rgba(0,0,0,.6))}
+    .tile .hint{position:absolute;left:6px;bottom:6px;font-size:18px;filter:drop-shadow(0 1px 1px rgba(0,0,0,.6))}
+    .tile .diag{position:absolute;inset:0;background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.08) 0 6px, rgba(255,255,255,0) 6px 16px);mix-blend-mode:overlay;pointer-events:none}
+    .tile .riverEdge{position:absolute;inset:auto 0 0 0;height:6px;background:linear-gradient(90deg,rgba(255,255,255,.15),rgba(255,255,255,0));filter:saturate(140%)}
+    .tile .topo{position:absolute;inset:0;pointer-events:none;opacity:.18;background-image:radial-gradient(circle at 30% 35%, rgba(255,255,255,.18) 0 1px, transparent 2px), radial-gradient(circle at 70% 65%, rgba(255,255,255,.12) 0 1px, transparent 2px)}
+    .tile .label{position:absolute;left:6px;top:6px;font-size:.75rem;opacity:.75}
+    .tile .shadow{position:absolute;inset:auto 0 0 0;height:18%;background:linear-gradient(180deg,rgba(0,0,0,.0),rgba(0,0,0,.2));pointer-events:none}
+
+    /* Terrain swatches (zoning-like) */
+    .t-qz{background:linear-gradient(180deg,var(--qz), #3d4b64)}
+    .t-schist{background:linear-gradient(180deg,var(--schist), #2f4d33)}
+    .t-greenstone{background:linear-gradient(180deg,var(--green), #215a3c)}
+    .t-intrusive{background:linear-gradient(180deg,var(--intrusive), #4e3369)}
+    .t-basin{background:linear-gradient(180deg,var(--basin), #5d533c)}
+
+    aside .section{padding:.9rem;border-bottom:1px solid rgba(255,255,255,.08)}
+    aside .section:last-child{border-bottom:none}
+    .title{font-size:1rem;font-weight:800;margin:0 0 .55rem}
+    .kv{display:grid;grid-template-columns:1fr auto;gap:.45rem .6rem;font-size:.95rem;color:#d8e6ff}
+    .kv div{opacity:.95}
+    .tags{display:flex;flex-wrap:wrap;gap:.35rem}
+    .tag{font-size:.82rem;padding:.25rem .5rem;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05)}
+
+    .actions{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+    .actions button{width:100%}
+
+    .legend{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+    .legend .sw{width:16px;height:16px;border-radius:4px;border:1px solid rgba(255,255,255,.25);display:inline-block}
+    .legend .item{display:flex;align-items:center;gap:.35rem;font-size:.85rem;color:#cfe0ff;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);padding:.3rem .5rem;border-radius:999px}
+
+    /* Activity feed */
+    .feed{max-height:40vh;overflow:auto;display:flex;flex-direction:column;gap:.4rem;padding-right:.2rem}
+    .event{display:flex;gap:.5rem;align-items:flex-start;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:.5rem}
+    .event .emo{font-size:1rem;line-height:1.2}
+    .event .txt{font-size:.9rem;color:#e0ecff}
+    .event .meta{font-size:.8rem;color:#93a7c0}
+
+    .footer{display:flex;justify-content:space-between;align-items:center;padding:.7rem .9rem;color:var(--muted)}
+
+    .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#101823;border:1px solid rgba(255,255,255,.1);padding:.6rem .8rem;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,.35);z-index:40;opacity:0;pointer-events:none;transition:opacity .25s}
+    .toast.show{opacity:1}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="bar">
+      <div class="controls">
+        <span class="pill" id="yearPill">Year 1 / 20</span>
+        <span class="stat">Treasury: <b id="money">$1,000,000</b></span>
+        <span class="stat">Tokenized: <b id="tokenized">0 oz</b></span>
+        <span class="stat">Annual Release: <b id="annualRelease">0 oz</b></span>
+        <span class="stat">Cleanup Reserve: <b id="reserve">$0</b></span>
+        <span class="stat">Actions Left: <b id="actionsLeft">20</b></span>
+      </div>
+      <div class="controls">
+        <div class="group">
+          <span class="label">Survey:</span>
+          <button id="btnObserve">Observe</button>
+          <button id="btnProspectPan">Pan</button>
+          <button id="btnProspectDetect">Detect</button>
+          <button id="btnSoil">Soil Grid</button>
+          <button id="btnTrench">Trench</button>
+        </div>
+        <div class="group">
+          <span class="label">Drill:</span>
+          <button id="btnRC100">RC 100m</button>
+          <button id="btnRC200">RC 200m</button>
+          <button id="btnCore150">Core 150m</button>
+          <button id="btnCore300">Core 300m</button>
+          <button id="btnDownhole">Downhole</button>
+        </div>
+        <div class="group">
+          <span class="label">Develop:</span>
+          <button id="btnPlaceFarm">Farm</button>
+          <button id="btnPlaceSolar">Solar</button>
+          <button id="btnPlaceHousing">Housing</button>
+          <button id="btnPlaceWell">Well</button>
+          <button id="btnPlaceAgro">Agroforestry</button>
+          <button id="btnPlaceMicroHydro">Micro‑hydro</button>
+        </div>
+        <button id="btnTokenizeTile" title="Tokenize selected tile to drilled depth">Tokenize Tile</button>
+        <button id="btnNextYear" style="background:#254a2f">Next Year ▶</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel map-wrap">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:.2rem .1rem .6rem .1rem">
+        <div class="legend">
+          <span class="item"><span class="sw" style="background:var(--qz)"></span> Quartz‑rich</span>
+          <span class="item"><span class="sw" style="background:var(--schist)"></span> Schist</span>
+          <span class="item"><span class="sw" style="background:var(--green)"></span> Greenstone</span>
+          <span class="item"><span class="sw" style="background:var(--intrusive)"></span> Mafic intrusive</span>
+          <span class="item"><span class="sw" style="background:var(--basin)"></span> Alluvial basin</span>
+          <span class="item"><span class="sw" style="background:var(--river)"></span> River edge</span>
+          <span class="item">👁️ observe</span>
+          <span class="item">🥣 pan</span>
+          <span class="item">📡 detect</span>
+          <span class="item">🕳️ pad</span>
+          <span class="item">🌾 farm</span>
+          <span class="item">☀️ solar</span>
+          <span class="item">🏠 housing</span>
+          <span class="item">/ / structure trace</span>
+        </div>
+        <div style="opacity:.85;font-size:.9rem">Per‑tile tokenization to drilled depth. 50% of assayed Au released over remaining years, with reserve holdbacks.</div>
+      </div>
+      <div id="grid" class="grid"></div>
+    </section>
+
+    <aside class="panel" id="inspector">
+      <div class="section">
+        <h3 class="title">Tile Inspector</h3>
+        <div class="kv" id="kv">
+          <div>Coords</div><div id="kvPos">–</div>
+          <div>Deposit regime</div><div id="kvDep">–</div>
+          <div>Host rock</div><div id="kvHost">–</div>
+          <div>Structure proximity</div><div id="kvStruct">–</div>
+          <div>River order</div><div id="kvRiver">–</div>
+          <div>Placer index</div><div id="kvPlacer">–</div>
+          <div>Confidence</div><div id="kvConf">0%</div>
+          <div>Est. Au (g/t)</div><div id="kvGrade">–</div>
+          <div>Est. Ag (g/t)</div><div id="kvAg">–</div>
+          <div>Deepest drill</div><div id="kvDepth">–</div>
+          <div>Total tokenized</div><div id="kvTokAmt">–</div>
+          <div>Cleanup costs</div><div id="kvCleanup">–</div>
+          <div>Surface clues</div><div id="kvHints">–</div>
+          <div>Improvements</div><div id="kvImpr">–</div>
+          <div>Pad / Reclamation</div><div id="kvPad">–</div>
+          <div>Legacy cleanup</div><div id="kvLegacy">–</div>
+          <div>Release / yr</div><div id="kvRel">–</div>
+          <div>Tokenized?</div><div id="kvTok">No</div>
+          <div>Pending assays</div><div id="kvPending">–</div>
+        </div>
+      </div>
+      <div class="section">
+        <h3 class="title">Actions</h3>
+        <div class="actions">
+          <button id="actObserve">Observe (1 action)</button>
+          <button id="actPan">Pan $500 (1)</button>
+          <button id="actDetect">Detect $750 (1)</button>
+          <button id="actSoil">Soil $5k (1)</button>
+          <button id="actTrench">Trench $12k (2)</button>
+          <button id="actRC100">RC 100m (~$32k) (3)</button>
+          <button id="actRC200">RC 200m (~$55k) (4)</button>
+          <button id="actCore150">Core 150m (~$69k) (4)</button>
+          <button id="actCore300">Core 300m (~$123k) (5)</button>
+          <button id="actDownhole">Downhole $4k (1)</button>
+          <button id="actReclaim">Reclaim Pad $2.5k (1)</button>
+          <button id="actLegacyPay">Pay Legacy (reserve) (1)</button>
+          <button id="actRemediate">Remediate Environment $25k (2)</button>
+          <button id="actTokenizeTile">Tokenize Tile (1)</button>
+        </div>
+      </div>
+      <div class="section">
+        <h3 class="title">Sampling Log</h3>
+        <div class="tags" id="log"></div>
+      </div>
+    </aside>
+
+    <aside class="panel secondary" id="activity">
+      <div class="section">
+        <h3 class="title">Activity & Notifications</h3>
+        <div class="feed" id="feed"></div>
+      </div>
+    </aside>
+  </main>
+
+  <div class="footer">
+    <div>• Season actions per year: 20. Assays return in 1–3 actions. Panning yields small Au cash. Silver (Ag) co‑assayed.</div>
+    <div>Prototype v0.8</div>
+  </div>
+</div>
+<div id="tooltip" style="position:fixed;left:0;top:0;transform:translate(-50%,-100%);background:#0d1520;border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:.45rem .6rem;font-size:.82rem;box-shadow:0 8px 24px rgba(0,0,0,.4);display:none;z-index:60;max-width:260px"></div>
+<div id="modal" style="position:fixed;inset:0;background:rgba(0,0,0,.45);backdrop-filter:blur(2px);display:none;align-items:center;justify-content:center;z-index:70">
+  <div style="background:#0f1622;border:1px solid rgba(255,255,255,.12);border-radius:14px;max-width:520px;width:92%;padding:1rem">
+    <h3 style="margin:.2rem 0 .6rem 0;font-size:1.05rem">Lab Results</h3>
+    <div id="modalBody" style="font-size:.95rem;color:#e2eeff"></div>
+    <div style="display:flex;justify-content:flex-end;margin-top:.8rem"><button id="modalOk" style="background:#1b2636;border-radius:10px;padding:.5rem .8rem">OK</button></div>
+  </div>
+</div>
+<div id="toast" class="toast"></div>
+
+<script>
+(()=>{
+  // ---- Utility
+  const rng = (seed => () => (seed = (seed*1664525 + 1013904223) % 4294967296) / 4294967296)(Math.floor(Math.random()*1e9));
+  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+  const lerp=(a,b,t)=>a+(b-a)*t;
+  function normal01(){ let s=0; for(let i=0;i<6;i++) s+=rng(); return s-3; }
+  function choice(arr){ return arr[Math.floor(rng()*arr.length)] }
+
+  // ---- Economy
+  const COST = {
+    pan:500, detect:750,
+    soil:5000, trench:12000,
+    rcPerM:180, rcPad:7500, rcSampleInt:2,
+    corePerM:300, corePad:12000, coreSampleInt:1,
+    assayPerSample:60,
+    downhole:4000,
+    reclaimPad:2500,
+    farm:25000, solar:150000,
+    housing:350000, well:80000, agro:60000, microHydro:120000,
+    goldPrice:2400, silverPrice:30
+  };
+
+  // ---- Game State
+  const SIZE = 12; // columns
+  const TILES = [];
+  let selected = null;
+  const state = {
+    year:1,maxYears:20,
+    money:1000000,
+    tokenizedOz:0,
+    annualReleaseOz:0,
+    releasedToDate:0,
+    reserve:0,
+    contamination:0,
+    mode:null,
+    actionsLeft:20,
+    pendingAssays:[], // {tileId,type,kind,depth,delay,confDelta}
+    feed:[] // {icon,text,meta}
+  };
+
+  // Deposit scale & regime
+  const depositScales = [
+    {name:'small', targetOz:[50000,200000]},
+    {name:'medium', targetOz:[200000,800000]},
+    {name:'large', targetOz:[1000000,3000000]}
+  ];
+  const REGIMES = ['placer','lode','hardrock'];
+  const regime = choice(REGIMES);
+  const scale = choice(depositScales);
+  const targetMean = lerp(scale.targetOz[0], scale.targetOz[1], rng());
+
+  const hostRocks=[
+    {k:'qz', name:'Quartz‑rich', w:1.0, hint:'milky quartz chips', color:'t-qz', bonus:0.25},
+    {k:'schist', name:'Schist', w:0.9, hint:'mica sheen', color:'t-schist', bonus:0.05},
+    {k:'greenstone', name:'Greenstone', w:1.2, hint:'iron‑stained cobbles', color:'t-greenstone', bonus:0.35},
+    {k:'intrusive', name:'Mafic intrusive', w:1.1, hint:'magnetite flecks', color:'t-intrusive', bonus:0.15},
+    {k:'basin', name:'Alluvial basin', w:1.0, hint:'rounded cobbles', color:'t-basin', bonus:-0.15},
+  ];
+
+  function noise2(x,y){ const s=Math.sin(x*12.9898 + y*78.233)*43758.5453; return s-Math.floor(s); }
+
+  function genMap(){
+    const structures=[]; for(let i=0;i<3;i++){ const x0=Math.floor(rng()*SIZE), y0=Math.floor(rng()*SIZE); const dx=rng()>.5?1:-1, dy=(rng()-.5)>0?1:-1; structures.push({x0,y0,dx,dy}); }
+
+    const riverMask=new Set(); for(let y=0;y<SIZE;y++) for(let x=0;x<SIZE;x++){ const elev=noise2(x*.18,y*.18); if(elev<.27 && rng()<.6) riverMask.add(`${x},${y}`); }
+
+    // Scale grades to hit target oz roughly
+    const scaleFactor = (()=>{ const areaM2 = 50*50*SIZE*SIZE; const depth=150; const density=2.7; const tonnes = areaM2*depth*density; const gramsForTarget = targetMean*31.1035*2; const baseMeanGt = gramsForTarget/tonnes; return clamp(baseMeanGt, 0.2, 3.5); })();
+
+    const pay=[]; let best=-1; for(let y=0;y<SIZE;y++) for(let x=0;x<SIZE;x++){
+      const nA=noise2(x*.11,y*.11), nB=noise2((x+50)*.07,(y-30)*.07); const structDist=nearestStructure({x,y},structures); const nearStruct=1/Math.max(1,structDist); const nearRiver = riverMask.has(`${x},${y}`)?1:0.2; const score=nA*0.4 + nB*0.25 + nearStruct*0.25 + nearRiver*0.1; pay.push({x,y,score}); if(score>best){best=score;} }
+
+    for(let y=0;y<SIZE;y++) for(let x=0;x<SIZE;x++){
+      const rPick=hostRocks[Math.floor(noise2(x*.2+3,y*.2-2)*hostRocks.length)];
+      const river=riverMask.has(`${x},${y}`);
+      const structD=nearestStructure({x,y},structures);
+      // Placer: many tiles have none
+      let placer = 0; if(river){ placer = clamp(.45 + (noise2(x*.33,y*.33)-.5)*.3, 0, 1); if(rng()<.3) placer=0; } else if(rPick.k==='basin' && rng()<.3){ placer = clamp(.25 + (noise2(x*.33,y*.33)-.5)*.2, 0, .6); if(rng()<.5) placer=0; }
+
+      const payScore=pay.find(p=>p.x===x && p.y===y).score;
+      const rich = payScore>(best*0.9);
+
+      let regimeBoost=0; if(regime==='placer' && river) regimeBoost+=0.35; if(regime==='lode' && structD<3) regimeBoost+=0.35; if(regime==='hardrock' && (rPick.k==='greenstone'||rPick.k==='intrusive')) regimeBoost+=0.25;
+
+      let trueAu = clamp(scaleFactor * (1 + regimeBoost) * (rich? 1.4:1.0) * (1 + rPick.bonus), 0.1, 6.0);
+      trueAu += (noise2(x*.41,y*.27)-.5)*0.6; trueAu=Math.max(0.05,trueAu);
+      let trueAg = Math.max(0.5, trueAu*5 + (noise2(x*.23+2,y*.19-3)-.5)*4);
+
+      const legacy = (rng()<0.18 && (river || structD<3));
+      const legacyCost = legacy? (20000 + Math.floor(rng()*60000)) : 0;
+
+      const tile={
+        x,y,id:y*SIZE+x,
+        regime: regime,
+        host:rPick,
+        river: river? Math.max(1, Math.floor(noise2(x*.5,y*.5)*4)) : 0,
+        structDist:structD,
+        placerIndex:placer,
+        hints:[],
+        improvements:[],
+        observed:false,
+        prospected:false,
+        panLevel:0, detectLevel:0,
+        contaminated:false,
+        padType:null,
+        padNeedsReclaim:false,
+        confidence:0,
+        assays:[],
+        pending:0,
+        estGrade:null,
+        estAg:null,
+        trueGrade:trueAu,
+        trueAg:trueAg,
+        deepest:0,
+        releasePerYear:0,
+        tokenized:false,
+        tokenizedAmount:0,
+        legacyMining:legacy,
+        legacyCleanup:legacyCost,
+        contamDue:0
+      };
+      tile.hints = makeHints(tile);
+      TILES.push(tile);
+    }
+  }
+
+  function nearestStructure(pt, lines){ let best=999; for(const L of lines){ for(let t=0;t<=1;t+=0.2){ const sx=L.x0+L.dx*t*SIZE, sy=L.y0+L.dy*t*SIZE; const d=Math.hypot(pt.x-sx, pt.y-sy); if(d<best) best=d; } } return Math.floor(best); }
+  function makeHints(t){ const h=[]; if(t.river) h.push('black sands'); if(t.host.k==='qz'&&rng()>.4) h.push('milky quartz'); if(t.host.k==='greenstone'&&rng()>.3) h.push('iron‑stained'); if(t.host.k==='intrusive'&&rng()>.5) h.push('magnetite'); if(t.structDist<2) h.push('linear veg break'); if(t.legacyMining) h.push('old tailings'); return h.slice(0,4); }
+
+  // ---- Build UI
+  genMap();
+  const grid = document.getElementById('grid');
+  const toast = document.getElementById('toast');
+  const feedEl = document.getElementById('feed');
+  const ttip=document.getElementById('tooltip');
+  const modal=document.getElementById('modal'); const modalBody=document.getElementById('modalBody'); const modalOk=document.getElementById('modalOk');
+  const els = {
+    yearPill:document.getElementById('yearPill'), money:document.getElementById('money'), tokenized:document.getElementById('tokenized'), annualRelease:document.getElementById('annualRelease'), reserve:document.getElementById('reserve'), actionsLeft:document.getElementById('actionsLeft'),
+    kvPos:kvPos, kvDep:kvDep, kvHost:kvHost, kvStruct:kvStruct, kvRiver:kvRiver, kvPlacer:kvPlacer, kvHints:kvHints, kvImpr:kvImpr, kvPad:kvPad, kvConf:kvConf, kvGrade:kvGrade, kvAg:kvAg, kvDepth:kvDepth, kvRel:kvRel, kvTok:kvTok, kvLegacy:kvLegacy, kvPending:kvPending, kvTokAmt:kvTokAmt, kvCleanup:kvCleanup,
+    log:document.getElementById('log'),
+    // header modes
+    btnObserve:btnObserve, btnPan:btnProspectPan, btnDetect:btnProspectDetect, btnSoil:btnSoil, btnTrench:btnTrench,
+    btnRC100:btnRC100, btnRC200:btnRC200, btnCore150:btnCore150, btnCore300:btnCore300, btnDownhole:btnDownhole,
+    btnFarm:btnPlaceFarm, btnSolar:btnPlaceSolar, btnHousing:btnPlaceHousing, btnWell:btnPlaceWell, btnAgro:btnPlaceAgro, btnMicroHydro:btnPlaceMicroHydro,
+    btnNextYear:btnNextYear,
+    // sidebar
+    actObserve:actObserve, actPan:actPan, actDetect:actDetect, actSoil:actSoil, actTrench:actTrench, actRC100:actRC100, actRC200:actRC200, actCore150:actCore150, actCore300:actCore300, actDownhole:actDownhole, actReclaim:actReclaim, actLegacyPay:actLegacyPay, actRemediate:actRemediate, actTokenizeTile:actTokenizeTile
+  };
+
+  // Construct grid
+  grid.style.setProperty('--cols', SIZE);
+  TILES.forEach(t=>{
+    const el=document.createElement('button'); el.className=`tile ${t.host.color}`; el.setAttribute('aria-label',`tile ${t.x},${t.y}`);
+    el.addEventListener('click',()=>selectTile(t));
+    el.addEventListener('mousemove',(e)=>showTooltip(e,t));
+    el.addEventListener('mouseleave',hideTooltip);
+    el.dataset.major = (t.x%4===0 || t.y%4===0);
+    const m=document.createElement('div'); m.className='mark'; m.textContent=''; el.appendChild(m);
+    const h=document.createElement('div'); h.className='hint'; h.textContent=''; el.appendChild(h);
+    if(t.structDist<2){ const d=document.createElement('div'); d.className='diag'; el.appendChild(d); }
+    if(t.river){ const r=document.createElement('div'); r.className='riverEdge'; el.appendChild(r); }
+    const topo=document.createElement('div'); topo.className='topo'; el.appendChild(topo);
+    const lab=document.createElement('div'); lab.className='label'; lab.textContent=`${t.x},${t.y}`; el.appendChild(lab);
+    const sh=document.createElement('div'); sh.className='shadow'; el.appendChild(sh);
+    t._el=el; t._mark=m; t._hint=h; grid.appendChild(el); refreshTile(t);
+  });
+
+  // ---- Feed helpers
+  function pushFeed(icon, text){ state.feed.unshift({icon,text,meta:`Y${state.year}`}); renderFeed(); }
+  function renderFeed(){ feedEl.innerHTML=''; state.feed.slice(0,40).forEach(ev=>{ const row=document.createElement('div'); row.className='event'; row.innerHTML=`<div class="emo">${ev.icon}</div><div><div class="txt">${ev.text}</div><div class="meta">${ev.meta}</div></div>`; feedEl.appendChild(row); }); }
+
+  // ---- Select & Inspector
+  let selectedEl=null;
+  function selectTile(t){ selected=t; if(selectedEl) selectedEl.classList.remove('sel'); selectedEl=t._el; selectedEl.classList.add('sel'); updateInspector(t); }
+  function updateInspector(t){
+    els.kvPos.textContent=`${t.x}, ${t.y}`;
+    els.kvDep.textContent=t.regime;
+    els.kvHost.textContent=t.host.name;
+    els.kvStruct.textContent = t.structDist<1? 'on a structure' : `${t.structDist} tiles`;
+    els.kvRiver.textContent = t.river? `${t.river}` : '—';
+    els.kvPlacer.textContent=t.placerIndex.toFixed(2);
+    els.kvHints.textContent=(t.observed||t.panLevel||t.detectLevel)? (t.hints.length? t.hints.join(', '):'—') : '— (observe to reveal)';
+    els.kvImpr.textContent=t.improvements.length? t.improvements.join(', '):'—';
+    els.kvPad.textContent = t.padType? `${t.padType.toUpperCase()} pad ${t.padNeedsReclaim? '• needs reclamation':''}` : '—';
+    els.kvConf.textContent = `${Math.round(t.confidence*100)}%`;
+    els.kvGrade.textContent = t.estGrade? t.estGrade.toFixed(2) : '—';
+    els.kvAg.textContent = t.estAg? t.estAg.toFixed(1) : '—';
+    els.kvDepth.textContent = t.deepest? `${t.deepest} m` : '—';
+    els.kvRel.textContent = t.releasePerYear? `${t.releasePerYear.toFixed(1)} oz/yr` : '—';
+    els.kvTok.textContent = t.tokenized? 'Yes' : 'No';
+    els.kvTokAmt.textContent = t.tokenizedAmount? `${t.tokenizedAmount.toFixed(1)} oz` : '—';
+    const cleanupSum = (t.legacyCleanup||0) + (t.padNeedsReclaim? COST.reclaimPad:0) + (t.contamDue||0);
+    els.kvCleanup.textContent = cleanupSum? formatMoney(cleanupSum) : '—';
+    els.kvLegacy.textContent = t.legacyMining? (t.legacyCleanup>0? `$${t.legacyCleanup.toLocaleString()}` : 'cleared') : '—';
+    const pend = state.pendingAssays.filter(p=>p.tileId===t.id).map(p=>`${p.type}${p.depth? ' '+p.depth+'m':''}: ${p.delay} actions`).join(', ');
+    els.kvPending.textContent = pend || '—';
+    els.log.innerHTML='';
+    t.assays.slice(-8).forEach(a=>{ const span=document.createElement('span'); span.className='tag'; span.textContent=`${a.type}${a.depth?' '+a.depth+'m':''}: Au ${a.meanGt.toFixed(2)} g/t, Ag ${a.meanAg.toFixed(1)} g/t`; els.log.appendChild(span); });
+  }
+
+  function refreshTile(t){
+    const survey = (t.observed? '👁️':'' ) + (t.panLevel>0? '🥣':'' ) + (t.detectLevel>0? ' 📡':'' );
+    const drill = t.padType? ' 🕳️':'';
+    t._hint.textContent = survey + drill;
+    t._mark.textContent = t.improvements.includes('farm')? '🌾' : t.improvements.includes('solar')? '☀️' : t.improvements.includes('housing')? '🏠' : t.improvements.includes('well')? '💧' : t.improvements.includes('agro')? '🌳' : t.improvements.includes('microHydro')? '💦' : '';
+  }
+
+  // ---- Economy helpers & actions
+  function spend(n){ if(state.money<n){ toastMsg('Not enough funds.'); return false;} state.money-=n; updateBar(); return true; }
+  function earn(n){ state.money+=n; updateBar(); }
+  function updateBar(){ yearPill.textContent=`Year ${state.year} / ${state.maxYears}`; money.textContent=formatMoney(state.money); tokenized.textContent=`${Math.round(state.tokenizedOz)} oz`; annualRelease.textContent=`${Math.round(state.annualReleaseOz)} oz`; reserve.textContent=formatMoney(state.reserve); actionsLeft.textContent=state.actionsLeft; }
+  function formatMoney(n){ return n.toLocaleString('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}); }
+  function requireObserved(t){ if(!t.observed){ toastMsg('Observe the tile first.'); return false;} return true; }
+  function consumeActions(n){ if(state.actionsLeft<n){ toastMsg('No actions left this year.'); return false;} state.actionsLeft-=n; updateBar(); progressAssays(n); return true; }
+
+  // ---- Pending assays resolution
+  function queueAssay(tile, entry){ state.pendingAssays.push(entry); updateInspector(tile); pushFeed('🧪', `${entry.type} queued for ${tile.x},${tile.y} (ETA ${entry.delay} actions)`); }
+  function progressAssays(n){ for(let i=0;i<state.pendingAssays.length;i++){ state.pendingAssays[i].delay -= n; }
+    const ready = state.pendingAssays.filter(p=>p.delay<=0); state.pendingAssays = state.pendingAssays.filter(p=>p.delay>0);
+    ready.forEach(p=>{ const t=TILES.find(tt=>tt.id===p.tileId); if(!t) return; const meanAu = sampleGrade(t,p.kind,p.depth); const meanAg = sampleAg(t,p.kind,p.depth); recordAssay(t,{type:p.type, depth:p.depth||null, meanGt:meanAu, meanAg:meanAg}); bumpConfidence(t,p.confDelta||0.2); const msg = `${p.type} results for ${t.x},${t.y}: Au ${meanAu.toFixed(2)} g/t, Ag ${meanAg.toFixed(1)} g/t`; toastMsg(msg); pushFeed('📬', msg); showModal(msg); if(p.onDone==='recompute') recomputeAnnualRelease(); updateInspector(t); });
+  }
+
+  // ---- Prospect & Observe
+  function doObserve(t){ if(t.observed){ toastMsg('Already observed.'); return; } if(!consumeActions(1)) return; t.observed=true; pushFeed('👁️','Observed tile '+t.x+','+t.y); toastMsg('You study the surface and take notes.'); refreshTile(t); updateInspector(t);} 
+  function doPan(t){ if(!requireObserved(t)) return; if(!spend(COST.pan)) return; if(!consumeActions(1)) return; t.prospected=true; t.panLevel++; bumpConfidence(t,0.03); const tier=panTier(t); toastByTier(tier); pushFeed('🥣',`Pan at ${t.x},${t.y} → ${tier}`);
+    const yieldOz = clamp((t.placerIndex*(t.rich?0.006:0.003))*(0.6+rng()*0.8), 0.0002, 0.012); const cash=yieldOz*COST.goldPrice; earn(cash); pushFeed('💰',`Recovered ${yieldOz.toFixed(3)} oz (${formatMoney(cash)})`); refreshTile(t); updateInspector(t); }
+  function panTier(t){ const base=t.placerIndex + (t.regime==='placer'? .2:0) + (t.rich? .25:0); const r=rng(); return (r<base*.4)? 'trace' : (r<base*.7? 'specks' : (r<base*.92? 'fines' : 'flakes')); }
+  function toastByTier(tier){ if(tier==='flakes') toastMsg('Pan reveals tiny flakes ✨'); else if(tier==='fines') toastMsg('Fine colors in the pan'); else if(tier==='specks') toastMsg('Specks observed'); else toastMsg('Trace only'); }
+
+  function doDetect(t){ if(!requireObserved(t)) return; if(!spend(COST.detect)) return; if(!consumeActions(1)) return; t.prospected=true; t.detectLevel++; bumpConfidence(t,0.04); const s=clamp( (t.rich?.6:.3) + (t.host.k==='qz'? .1:0) + (t.structDist<3? .2:0) + (rng()*.2-.1), 0, 1 ); const msg=(s>.65? 'Strong ping' : s>.45? 'Moderate ping' : 'Faint ping'); toastMsg(msg+' 📡'); pushFeed('📡',`Detect at ${t.x},${t.y}: ${msg}`); refreshTile(t); updateInspector(t); }
+
+  // ---- Sampling & Drilling (with lab delays)
+  function doSoil(t){ if(!requireObserved(t)) return; if(!spend(COST.soil)) return; if(!consumeActions(1)) return; const delay=1+Math.floor(rng()*3); queueAssay(t,{tileId:t.id,type:'Soil',kind:'soil',depth:0,delay,confDelta:.15}); }
+  function doTrench(t){ if(!requireObserved(t)) return; if(!spend(COST.trench)) return; if(!consumeActions(2)) return; const delay=1+Math.floor(rng()*3); queueAssay(t,{tileId:t.id,type:'Trench',kind:'trench',depth:0,delay,confDelta:.25}); }
+
+  function drillRC(t, depth){ if(!requireObserved(t)) return; const first=!t.padType; const pad = first? COST.rcPad:0; const meters = depth*COST.rcPerM; const samples = Math.ceil(depth / COST.rcSampleInt); const assays = samples*COST.assayPerSample; const total = pad + meters + assays; const acts = depth>=200?4:3; if(!spend(total)) return; if(!consumeActions(acts)) return; if(first){ t.padType='rc'; t.padNeedsReclaim=true; }
+    t.deepest = Math.max(t.deepest||0, depth); const delay=1+Math.floor(rng()*3); queueAssay(t,{tileId:t.id,type:`RC`,kind:'rc',depth,delay,confDelta: depth>=200? .6:.5}); pushFeed('🛠️',`RC ${depth}m at ${t.x},${t.y}`); refreshTile(t); updateInspector(t);
+  }
+
+  function drillCore(t, depth){ if(!requireObserved(t)) return; const first=!t.padType; const pad = first? COST.corePad:0; const meters = depth*COST.corePerM; const samples = Math.ceil(depth / COST.coreSampleInt); const assays = samples*COST.assayPerSample; const total = pad + meters + assays; const acts = depth>=300?5:4; if(!spend(total)) return; if(!consumeActions(acts)) return; if(first){ t.padType='core'; t.padNeedsReclaim=true; }
+    t.deepest = Math.max(t.deepest||0, depth); const delay=1+Math.floor(rng()*3); queueAssay(t,{tileId:t.id,type:`CORE`,kind:'core',depth,delay,confDelta: depth>=300? .9:.75}); pushFeed('🧱',`Core ${depth}m at ${t.x},${t.y}`); refreshTile(t); updateInspector(t);
+  }
+
+  function downhole(t){ if(!t.assays.length){ toastMsg('Drill first.'); return; } if(!spend(COST.downhole)) return; if(!consumeActions(1)) return; bumpConfidence(t,0.05); toastMsg('Downhole survey tightens model (+5% conf).'); pushFeed('📏',`Downhole survey at ${t.x},${t.y}`); updateInspector(t); }
+
+  function reclaimPad(t){ if(!t.padType || !t.padNeedsReclaim){ toastMsg('No pad to reclaim.'); return; } if(!spend(COST.reclaimPad)) return; if(!consumeActions(1)) return; t.padNeedsReclaim=false; toastMsg('Pad reclaimed. Liability reduced.'); pushFeed('🧹',`Reclaimed pad at ${t.x},${t.y}`); updateInspector(t); }
+  function remediateEnv(t){ if(!t.contamDue && !t.legacyCleanup){ toastMsg('No remediation needed here.'); return;} const cost=25000; if(!spend(cost)) return; if(!consumeActions(2)) return; const reduce=Math.min(cost, (t.contamDue||0)+(t.legacyCleanup||0)); const towardContam=Math.min(reduce, t.contamDue||0); t.contamDue=(t.contamDue||0)-towardContam; const towardLegacy=reduce-towardContam; t.legacyCleanup=(t.legacyCleanup||0)-towardLegacy; if(towardContam>0) state.contamination=Math.max(0,state.contamination-towardContam); pushFeed('🌱',`Remediation at ${t.x},${t.y}: ${formatMoney(reduce)} applied`); updateInspector(t); }
+
+  function payLegacy(t){ if(!t.legacyMining || t.legacyCleanup<=0){ toastMsg('No legacy cleanup due.'); return;} const payNow=Math.min(t.legacyCleanup, state.reserve); state.reserve-=payNow; t.legacyCleanup-=payNow; if(payNow>0){ toastMsg(`Paid ${formatMoney(payNow)} from reserve for legacy cleanup.`); pushFeed('♻️',`Paid legacy cleanup ${formatMoney(payNow)} at ${t.x},${t.y}`);} else toastMsg('Insufficient reserve.'); updateBar(); updateInspector(t); }
+
+  function recordAssay(t,a){ t.assays.push(a); const w = a.type==='Soil'? .3 : a.type==='Trench'? .5 : a.type==='RC'? .8 : 1.0; if(!t.estGrade) t.estGrade=a.meanGt; else t.estGrade = (t.estGrade*0.6 + a.meanGt*w*0.4); if(!t.estAg) t.estAg=a.meanAg; else t.estAg = (t.estAg*0.6 + a.meanAg*w*0.4); }
+  function bumpConfidence(t,delta){ t.confidence = clamp(t.confidence + delta, 0, 1); }
+
+  function sampleGrade(t,method,depth=0){ const trueG=t.trueGrade; let relSD=0.6; if(method==='trench') relSD=0.4; if(method==='rc') relSD=0.35; if(method==='core') relSD=0.25; const noise = normal01()*trueG*relSD*0.2; let mean = trueG + noise; mean = lerp(mean, trueG, clamp(depth/300,0,0.5)); return Math.max(0.05, mean); }
+  function sampleAg(t,method,depth=0){ const trueS=t.trueAg; let relSD=0.7; if(method==='core') relSD=0.4; const noise = normal01()*trueS*relSD*0.25; let mean = trueS + noise; mean = lerp(mean, trueS, clamp(depth/300,0,0.5)); return Math.max(0.2, mean); }
+
+  // ---- Tokenization per tile to sampled depth (50% over remaining years)
+  function tokenizeTile(){ const t=selected; if(!t){ toastMsg('Select a tile.'); return;} if(t.tokenized){ toastMsg('Tile already tokenized.'); return;} const hasDrill = t.assays.some(a=>a.type==='RC' || a.type==='CORE'); if(!hasDrill){ toastMsg('Drill this tile first (RC/CORE).'); return;}
+    const depth = t.deepest||0; if(depth<=0){ toastMsg('No sampled depth found.'); return; }
+    const areaM2 = 50*50; const density = 2.7; const tonnes = areaM2 * depth * density; const gradeGt = t.estGrade || t.trueGrade; const grams = tonnes * gradeGt; const oz = grams / 31.1035; const tokenizable = oz * 0.50; const yearsLeft = (state.maxYears - state.year + 1); const perYear = tokenizable / yearsLeft; t.releasePerYear = perYear; state.tokenizedOz += tokenizable; t.tokenized=true; t.tokenizedAmount=tokenizable; pushFeed('🪙',`Tokenized ${tokenizable.toFixed(1)} oz at ${t.x},${t.y}`);
+    const gross = tokenizable * COST.goldPrice; const holdback = 0.10 + (t.padNeedsReclaim?0.05:0) + (t.contaminated?0.10:0) + (t.legacyCleanup>0?0.08:0); const reserveAdd = gross * holdback; state.reserve += reserveAdd; recomputeAnnualRelease(); updateBar(); updateInspector(t); toastMsg(`Tokenized tile: ${tokenizable.toFixed(1)} oz over ${yearsLeft} yrs. Reserve +${formatMoney(reserveAdd)}`);
+  }
+  function recomputeAnnualRelease(){ state.annualReleaseOz = TILES.reduce((s,tt)=> s + (tt.releasePerYear||0), 0); }
+
+  // ---- Year tick
+  function nextYear(){
+    let income=0;
+    TILES.forEach(t=>{
+      if(t.improvements.includes('farm')) income+=12000;
+      if(t.improvements.includes('agro')) income+=9000;
+      if(t.improvements.includes('solar')) income+=22000;
+      if(t.improvements.includes('microHydro') && t.river) income+=14000;
+      if(t.improvements.includes('housing')) income+=6000; // ground lease proxy
+      if(t.improvements.includes('well')) income-=500; // maintenance
+      if(!t.improvements.length && t.placerIndex>.7 && rng()<.03){ const cost=30000+Math.floor(rng()*20000); state.contamination+=cost; t.contaminated=true; t.contamDue=(t.contamDue||0)+cost; pushFeed('⚠️',`Legacy event at ${t.x},${t.y}: ${formatMoney(cost)}`); }
+      if(t.padNeedsReclaim){ state.contamination += 1500; t.contamDue=(t.contamDue||0)+1500; }
+    });
+
+    const releaseOz = state.annualReleaseOz || 0; const releaseCash = releaseOz*COST.goldPrice;
+    let toCleanup = Math.min(releaseCash, state.contamination); state.contamination -= toCleanup; let toTreasury = releaseCash - toCleanup;
+
+    if(state.contamination>0 && state.reserve>0){ const applied=Math.min(state.reserve,state.contamination); state.reserve-=applied; state.contamination-=applied; pushFeed('🧾',`Reserve applied to cleanup ${formatMoney(applied)}`); toastMsg(`Cleanup draws ${formatMoney(applied)} from reserve.`); }
+
+    state.money += income + toTreasury; state.releasedToDate += releaseOz; state.year = Math.min(state.maxYears, state.year+1); state.actionsLeft=20; updateBar();
+
+    if(state.year>state.maxYears){ toastMsg('Schedule complete. Stewardship continues.'); pushFeed('🏁','Release schedule ended.'); }
+    else{ pushFeed('📅',`Year ${state.year-1} end: Ops ${formatMoney(income)}, Release ${formatMoney(toTreasury)}`); }
+
+    TILES.forEach(t=>{ if(t.contaminated && state.contamination===0) t.contaminated=false; });
+  }
+
+  // ---- Improvements (aligned rules)
+  function canPlace(t,kind){
+    if(kind==='microHydro' && !t.river) return false;
+    if(kind==='well' && !(t.host.k==='basin' || t.river)) return false;
+    if(kind==='housing' && (t.structDist<2 || t.river)) return false;
+    return true;
+  }
+  function placeImprovement(t,kind,cost){ if(t.improvements.includes(kind)){ toastMsg('Already placed here.'); return;} if(!canPlace(t,kind)){ toastMsg('Site unsuitable for this improvement.'); return;} if(!spend(cost)) return; if(!consumeActions(1)) return; t.improvements.push(kind); pushFeed('🏗️',`Placed ${kind} at ${t.x},${t.y}`); refreshTile(t); updateInspector(t); }
+
+  function buildFarm(t){ placeImprovement(t,'farm',COST.farm); }
+  function buildSolar(t){ placeImprovement(t,'solar',COST.solar); }
+  function buildHousing(t){ placeImprovement(t,'housing',COST.housing); }
+  function buildWell(t){ placeImprovement(t,'well',COST.well); }
+  function buildAgro(t){ placeImprovement(t,'agro',COST.agro); }
+  function buildMicroHydro(t){ placeImprovement(t,'microHydro',COST.microHydro); }
+
+  // ---- Tooling wires
+  function setMode(m){ state.mode=m; if(m) toastMsg(`Mode: ${m}`); }
+  btnObserve.onclick = ()=>setMode('observe');
+  btnProspectPan.onclick = ()=>setMode('pan');
+  btnProspectDetect.onclick = ()=>setMode('detect');
+  btnSoil.onclick = ()=>setMode('soil');
+  btnTrench.onclick = ()=>setMode('trench');
+  btnRC100.onclick = ()=>setMode('rc100');
+  btnRC200.onclick = ()=>setMode('rc200');
+  btnCore150.onclick = ()=>setMode('core150');
+  btnCore300.onclick = ()=>setMode('core300');
+  btnDownhole.onclick = ()=>setMode('downhole');
+  btnPlaceFarm.onclick = ()=>setMode('farm');
+  btnPlaceSolar.onclick = ()=>setMode('solar');
+  btnPlaceHousing.onclick = ()=>setMode('housing');
+  btnPlaceWell.onclick = ()=>setMode('well');
+  btnPlaceAgro.onclick = ()=>setMode('agro');
+  btnPlaceMicroHydro.onclick = ()=>setMode('microHydro');
+  document.getElementById('btnTokenizeTile').onclick = ()=>{ if(!selected) return; if(!consumeActions(1)) return; tokenizeTile(); };
+  btnNextYear.onclick = nextYear;
+
+  // Sidebar direct actions
+  actObserve.onclick = ()=>{ if(!selected) return; doObserve(selected);} 
+  actPan.onclick = ()=>{ if(!selected) return; doPan(selected); };
+  actDetect.onclick = ()=>{ if(!selected) return; doDetect(selected); };
+  actSoil.onclick = ()=>{ if(!selected) return; doSoil(selected); };
+  actTrench.onclick = ()=>{ if(!selected) return; doTrench(selected); };
+  actRC100.onclick = ()=>{ if(!selected) return; drillRC(selected,100); };
+  actRC200.onclick = ()=>{ if(!selected) return; drillRC(selected,200); };
+  actCore150.onclick = ()=>{ if(!selected) return; drillCore(selected,150); };
+  actCore300.onclick = ()=>{ if(!selected) return; drillCore(selected,300); };
+  actDownhole.onclick = ()=>{ if(!selected) return; downhole(selected); };
+  actReclaim.onclick = ()=>{ if(!selected) return; reclaimPad(selected); };
+  actLegacyPay.onclick = ()=>{ if(!selected) return; payLegacy(selected); };
+  actRemediate.onclick = ()=>{ if(!selected) return; remediateEnv(selected); };
+  actTokenizeTile.onclick = ()=>{ if(!selected) return; if(!consumeActions(1)) return; tokenizeTile(); };
+
+  // Grid click executes current mode on the selected tile (SimCity-style active tool)
+  grid.addEventListener('click',()=>{
+    const t=selected; if(!t || !state.mode) return;
+    if(state.mode==='observe') doObserve(t);
+    else if(state.mode==='pan') doPan(t);
+    else if(state.mode==='detect') doDetect(t);
+    else if(state.mode==='soil') doSoil(t);
+    else if(state.mode==='trench') doTrench(t);
+    else if(state.mode==='rc100') drillRC(t,100);
+    else if(state.mode==='rc200') drillRC(t,200);
+    else if(state.mode==='core150') drillCore(t,150);
+    else if(state.mode==='core300') drillCore(t,300);
+    else if(state.mode==='downhole') downhole(t);
+    else if(state.mode==='farm') buildFarm(t);
+    else if(state.mode==='solar') buildSolar(t);
+    else if(state.mode==='housing') buildHousing(t);
+    else if(state.mode==='well') buildWell(t);
+    else if(state.mode==='agro') buildAgro(t);
+    else if(state.mode==='microHydro') buildMicroHydro(t);
+  });
+
+  // Hover tooltip & modal
+  function showTooltip(e,t){ const html = `<b>${t.x},${t.y}</b> · ${t.host.name}<br/>Regime: ${t.regime}<br/>Au ${t.estGrade? t.estGrade.toFixed(2):'?'} g/t · Ag ${t.estAg? t.estAg.toFixed(1):'?'} g/t<br/>Conf: ${Math.round(t.confidence*100)}% · Depth: ${t.deepest||0}m<br/>Legacy: ${t.legacyCleanup? '$'+t.legacyCleanup.toLocaleString():'—'} · Pad: ${t.padType? t.padType.toUpperCase():'—'}`; ttip.innerHTML=html; ttip.style.left = (e.clientX+12)+'px'; ttip.style.top=(e.clientY-12)+'px'; ttip.style.display='block'; }
+  function hideTooltip(){ ttip.style.display='none'; }
+  function showModal(msg){ modalBody.textContent=msg; modal.style.display='flex'; }
+  modalOk.onclick=()=>{ modal.style.display='none'; }
+
+  function toastMsg(msg){ if(!msg) return; toast.textContent=msg; toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'), 2400); }
+
+  // ---- Minimal self-tests
+  function assert(name, cond){ if(!cond){ console.error('❌', name); pushFeed('❌','Test failed: '+name);} else { console.log('✅', name); } }
+  function runSelfTests(){
+    const t = TILES[0]; const actsBefore = state.actionsLeft; doObserve(t); assert('Observe consumes 1 action', state.actionsLeft===actsBefore-1);
+    const actsBefore2 = state.actionsLeft; doObserve(t); assert('Observe once only', state.actionsLeft===actsBefore2);
+  }
+
+  // Init
+  updateBar(); selectTile(TILES[Math.floor(TILES.length/2)]); renderFeed(); runSelfTests();
+})();
+</script>
+</body>
+</html>
