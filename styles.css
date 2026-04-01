@@ -406,7 +406,41 @@ nav {
     color: var(--white); margin-bottom: .5rem;
   }
   .step-content p { font-size: 1.1rem; color: var(--text-muted); line-height: 1.7; }
+/* ── HOW IT WORKS — new card row layout ── */
+.how-steps-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
 
+.how-step-card {
+  padding: 2rem 1.5rem;
+  border-top: 1px solid rgba(201,168,76,.15);
+}
+
+.how-step-card .step-num {
+  font-family: "Work Sans", sans-serif;
+  font-size: 2.5rem;
+  font-weight: 300;
+  color: var(--gold-light);
+  line-height: 1;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.how-step-card h3 {
+  font-family: "Work Sans", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: .6rem;
+}
+
+.how-step-card p {
+  font-size: .95rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
   /* ── DUAL PATH ── */
   .dual-section {
     background: var(--dark);

@@ -86,7 +86,15 @@
   .nav-cta {
     display: none;
   }
+/* ─ HOW IT WORKS card row ─ */
+.how-steps-row {
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
 
+#rg-wrap {
+  height: 360px;
+}
   /* Hamburger button (injected by JS below) */
   .nav-hamburger {
     display: flex;
