@@ -62,19 +62,26 @@ function blockStyle(f){
            fillColor: vein ? GREEN : GOLD, fillOpacity:0.92 };
 }
 function fmt(n){ return n.toLocaleString('en-US'); }
+function pad5(n){ return 'CM-' + String(n).padStart(5,'0'); }
 var blocks = L.geoJson(json_EarthBlocksSurface, {
   style: blockStyle,
   onEachFeature: function(f, layer){
     var p = f.properties;
     var depthFt = (p.d * 3.28084).toFixed(0);
+    var rows = p.ids.map(function(seq, i){
+      var top = (i*1.35).toFixed(2), bot = ((i+1)*1.35).toFixed(2);
+      return '<tr><td style="padding-right:10px;font-weight:600;color:#A8893A">' + pad5(seq) +
+             '</td><td class="k">' + top + ' to ' + bot + ' m</td></tr>';
+    }).join('');
     layer.bindPopup(
-      '<div class="bid">' + p.b + '</div>' +
+      '<div class="bid">' + p.b + ' <span class="k" style="font-weight:400;font-size:11px">(surface)</span></div>' +
       '<span class="k">Provenance:</span> ' + p.p + '<br>' +
       '<span class="k">Claim:</span> ' + p.c + ' &nbsp; <span class="k">Source:</span> ' + p.s + '<br>' +
       '<span class="k">Feature:</span> ' + p.f + '<br>' +
-      '<span class="k">Column:</span> ' + p.n + ' block' + (p.n>1?'s':'') +
-      ' to ' + p.d.toFixed(2) + ' m (' + depthFt + ' ft) depth',
-      { maxWidth: 280 });
+      '<span class="k">Column:</span> ' + p.ids.length + ' block' + (p.ids.length>1?'s':'') +
+      ' to ' + p.d.toFixed(2) + ' m (' + depthFt + ' ft) depth' +
+      '<table style="margin-top:6px;border-top:1px solid #ddd;padding-top:4px">' + rows + '</table>',
+      { maxWidth: 300, maxHeight: 260 });
   }
 }).addTo(map);
 
