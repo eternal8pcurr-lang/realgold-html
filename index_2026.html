@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="mobile.css">
+<style>
+  #rg-root { touch-action: none; cursor: grab; }
+  #rg-root.scrubbing { cursor: grabbing; }
+  .rg-fallback { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#ccc; font-size:14px; text-align:center; padding:1rem; }
+</style>
+  <style>
+  body { overflow-y: scroll; }
+
+  /* ── Added utilities. Everything else uses the existing stylesheet. ───── */
+  .rg-note {
+    max-width: 900px;
+    margin: 1.5rem auto 0;
+    padding: 0 2rem;
+    font-size: .78rem;
+    line-height: 1.65;
+    letter-spacing: .01em;
+    opacity: .55;
+    text-align: center;
+  }
+  .rg-source {
+    display: block;
+    margin-top: 1.75rem;
+    font-size: .68rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    opacity: .38;
+    text-align: center;
+  }
+  .rg-prose {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+  }
+  .rg-prose p {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    margin: 0 0 1.6rem;
+    opacity: .82;
+  }
+  .rg-prose p.lead {
+    font-size: 1.35rem;
+    line-height: 1.7;
+    opacity: 1;
+  }
+  .rg-pull {
+    margin: 3rem 0;
+    padding: 0 0 0 1.75rem;
+    border-left: 2px solid var(--gold, #c9a227);
+    font-size: 1.25rem;
+    line-height: 1.7;
+    font-style: italic;
+    opacity: .95;
+  }
+  .rg-three {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 4rem 6rem;
+  }
+  .rg-three .how-step-card { height: 100%; }
+  @media (max-width: 900px) {
+    .rg-three { grid-template-columns: 1fr; padding: 0 1.5rem 4rem; gap: 1.5rem; }
+    .rg-prose { padding: 4rem 1.5rem; }
+  }
+  .rg-legend {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 4rem 1rem;
+    font-size: .72rem;
+    line-height: 1.75;
+    opacity: .5;
+  }
+  .rg-legend h5 {
+    font-size: .7rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    margin: 0 0 1rem;
+    opacity: .85;
+  }
+  .rg-legend p { margin: 0 0 1rem; }
+  .rg-consent {
+    display: flex;
+    align-items: flex-start;
+    gap: .7rem;
+    font-size: .78rem;
+    line-height: 1.6;
+    margin: 1.25rem 0 .5rem;
+    opacity: .8;
+  }
+  .rg-consent input { margin-top: .28rem; flex: 0 0 auto; }
+  #rg-cookie {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 900;
+    display: none; gap: 1rem; flex-wrap: wrap;
+    align-items: center; justify-content: center;
+    padding: 1rem 1.5rem;
+    background: rgba(10,10,10,.96);
+    border-top: 1px solid rgba(201,162,39,.35);
+    font-size: .8rem; color: #ddd;
+  }
+  #rg-cookie button {
+    background: none; border: 1px solid rgba(201,162,39,.6);
+    color: #c9a227; padding: .5rem 1.1rem; font: inherit;
+    letter-spacing: .06em; cursor: pointer;
+  }
+  #rg-cookie button.primary { background: #c9a227; color: #111; border-color: #c9a227; }
+  @media (max-width: 700px) {
+    .rg-legend { padding: 2rem 1.5rem 1rem; }
+    .rg-note { padding: 0 1.5rem; }
+  }
+</style>
+
+<!--
+  ANALYTICS: Google Analytics loads only after affirmative consent. Do not
+  revert to unconditional loading without a privacy review.
+-->
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="RealGold is a standard for verifying gold in the ground and holding it as perpetual real property, without extraction. Informational only. Not an offer to sell securities.">
+<title>Real.Gold — Gold That Stays in the Ground</title>
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=optional" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=optional" rel="stylesheet">
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+</head>
+<body>
+
+<!-- ══════════════════════════════════════ NAV ══════════════════════════════════════ -->
+<nav>
+
+  <a href="#" class="nav-logo">
+    <img src="assets/RealGold-Symbol-Clear.png" alt="RealGold Logo" class="Logo" width="100%" height="auto">
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#premise">The Premise</a></li>
+    <li><a href="#asset">The Asset</a></li>
+    <li><a href="#standard">The Standard</a></li>
+    <li><a href="#estates">Stewardship</a></li>
+    <li><a href="#disclosures">Disclosures</a></li>
+  </ul>
+
+  <a href="#contact" class="nav-cta">Contact Us</a>
+
+</nav>
+
+<!-- ══════════════════════════════════════ HERO ══════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-rings">
+    <span></span><span></span><span></span><span></span>
+  </div>
+
+  <img src="assets/RealGold-Symbol-Clear.png" class="hero-symbol" alt="RealGold Logo">
+<img src="assets/RealGold-Logo-TextOnly.png" alt="RealGold Symbol">
+  <p class="hero-sub">A standard for verifying gold in the ground and holding it as real property. Permanently. Without mining it.</p>
+
+  <div class="hero-actions">
+    <a href="#premise" class="btn-primary">Why It Works</a>
+    <a href="#standard" class="btn-ghost">The Standard</a>
+  </div>
+
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ════════════════════════ PREMISE: THE NUMBERS ══════════════════════════ -->
+<!--
+  The stats band no longer describes any property. It describes the global gold
+  stock, which is the premise the whole model rests on. World Gold Council
+  figures. These need an annual refresh. See changelog.
+-->
+<div class="intro-band">
+  <div class="intro-stat">
+    <span class="number">219,891</span>
+    <span class="label">Tonnes Mined in All of Human History</span>
+  </div>
+  <div class="intro-divider"></div>
+  <div class="intro-stat">
+    <span class="number">3,672</span>
+    <span class="label">Tonnes Added by Mining in 2025</span>
+  </div>
+  <div class="intro-divider"></div>
+  <div class="intro-stat">
+    <span class="number">1.7%</span>
+    <span class="label">Annual Growth of a Stock That Never Depletes</span>
+  </div>
+  <div class="intro-divider"></div>
+  <div class="intro-stat">
+    <span class="number">Zero</span>
+    <span class="label">Ounces Extracted Under RealGold</span>
+  </div>
+</div>
+
+<span class="rg-source">Source: World Gold Council, 2025</span>
+
+<!-- ══════════════════════════════════════ THE PREMISE ══════════════════════════════════════ -->
+<section id="premise" style="background:var(--black);">
+  <div style="padding:5rem 4rem 0; max-width:1200px; margin:0 auto; text-align:center;">
+    <span class="section-label">The Premise</span>
+    <h2 class="display" style="margin-top:1rem;">Gold is not consumed.<br><em>It is only ever held.</em></h2>
+  </div>
+
+  <div class="rg-prose">
+    <p class="lead">Almost every ounce of gold ever mined still exists. Gold does not corrode, degrade, or get used up. It is melted, recast, and passed on, which means the stock above ground only accumulates.</p>
+
+    <p>Roughly two thirds of that stock sits in jewellery, bars, coins, and central bank vaults. Its function is to be held. Not consumed, not spent, not transformed into anything else. Held.</p>
+
+    <p>Mining added 3,672 tonnes to that stock in 2025, a gain of about 1.7% on a supply that never diminishes. To produce a single troy ounce at ordinary open pit grades, somewhere between eight and thirty tonnes of rock has to be broken, hauled, crushed, and chemically treated, before counting the waste rock removed to reach it. What remains afterward is a pit, a tailings facility, and a reclamation obligation that outlives the mine.</p>
+
+    <div class="rg-pull">
+      If the purpose of an ounce of gold is to be held, then the ounce does not need to be moved to serve that purpose.
+    </div>
+
+    <p>This is the observation RealGold is built on. The monetary function of gold and the physical extraction of gold have always travelled together, but they were never the same thing. Separate them, and the function survives intact while the mine becomes unnecessary.</p>
+
+    <p>Gold verified in the ground, described precisely, and held as real property does what a vault does. It stores value. It endures. It can be owned, recorded, conveyed, and inherited. What it does not do is require a mountain to be taken apart first.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ WHAT IT IS ══════════════════════════════════════ -->
+<section id="asset" style="padding:0; background:var(--black);">
+
+  <div style="padding:2rem 4rem 2rem; max-width:1200px; margin:0 auto; text-align:center;">
+    <span class="section-label">The Asset</span>
+    <h2 class="display" style="margin-top:1rem;">A mineral estate,<br><em>held rather than worked</em></h2>
+  </div>
+
+  <div id="rg-wrap" style="position:relative; width:100%; height:380px; overflow:hidden;">
+    <div id="rg-root"
+      aria-label="Animated 3D layered cube with gold seams and internal orebody; drag horizontally to scrub the scan"
+      role="img"
+      style="position:absolute; top:0; left:0; width:100%; height:100%; touch-action:none; cursor:grab; background:transparent;">
+    </div>
+    <noscript><div class="rg-fallback">Enable JavaScript to view the 3D visualization.</div></noscript>
+  </div>
+  <p class="rg-note" style="margin-top:.5rem;">
+    Illustrative visualization. Not a depiction of any specific property, survey geometry, or the location of mineralization.
+  </p>
+
+  <div style="padding:3rem 4rem 6rem; max-width:1200px; margin:0 auto;">
+    <div class="how-steps-row">
+      <div class="how-step-card">
+        <span class="step-num">01</span>
+        <h3>Real property, not a commodity position</h3>
+        <p>A severed mineral estate is an interest in real property. It is not a lease, a royalty, a futures contract, or a warehouse receipt. It does not expire, and it is not consumed by time.</p>
+      </div>
+      <div class="how-step-card">
+        <span class="step-num">02</span>
+        <h3>Patented and of record</h3>
+        <p>The estates that qualify are held in fee simple under federal patent, with a chain of title of record and a certified boundary survey. Ownership is a matter of public record, not a private claim.</p>
+      </div>
+      <div class="how-step-card">
+        <span class="step-num">03</span>
+        <h3>Certified in place</h3>
+        <p>Mineralization is certified by an independent Certified Professional Geologist at the property level, supported by title and survey. Certification describes what is present across an estate as a whole.</p>
+      </div>
+      <div class="how-step-card">
+        <span class="step-num">04</span>
+        <h3>Perpetual and non-depleting</h3>
+        <p>Because nothing is removed, nothing runs out. There is no life of mine, no depletion schedule, no closure date, and no reclamation liability accruing against the asset.</p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════════════ THE STANDARD ══════════════════════════════════════ -->
+<section class="dual-section" id="standard">
+  <div class="dual-header">
+    <span class="section-label">The Standard</span>
+    <h2 class="display">What has to be true<br><em>before it is RealGold</em></h2>
+  </div>
+
+  <div class="dual-grid">
+    <div class="dual-card">
+      <div class="dual-icon">&#9672;</div>
+      <span class="eyebrow">Verification</span>
+      <h3>Three independent proofs</h3>
+      <p>An estate qualifies only when three separate lines of evidence agree. Each is produced by a different party, and each can be checked by anyone who wants to check it.</p>
+      <ul class="dual-features">
+        <li>Geological certification by an AIPG Certified Professional Geologist</li>
+        <li>Chain of title and federal patent records</li>
+        <li>Certified boundary and volumetric survey</li>
+      </ul>
+    </div>
+    <div class="dual-card">
+      <div class="dual-icon-2">
+        <img src="assets/RealGold-Symbol-Clear.png" width="60" alt="RealGold Logo">
+      </div>
+      <span class="eyebrow">Commitment</span>
+      <h3>Three binding conditions</h3>
+      <p>Verification establishes what is there. These conditions govern what may be done with it, and they run with the estate rather than with whoever happens to hold it.</p>
+      <ul class="dual-features">
+        <li>The estate is held in place, not worked</li>
+        <li>Stewardship obligations attach to the land itself</li>
+        <li>Governance and verification stay independent of ownership</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="rg-note">
+    Verification is performed within an independent framework administered by the
+    Real Assets Foundation. Geological certification is a professional certification
+    of mineralization in place at the property aggregate level. It is an estimate,
+    not a statement of reserves, and no quantity is attributed to any subdivision of
+    an estate.
+  </p>
+</section>
+
+<!-- ══════════════════════════════════════ HOW IT IS RECORDED ══════════════════════════════════════ -->
+<section style="background:var(--black); padding:0 0 2rem;">
+  <div style="padding:5rem 4rem 3rem; max-width:1200px; margin:0 auto; text-align:center;">
+    <span class="section-label">The Record</span>
+    <h2 class="display" style="margin-top:1rem;">Describing something<br><em>precisely enough to hold it</em></h2>
+    <p class="body-text" style="margin:1.5rem auto 0; max-width:720px;">An estate held forever has to be described in a way that outlasts everyone who described it. Two systems do that work, and a third keeps them honest.</p>
+  </div>
+
+  <div class="rg-three">
+    <div class="how-step-card">
+      <span class="step-num">01</span>
+      <h3>The Earth Block Model</h3>
+      <p>A verified estate is subdivided into a uniform, surveyed inventory of volumetric blocks, each with fixed coordinates and dimensions. Blocks define volume and position, so interests can be described, recorded, and conveyed with the same precision as any other parcel of land. A block is a unit of space, not a unit of grade.</p>
+    </div>
+    <div class="how-step-card">
+      <span class="step-num">02</span>
+      <h3>The Real Assets Registry</h3>
+      <p>Provenance, technical data, survey records, and compliance history are registered in an agent-centric distributed registry built on Holochain. Each participant holds and signs their own records, and the registry composes them rather than depending on a single central database.</p>
+    </div>
+    <div class="how-step-card">
+      <span class="step-num">03</span>
+      <h3>Independent governance</h3>
+      <p>The Real Assets Foundation administers the verification framework and the registry, separately from the parties that own or steward any estate. Whoever holds an interest, the standard is applied by someone who does not.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ THE THREE ESTATES ══════════════════════════════════════ -->
+<section id="estates" style="padding:0;">
+  <div class="tri-section">
+    <div>
+      <span class="section-label">The Tripartite Estate</span>
+      <h2 class="display">Three estates,<br><em>one piece of ground</em></h2>
+      <p class="body-text" style="margin-top:1.5rem;">Every parcel of land carries three estates at once. The mineral estate beneath it, the biological estate living on it, and the social estate of the people whose lives are bound to it. Conventional mining treats the first as the only one that counts, and pays for it with the other two.</p>
+      <p class="body-text" style="margin-top:1.25rem;">Holding the mineral estate in place changes what is possible above it. Ground that is never opened does not need to be repaired. Watersheds stay intact. Disturbance left behind by earlier eras of mining can be addressed rather than extended. And value that would otherwise leave a region on a haul truck, once and permanently, instead stays attached to the ground it came from.</p>
+      <p class="body-text" style="margin-top:1.25rem;">The framework sets out how stewardship obligations across all three estates are organized and to whom they are owed. It describes governance, not financial returns.</p>
+    </div>
+<div>
+  <img src="assets/Tripartite-Estate-Framework-Diagram650.jpg" alt="Tripartite Estate Framework diagram showing the mineral, biological, and social estates" width="100%"
+    style="cursor:zoom-in;"
+    onclick="document.getElementById('tri-lightbox').style.display='flex'">
+</div>
+
+<!-- Lightbox overlay -->
+<div id="tri-lightbox"
+  style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.88);align-items:center;justify-content:center;cursor:zoom-out;backdrop-filter:blur(6px);"
+  onclick="this.style.display='none'">
+  <img src="assets/Tripartite-Estate-Framework-Diagram1080.jpg" alt="Tripartite Estate Framework diagram"
+    style="max-width:92vw;max-height:92vh;object-fit:contain;box-shadow:0 0 60px rgba(0,0,0,.6);">
+</div>
+</section>
+
+<!-- ══════════════════════════════════════ CLOSING ══════════════════════════════════════ -->
+<section style="background:var(--black);">
+  <div class="rg-prose" style="text-align:center; padding-bottom:4rem;">
+    <p class="lead" style="opacity:.95;">There is already enough gold above ground to serve every purpose gold is actually put to, several times over. What is left below ground does not need to come up to be worth something.</p>
+    <p style="opacity:.6;">It only needs to be found, verified, described, and left alone.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ CONTACT ══════════════════════════════════════ -->
+<section class="contact-section" id="contact">
+
+  <div class="contact-header">
+    <span class="section-label">Get in Touch</span>
+    <h2 class="display">Contact <em>Us</em></h2>
+  </div>
+
+  <div class="contact-grid">
+
+    <!-- LEFT — Contact Info -->
+    <div class="contact-info">
+
+      <div class="contact-info-item">
+        <div class="contact-info-icon">&#9993;</div>
+        <div>
+          <span class="contact-info-label">Email</span>
+          <p class="contact-info-text"><a href="mailto:info@realassets.foundation" style="color:inherit;">info@realassets.foundation</a></p>
+        </div>
+      </div>
+
+      <div class="contact-info-item">
+        <div class="contact-info-icon">&#9672;</div>
+        <div>
+          <span class="contact-info-label">Landowners and Estate Holders</span>
+          <p class="contact-info-text">If you hold mineral rights or patented ground and want to know whether it could qualify, start here.</p>
+        </div>
+      </div>
+
+      <div class="contact-info-item">
+        <div class="contact-info-icon">&#9671;</div>
+        <div>
+          <span class="contact-info-label">General Inquiries</span>
+          <p class="contact-info-text">Partnerships, media, technical questions, and conversations about the framework.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT — Form -->
+    <div class="contact-form-wrap">
+
+      <form id="rg-contact-form" novalidate>
+
+        <input type="hidden" name="apiKey"     value="sf_djm4df4m45f6b89n8ke1l64d">
+        <input type="hidden" name="redirectTo" value="">
+        <input type="hidden" name="replyTo"    id="rg-reply-to" value="">
+        <!-- Honeypot — must stay empty -->
+        <input type="text" name="honeypot" style="display:none" tabindex="-1" autocomplete="off">
+
+        <!-- Name + Phone row -->
+        <div class="rg-row">
+          <div class="rg-field">
+            <label for="rg-name">Name</label>
+            <input type="text" id="rg-name" name="name" placeholder="Your name" maxlength="100" required>
+          </div>
+          <div class="rg-field">
+            <label for="rg-phone">Phone <span style="opacity:.4;font-size:.9em">(optional)</span></label>
+            <input type="tel" id="rg-phone" name="phone" placeholder="+1 (555) 000-0000">
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="rg-field">
+          <label for="rg-email">Email</label>
+          <input type="email" id="rg-email" name="email" placeholder="your@email.com" required>
+        </div>
+
+        <!-- Inquiry type. No investment or offering options. -->
+        <div class="rg-field">
+          <label for="rg-type">Inquiry Type</label>
+          <select id="rg-type" name="subject">
+            <option value="" disabled selected>Select a topic</option>
+            <option value="General Information">General Information</option>
+            <option value="Landowner or Mineral Estate Holder">Landowner or Mineral Estate Holder</option>
+            <option value="Technical or Geological">Technical or Geological</option>
+            <option value="Advisor or Professional">Advisor or Professional</option>
+            <option value="Partnership">Partnership</option>
+            <option value="Media">Media</option>
+          </select>
+        </div>
+
+        <!-- Message -->
+        <div class="rg-field">
+          <label for="rg-message">Message</label>
+          <textarea id="rg-message" name="message" placeholder="How can we help?"></textarea>
+        </div>
+
+        <label class="rg-consent" for="rg-consent-box">
+          <input type="checkbox" id="rg-consent-box" name="consent" value="yes" required>
+          <span>I agree that my details may be stored and used to respond to this
+          message, as described in the <a href="/privacy" style="color:var(--gold);">Privacy Policy</a>.
+          Submitting this form does not create any investment relationship and is
+          not an indication of interest in any security.</span>
+        </label>
+
+        <div class="g-recaptcha" data-sitekey="6LfEB44sAAAAAPaImYeibIVWYsm_z7tL_mF01XZU"></div>
+        <button type="submit" class="rg-submit" id="rg-submit-btn">Send Message</button>
+
+        <div class="rg-message" id="rg-success" style="display:none;"></div>
+        <div class="rg-message" id="rg-error" style="display:none;"></div>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+      </form>
+
+    </div><!-- .contact-form-wrap -->
+
+  </div><!-- .contact-grid -->
+
+</section>
+
+<!-- ══════════════════════════════════════ DISCLOSURES ══════════════════════════════════════ -->
+<section id="disclosures" style="background:var(--black); padding:5rem 0 2rem;">
+  <div class="rg-legend">
+    <h5>Important Disclosures</h5>
+
+    <p><strong>Informational only.</strong> This website describes a framework and a
+    standard in general terms. It does not describe any specific property, and it is
+    not an offer to sell, or a solicitation of an offer to buy, any security or any
+    interest in real property. It is not investment, legal, or tax advice, and it is
+    not a recommendation. No offering is made by means of this website.</p>
+
+    <p><strong>Mineral estimates.</strong> Geological certification referenced here is
+    a professional certification of mineralization in place, stated at the property
+    aggregate level, prepared by a Certified Professional Geologist of the American
+    Institute of Professional Geologists. Such certification is an estimate and not a
+    statement of reserves. It is prepared within an independent framework and is not
+    prepared under NI 43-101, S-K 1300, or any equivalent regulatory reporting code.
+    Mineral estimates are inherently uncertain and may be revised. No quantity of gold
+    or gold equivalent is attributed to, located within, or represented to be present
+    in any individual block or subdivision of an estate.</p>
+
+    <p><strong>Industry figures.</strong> Statistics regarding global gold production
+    and above-ground stock are drawn from published World Gold Council data for 2025
+    and are stated as of that date. Figures describing material moved per ounce
+    produced are illustrative ranges derived from published ore grades and vary
+    substantially by deposit, mining method, and operator.</p>
+
+    <p><strong>Environmental statements.</strong> Descriptions of stewardship and
+    ecological outcomes describe the intended design of the framework. They are not
+    quantified environmental claims, offsets, or credits, and they should not be read
+    as a representation that any particular ecological result has been achieved or
+    measured.</p>
+
+    <p><strong>Forward-looking statements.</strong> Statements about plans, structures,
+    intentions, or expected outcomes are forward-looking and subject to risk and
+    uncertainty. Actual results may differ materially.</p>
+
+    <p><strong>Entities.</strong> Real Assets Foundation administers the verification
+    framework and the Real Assets Registry and performs independent governance and
+    certification functions. It does not sponsor, offer, or sell securities.
+    Regenerative Assets LLC provides technical resources and operational support. Each
+    entity referenced is legally distinct, and statements about one should not be read
+    as statements about another.</p>
+
+    <p><strong>Site operator.</strong> This website is operated by
+    [ENTITY NAME TO BE CONFIRMED].</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ FOOTER ══════════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="assets/RealGold-Logo-Horizontal.png" alt="RealGold Logo" class="Logo" width="182" height="auto">
+      <p>Value rooted in the land. Verified independently, described precisely, and left where it is.</p>
+    </div>
+
+    <div class="footer-col">
+      <h4>The Model</h4>
+      <ul>
+        <li><a href="#premise">The Premise</a></li>
+        <li><a href="#asset">The Asset</a></li>
+        <li><a href="#standard">The Standard</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Learn</h4>
+      <ul>
+        <li><a href="/verification">Verification Framework</a></li>
+        <li><a href="/block-model">Earth Block Model</a></li>
+        <li><a href="/registry">Real Assets Registry</a></li>
+        <li><a href="/estates">The Three Estates</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="/foundation">Real Assets Foundation</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#disclosures">Disclosures</a></li>
+        <li><a href="/legal">Legal</a></li>
+        <li><a href="/privacy">Privacy</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 Real.Gold. All rights reserved. Informational only. Not an offer to sell or a solicitation of an offer to buy any security. Not investment, legal, or tax advice. See <a href="#disclosures" style="color:inherit;">Disclosures</a>.</p>
+    <p style="color: var(--gold); font-size:.7rem; letter-spacing:.15em;">REAL.GOLD</p>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════ COOKIE / ANALYTICS CONSENT ══════════════════════════════════════ -->
+<div id="rg-cookie" role="dialog" aria-live="polite" aria-label="Analytics consent">
+  <span>We use analytics to understand how this site is used. No analytics run unless you agree.</span>
+  <button type="button" id="rg-cookie-no">Decline</button>
+  <button type="button" class="primary" id="rg-cookie-yes">Accept</button>
+</div>
+
+<script>
+/* Analytics consent gate. GA loads only after affirmative consent. */
+(function () {
+  var KEY = 'rg-analytics-consent';
+  var bar = document.getElementById('rg-cookie');
+
+  function loadGA() {
+    if (window.__rgGALoaded) return;
+    window.__rgGALoaded = true;
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-R2JJR4WJEV';
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { dataLayer.push(arguments); };
+    gtag('js', new Date());
+    gtag('config', 'G-R2JJR4WJEV', { anonymize_ip: true });
+  }
+
+  var stored = null;
+  try { stored = localStorage.getItem(KEY); } catch (e) {}
+
+  if (stored === 'yes') { loadGA(); }
+  else if (stored !== 'no') { bar.style.display = 'flex'; }
+
+  document.getElementById('rg-cookie-yes').addEventListener('click', function () {
+    try { localStorage.setItem(KEY, 'yes'); } catch (e) {}
+    bar.style.display = 'none';
+    loadGA();
+  });
+  document.getElementById('rg-cookie-no').addEventListener('click', function () {
+    try { localStorage.setItem(KEY, 'no'); } catch (e) {}
+    bar.style.display = 'none';
+  });
+})();
+</script>
+
+<script>
+(function () {
+
+  var form    = document.getElementById('rg-contact-form');
+  var btn     = document.getElementById('rg-submit-btn');
+  var success = document.getElementById('rg-success');
+  var error   = document.getElementById('rg-error');
+
+  if (!form) return;
+
+  /* Hide both messages on page load */
+  success.style.display = 'none';
+  error.style.display   = 'none';
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    /* ── Basic client-side validation ── */
+    var name    = document.getElementById('rg-name').value.trim();
+    var email   = document.getElementById('rg-email').value.trim();
+    var consent = document.getElementById('rg-consent-box').checked;
+
+    /* Reset any previous messages */
+    success.className     = 'rg-message';
+    success.style.display = 'none';
+    error.className       = 'rg-message';
+    error.style.display   = 'none';
+
+    if (!name || !email) {
+      error.textContent   = 'Please fill in your name and email.';
+      error.className     = 'rg-message error';
+      error.style.display = 'block';
+      error.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    /* Added: consent is required before any personal data is transmitted. */
+    if (!consent) {
+      error.textContent   = 'Please agree to the Privacy Policy before sending.';
+      error.className     = 'rg-message error';
+      error.style.display = 'block';
+      error.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    /* ── Wire up reply-to ── */
+    document.getElementById('rg-reply-to').value = email;
+
+    /* ── Build form data ── */
+    var data = new FormData(form);
+
+    /* ── Disable button while sending ── */
+    btn.disabled    = true;
+    btn.textContent = 'Sending…';
+
+    fetch('https://api.staticforms.dev/submit', {
+      method: 'POST',
+      body: data
+    })
+    .then(function (res) {
+      if (res.ok) {
+        form.innerHTML =
+          '<div class="rg-message success" style="display:block; font-size:1rem; padding:2rem; text-align:center;">' +
+          '✓ Message sent. We will be in touch shortly.' +
+          '</div>';
+        document.getElementById('contact').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        throw new Error('Server error ' + res.status);
+      }
+    })
+    .catch(function () {
+      error.textContent   = 'Something went wrong. Please email us directly at info@realassets.foundation';
+      error.className     = 'rg-message error';
+      error.style.display = 'block';
+      error.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      btn.disabled    = false;
+      btn.textContent = 'Send Message';
+    });
+
+  });
+
+})();
+</script>
+<script>
+(function() {
+  var nav = document.querySelector('nav');
+  var links = nav.querySelector('.nav-links');
+  var cta = nav.querySelector('.nav-cta');
+
+  var btn = document.createElement('button');
+  btn.className = 'nav-hamburger';
+  btn.setAttribute('aria-label', 'Toggle menu');
+  btn.innerHTML = '<span></span><span></span><span></span>';
+  nav.appendChild(btn);
+
+  if (cta) {
+    var mobileCta = cta.cloneNode(true);
+    mobileCta.className = 'nav-close-cta';
+    links.appendChild(mobileCta);
+  }
+
+  btn.addEventListener('click', function() {
+    var isOpen = links.classList.toggle('open');
+    btn.classList.toggle('active', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+
+  links.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', function() {
+      links.classList.remove('open');
+      btn.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+  });
+})();
+</script>
+ <script type="module">
+    (async ()=>{
+      let THREE;
+      try { THREE = await import('three'); }
+      catch{ THREE = await import('https://unpkg.com/three@0.160.0/build/three.module.js'); }
+
+      let MarchingCubes = null;
+      try { MarchingCubes = (await import('three/addons/objects/MarchingCubes.js')).MarchingCubes; }
+      catch{ try { MarchingCubes = (await import('https://unpkg.com/three@0.160.0/examples/jsm/objects/MarchingCubes.js')).MarchingCubes; } catch{} }
+
+      const container = document.getElementById('rg-root');
+      const IS_MOBILE = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      const supportsWebGL = (() => { try{ const c=document.createElement('canvas'); return !!(c.getContext('webgl')||c.getContext('experimental-webgl')); }catch(e){ return false; } })();
+      if(!supportsWebGL){ container.innerHTML='<div class="rg-fallback">Your device does not support WebGL.</div>'; return; }
+
+      // Transparent renderer
+      const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true, powerPreference: IS_MOBILE ? 'low-power' : 'high-performance' });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, IS_MOBILE?1.25:2));
+      renderer.setSize(container.clientWidth, container.clientHeight);
+      renderer.setClearColor(0x000000, 0); // fully transparent
+      renderer.localClippingEnabled = true;
+      container.appendChild(renderer.domElement);
+
+      const scene = new THREE.Scene();
+
+      // Lights for the gold nugget
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+      scene.add(ambientLight);
+      const dirLight = new THREE.DirectionalLight(0xffffff, 0.6);
+      dirLight.position.set(1, 1, 1);
+      scene.add(dirLight);
+
+      // Camera
+      let camera;
+      const ORTHO_SIZE = 2.05;
+      function makeOrtho(){
+        const aspect = container.clientWidth/container.clientHeight;
+        const h=ORTHO_SIZE, w=ORTHO_SIZE*aspect;
+        camera = new THREE.OrthographicCamera(-w, w, h, -h, 0.1, 100);
+        camera.position.set(4,4,4);
+        camera.lookAt(0,0,0);
+      }
+      makeOrtho();
+      addEventListener('resize', ()=>{ renderer.setSize(container.clientWidth, container.clientHeight); makeOrtho(); });
+
+      // Constants
+      const SIZE=2.4, HALF=SIZE/2;
+      const STRATA_COUNT = IS_MOBILE ? 18 : 32;
+      const SCAN_H = 0.008*SIZE;
+      const gridTop = IS_MOBILE ? 48 : 64;
+
+      // Utils
+      function lerp(a,b,t){return a+(b-a)*t}
+      function clamp01(x){ return Math.max(0, Math.min(1, x)); }
+      function fade(t){return t*t*t*(t*(t*6-15)+10)}
+      function mulberry32(a){return function(){var t=a+=0x6D2B79F5;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296}}
+      function yFor(t){ return THREE.MathUtils.lerp(HALF-0.002-SCAN_H*0.5, -HALF+0.002+SCAN_H*0.5, t); }
+
+      // Cube shell
+      const cube = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(SIZE,SIZE,SIZE)), new THREE.LineBasicMaterial({ color:0xeaeaea, transparent:true, opacity:0.85 }));
+      scene.add(cube);
+
+      // Crown landmass
+      const landGeo = new THREE.PlaneGeometry(SIZE*0.96, SIZE*0.96, gridTop, gridTop);
+      const seed=777; const rand=mulberry32(seed);
+      const grad=[]; for(let i=0;i<=gridTop;i++) grad[i]=Array(gridTop+1).fill(0).map(_=>({x:rand()*2-1,y:rand()*2-1}));
+      function noise(x,y){ const xi=Math.floor(x), yi=Math.floor(y), xf=x-xi, yf=y-yi; function dot(ix,iy){ const g=grad[(iy%(gridTop+1)+gridTop+1)%(gridTop+1)][(ix%(gridTop+1)+gridTop+1)%(gridTop+1)]; return g.x*(x-ix)+g.y*(y-iy);} const u=fade(xf), v=fade(yf); const n00=dot(xi,yi), n10=dot(xi+1,yi), n01=dot(xi,yi+1), n11=dot(xi+1,yi+1); return lerp(lerp(n00,n10,u), lerp(n01,n11,u), v); }
+      function fbm(x,y){ let val=0, amp=0.6, freq=1.0; for(let i=0;i<4;i++){ val+=amp*noise(x*freq,y*freq); amp*=0.5; freq*=2.02;} return val; }
+      const lpos=landGeo.attributes.position;
+      for(let i=0;i<lpos.count;i++){ const x=lpos.getX(i)/SIZE+10.5, y=lpos.getY(i)/SIZE+10.5; lpos.setZ(i, fbm(x,y)*0.48*HALF); }
+      lpos.needsUpdate=true; landGeo.computeVertexNormals();
+      const land = new THREE.LineSegments(new THREE.EdgesGeometry(landGeo), new THREE.LineBasicMaterial({ color:0xeaeaea, transparent:true, opacity:1 }));
+      land.rotation.x=-Math.PI/2; land.position.y=HALF-0.001; scene.add(land);
+      const topHeights=new Float32Array(lpos.count); for(let i=0;i<lpos.count;i++) topHeights[i]=lpos.getZ(i);
+
+      // Strata
+      const strataGroup=new THREE.Group(); scene.add(strataGroup);
+      function makeStratum(i){ const t=i/(STRATA_COUNT-1); const g=new THREE.PlaneGeometry(SIZE*0.96,SIZE*0.96,gridTop,gridTop); const p=g.attributes.position; const blend=lerp(0.75,0.35,t), amp=lerp(0.20,0.10,t)*HALF, freq=1.0+t*1.6, off=t*3.14159; for(let j=0;j<p.count;j++){ const x=p.getX(j)/SIZE+10.5, y=p.getY(j)/SIZE+10.5; const base=topHeights[j]||0; const n=fbm((x+off)*freq,(y-off)*freq); const candidate=(blend*base + (1.0-blend)*(n*0.48*HALF)); p.setZ(j,(candidate/(0.48*HALF))*amp);} p.needsUpdate=true; g.computeVertexNormals(); const edges=new THREE.EdgesGeometry(g); const opacity=lerp(0.5,0.1,t); const mat=new THREE.LineBasicMaterial({ color:0xeaeaea, transparent:true, opacity}); const mesh=new THREE.LineSegments(edges,mat); mesh.rotation.x=-Math.PI/2; mesh.position.y=yFor(t); mesh.userData.layerIndex=i; return mesh; }
+      for(let i=1;i<STRATA_COUNT;i++) strataGroup.add(makeStratum(i));
+
+      // Gold seam particles (surface distributed)
+      const goldGroup=new THREE.Group(); scene.add(goldGroup);
+      function makeGoldPoints(i){ const t=i/(STRATA_COUNT-1); const y=yFor(t); const count=IS_MOBILE?35:65; const geo=new THREE.BufferGeometry(); const pos=new Float32Array(count*3); let n=0, tries=0; while(n<count && tries<count*10){ tries++; const x=(Math.random()-0.5)*SIZE*0.92; const z=(Math.random()-0.5)*SIZE*0.92; const sx=x/SIZE+10.5+t*3.14159; const sy=z/SIZE+10.5-t*3.14159; const freq=1.0+t*1.6; const v=fbm(sx*freq, sy*freq); if(v>0.36+t*0.1){ pos[n*3]=x; pos[n*3+1]=y+(Math.random()-0.5)*SCAN_H*0.6; pos[n*3+2]=z; n++; } } geo.setAttribute('position', new THREE.BufferAttribute(pos.subarray(0,n*3),3)); const mat=new THREE.PointsMaterial({ color:0xc9a227, size: IS_MOBILE ? 0.016 : 0.021, transparent:true, opacity:0.50, depthWrite:false, blending:THREE.AdditiveBlending}); const pts=new THREE.Points(geo,mat); pts.userData.layerIndex=i; return pts; }
+      for(let i=0;i<STRATA_COUNT;i++) goldGroup.add(makeGoldPoints(i));
+
+      // Slice & glow (with trailing slabs)
+      const SCAN = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(SIZE*0.985, SCAN_H, SIZE*0.985)), new THREE.LineBasicMaterial({ color:0xc9a227 }));
+      const GLOW = new THREE.Mesh(new THREE.BoxGeometry(SIZE*0.985, SCAN_H, SIZE*0.985), new THREE.MeshBasicMaterial({ color:0xc9a227, transparent:true, opacity:0.12, blending:THREE.AdditiveBlending }));
+      const GLOW_T1 = GLOW.clone(); GLOW_T1.material = GLOW.material.clone(); GLOW_T1.material.opacity = 0.07; GLOW_T1.scale.y = 1.8;
+      const GLOW_T2 = GLOW.clone(); GLOW_T2.material = GLOW.material.clone(); GLOW_T2.material.opacity = 0.04; GLOW_T2.scale.y = 3.0;
+      scene.add(SCAN, GLOW, GLOW_T1, GLOW_T2);
+
+      // Clip land above slice
+      const plane=new THREE.Plane(new THREE.Vector3(0,-1,0), 0);
+      const clipMat=new THREE.MeshBasicMaterial({ color:0xffffff, wireframe:true, clippingPlanes:[plane], transparent:true, opacity:0.18 });
+      const clipLand=new THREE.Mesh(landGeo.clone(), clipMat); clipLand.rotation.x=-Math.PI/2; clipLand.position.y=HALF-0.001; scene.add(clipLand);
+
+      // --- Orebody (2x size, diagonal) ---
+      let Marching = null;
+      try { Marching = MarchingCubes; } catch{}
+      const useMC = !!Marching;
+      let oreUniforms;
+
+      if(useMC){
+        const res = IS_MOBILE ? 20 : 28;
+        oreUniforms = {
+          uSliceY: { value: 0.0 },
+          uSliceLagY: { value: 0.0 },
+          uHighlightWidth: { value: 0.10 },
+          uBaseColor: { value: new THREE.Color(0x4a3d12) },
+          uHiColor: { value: new THREE.Color(0xc9a227) },
+          uOpacity: { value: 0.22 }
+        };
+        const oreMat = new THREE.ShaderMaterial({
+          uniforms: oreUniforms,
+          transparent: true,
+          blending: THREE.NormalBlending,
+          vertexShader: `
+            uniform float uSliceY;
+            uniform float uSliceLagY;
+            uniform float uHighlightWidth;
+            varying float vH;
+            varying vec3 vNormal;
+            varying vec3 vWorld;
+            void main(){
+              vNormal = normalize(normalMatrix * normal);
+              vec4 world = modelMatrix * vec4(position,1.0);
+              vWorld = world.xyz;
+              float d0 = abs(vWorld.y - uSliceY);
+              float d1 = abs(vWorld.y - uSliceLagY);
+              float d = min(d0, d1);
+              vH = smoothstep(uHighlightWidth*1.4, 0.0, d);
+              gl_Position = projectionMatrix * viewMatrix * world;
+            }
+          `,
+          fragmentShader: `
+            precision mediump float;
+            varying float vH;
+            varying vec3 vNormal;
+            uniform vec3 uBaseColor;
+            uniform vec3 uHiColor;
+            uniform float uOpacity;
+            void main(){
+              float lambert = clamp(dot(vNormal, vec3(0.5, 0.9, 0.3)), 0.0, 1.0);
+              vec3 base = uBaseColor * (0.35 + 0.85*lambert);
+              vec3 hi = mix(base, uHiColor, vH*vH) + vH*0.2;
+              float a = uOpacity * (0.65 + 0.9*vH);
+              gl_FragColor = vec4(hi, a);
+            }
+          `
+        });
+
+        const mc = new Marching(res, oreMat, true, true);
+        mc.position.set(0,0,0);
+        mc.scale.set(SIZE*0.96, SIZE*0.96, SIZE*0.96);
+        mc.isolation = 55;
+        scene.add(mc);
+
+        function buildOrebody(){
+          mc.reset();
+          const rng = mulberry32(424242);
+          const nBalls = IS_MOBILE ? 22 : 28;
+          const p0 = new THREE.Vector3(0.14, 0.20, 0.86);
+          const p1 = new THREE.Vector3(0.86, 0.88, 0.14);
+          const dir = new THREE.Vector3().subVectors(p1,p0);
+          for(let i=0;i<nBalls;i++){
+            const t = i/(nBalls-1);
+            const pt = new THREE.Vector3().copy(p0).addScaledVector(dir, t);
+            const wob = (Math.sin(t*8.0)+Math.sin(t*3.5+1.2))*0.010;
+            pt.x += (rng()-0.5)*0.05 + wob;
+            pt.y += (rng()-0.5)*0.03;
+            pt.z += (rng()-0.5)*0.05 - wob;
+            const thickness = 2.0 * (0.045 + 0.06*Math.sin(t*Math.PI));
+            mc.addBall(pt.x, pt.y, pt.z, thickness, 0.8);
+            if(i % 5 === 0){
+              const b = pt.clone().add(new THREE.Vector3((rng()-0.5)*0.14, (rng()-0.5)*0.06, (rng()-0.5)*0.14));
+              mc.addBall(b.x, b.y, b.z, thickness*0.8, 0.8);
+            }
+          }
+          for(let j=0;j< (IS_MOBILE? 22:32); j++){
+            const qx = 0.16 + rng()*0.68;
+            const qy = 0.16 + rng()*0.68;
+            const qz = 0.16 + rng()*0.68;
+            mc.addBall(qx,qy,qz, 0.036, 0.9);
+          }
+          mc.update();
+          mc.rotation.set(0.28, 0.0, -0.18);
+        }
+        buildOrebody();
+
+      } else {
+        // Fallback: denser, wider diagonal point-cloud orebody (2x envelope)
+        oreUniforms = { uSliceY:{value:0.0}, uSliceLagY:{value:0.0}, uW:{value:0.10} };
+        const ORE_POINTS = IS_MOBILE ? 5000 : 8000;
+        const rng = mulberry32(424242);
+        const pos = new Float32Array(ORE_POINTS*3);
+        const p0 = new THREE.Vector3(-HALF*0.65, -HALF*0.25, HALF*0.65);
+        const p1 = new THREE.Vector3(HALF*0.65, HALF*0.65, -HALF*0.65);
+        const dir = new THREE.Vector3().subVectors(p1,p0);
+        for(let i=0;i<ORE_POINTS;i++){
+          const t = (i/ORE_POINTS);
+          const base = new THREE.Vector3().copy(p0).addScaledVector(dir, t + (rng()-0.5)*0.06);
+          base.x += (rng()-0.5)*0.60;
+          base.y += (rng()-0.5)*0.34;
+          base.z += (rng()-0.5)*0.60;
+          pos[i*3+0]=base.x; pos[i*3+1]=base.y; pos[i*3+2]=base.z;
+        }
+        const geo = new THREE.BufferGeometry();
+        geo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+        const mat = new THREE.ShaderMaterial({
+          transparent:true, depthWrite:false, blending:THREE.AdditiveBlending,
+          uniforms:{
+            uSliceY: oreUniforms.uSliceY,
+            uSliceLagY: oreUniforms.uSliceLagY,
+            uW: oreUniforms.uW,
+            uBase: { value: new THREE.Color(0x4a3d12) },
+            uGold: { value: new THREE.Color(0xc9a227) },
+            uSize: { value: IS_MOBILE? 2.0 : 2.8 }
+          },
+          vertexShader:`
+            uniform float uSliceY; uniform float uSliceLagY; uniform float uW; uniform float uSize;
+            varying float vH;
+            void main(){
+              vec4 world = modelMatrix * vec4(position,1.0);
+              float d0 = abs(world.y - uSliceY);
+              float d1 = abs(world.y - uSliceLagY);
+              float d = min(d0,d1);
+              vH = smoothstep(uW*1.2, 0.0, d);
+              gl_Position = projectionMatrix * viewMatrix * world;
+              gl_PointSize = uSize * (1.0 + 1.6*vH);
+            }
+          `,
+          fragmentShader:`
+            precision mediump float;
+            varying float vH;
+            uniform vec3 uBase; uniform vec3 uGold;
+            void main(){
+              vec2 uv = gl_PointCoord - 0.5;
+              float r = length(uv);
+              if(r>0.5) discard;
+              float core = smoothstep(0.5, 0.0, r);
+              vec3 col = mix(uBase, uGold, vH);
+              float a = core * (0.10 + 0.90*vH);
+              gl_FragColor = vec4(col, a);
+            }
+          `
+        });
+        const pts = new THREE.Points(geo, mat);
+        scene.add(pts);
+      }
+
+      // Sparkle points near slice
+      const sparkleGeo = new THREE.BufferGeometry();
+      const SPARK = IS_MOBILE ? 800 : 1300;
+      const spos = new Float32Array(SPARK*3);
+      for(let i=0;i<SPARK;i++){
+        spos[i*3 + 0] = (Math.random()-0.5)*SIZE*0.86;
+        spos[i*3 + 1] = (Math.random()-0.5)*SIZE*0.86;
+        spos[i*3 + 2] = (Math.random()-0.5)*SIZE*0.86;
+      }
+      sparkleGeo.setAttribute('position', new THREE.BufferAttribute(spos,3));
+      const sparkleMat = new THREE.ShaderMaterial({
+        transparent:true, depthWrite:false, blending:THREE.AdditiveBlending,
+        uniforms:{
+          uSliceY: { value: 0.0 },
+          uSliceLagY: { value: 0.0 },
+          uW: { value: 0.10 },
+          uSize: { value: IS_MOBILE? 1.6 : 2.0 },
+          uBase: { value: new THREE.Color(0x5a4a12) },
+          uGold: { value: new THREE.Color(0xc9a227) }
+        },
+        vertexShader:`
+          uniform float uSliceY; uniform float uSliceLagY; uniform float uW; uniform float uSize;
+          varying float vH;
+          void main(){
+            vec4 world = modelMatrix * vec4(position,1.0);
+            float d0 = abs(world.y - uSliceY);
+            float d1 = abs(world.y - uSliceLagY);
+            float d = min(d0,d1);
+            vH = smoothstep(uW*1.2, 0.0, d);
+            gl_Position = projectionMatrix * viewMatrix * world;
+            gl_PointSize = uSize * (1.0 + 1.4*vH);
+          }
+        `,
+        fragmentShader:`
+          precision mediump float;
+          varying float vH;
+          uniform vec3 uBase; uniform vec3 uGold;
+          void main(){
+            vec2 uv = gl_PointCoord - 0.5;
+            float r = length(uv);
+            if(r>0.5) discard;
+            float core = smoothstep(0.5, 0.0, r);
+            vec3 col = mix(uBase, uGold, vH);
+            float a = core * (0.05 + 0.95*vH);
+            gl_FragColor = vec4(col, a);
+          }
+        `
+      });
+      const spark = new THREE.Points(sparkleGeo, sparkleMat);
+      scene.add(spark);
+
+      // --- Gold Nugget ---
+      // COMPLIANCE EDIT: the nugget previously materialized and floated free at
+      // the top of the scan, which reads as recovered metal and contradicts the
+      // non-extractive thesis stated everywhere else on the page. The reveal is
+      // disabled by setting the threshold above the scan range. Geometry is
+      // retained so the change is trivially reversible if the team decides the
+      // visual is acceptable.
+      const nuggetGroup = new THREE.Group();
+      nuggetGroup.position.set(0, 0, 0);
+      scene.add(nuggetGroup);
+
+      const nuggetRng = mulberry32(888888);
+      const nuggetSize = IS_MOBILE ? 0.14 : 0.18;
+
+      const nuggetGeo = new THREE.IcosahedronGeometry(nuggetSize, 1);
+      const nuggetPos = nuggetGeo.attributes.position;
+      for(let i=0; i<nuggetPos.count; i++){
+        const x = nuggetPos.getX(i);
+        const y = nuggetPos.getY(i);
+        const z = nuggetPos.getZ(i);
+        const len = Math.sqrt(x*x + y*y + z*z);
+        const distortion = 0.7 + nuggetRng() * 0.6;
+        nuggetPos.setXYZ(i, x/len*nuggetSize*distortion, y/len*nuggetSize*distortion, z/len*nuggetSize*distortion);
+      }
+      nuggetPos.needsUpdate = true;
+      nuggetGeo.computeVertexNormals();
+
+      const nuggetMat = new THREE.MeshStandardMaterial({
+        color: 0xc9a227,
+        metalness: 0.85,
+        roughness: 0.25,
+        transparent: true,
+        opacity: 0,
+        emissive: 0xc9a227,
+        emissiveIntensity: 0.3
+      });
+      const nugget = new THREE.Mesh(nuggetGeo, nuggetMat);
+      nuggetGroup.add(nugget);
+
+      const glowGeo = new THREE.IcosahedronGeometry(nuggetSize * 1.5, 1);
+      const glowMat = new THREE.MeshBasicMaterial({
+        color: 0xc9a227,
+        transparent: true,
+        opacity: 0,
+        blending: THREE.AdditiveBlending,
+        side: THREE.BackSide
+      });
+      const glowMesh = new THREE.Mesh(glowGeo, glowMat);
+      nuggetGroup.add(glowMesh);
+
+      const nuggetLight = new THREE.PointLight(0xc9a227, 0, nuggetSize * 3);
+      nuggetLight.position.set(0, 0, 0);
+      nuggetGroup.add(nuggetLight);
+
+      nuggetGroup.visible = false;
+
+      // Set to 0.85 to restore the original reveal.
+      const NUGGET_THRESHOLD = 1.10; // > 1.0 disables the reveal entirely
+
+      // Animation state
+      let tAcc=0, dir=1;
+      const SPEED = IS_MOBILE ? 0.144 : 0.192; // slowed 20%
+      const clock=new THREE.Clock();
+      let userInteracting=false;
+      const RESUME_DELAY = 550;
+      let resumeTimer=null;
+
+      function setSliceFromX(clientX){
+        const r = renderer.domElement.getBoundingClientRect();
+        const nx = (clientX - r.left) / r.width;
+        tAcc = clamp01(nx);
+      }
+      function beginScrub(x){
+        userInteracting=true;
+        container.classList.add('scrubbing');
+        clearTimeout(resumeTimer);
+        setSliceFromX(x);
+      }
+      function moveScrub(x){ if(userInteracting) setSliceFromX(x); }
+      function endScrub(){
+        if(!userInteracting) return;
+        userInteracting=false;
+        container.classList.remove('scrubbing');
+        clearTimeout(resumeTimer);
+        resumeTimer = setTimeout(()=>{}, RESUME_DELAY);
+      }
+
+      renderer.domElement.addEventListener('pointerdown', (e)=>{ renderer.domElement.setPointerCapture(e.pointerId); beginScrub(e.clientX); e.preventDefault(); }, {passive:false});
+      renderer.domElement.addEventListener('pointermove', (e)=>{ moveScrub(e.clientX); }, {passive:true});
+      renderer.domElement.addEventListener('pointerup', (e)=>{ endScrub(); }, {passive:true});
+      renderer.domElement.addEventListener('pointercancel', (e)=>{ endScrub(); }, {passive:true});
+      renderer.domElement.addEventListener('pointerleave', (e)=>{ endScrub(); }, {passive:true});
+
+      // Visibility and pause when not in view
+      let visible=true;
+      const io=new IntersectionObserver(entries=>{
+        visible=entries[0]?.isIntersecting ?? true;
+        if(!visible) clock.stop(); else clock.start();
+      }, {threshold:0.1});
+      io.observe(container);
+
+      // trailing y positions for long decay
+      let yLag1 = 0.0, yLag2 = 0.0;
+
+      function renderFrame(){
+        const dt=clock.getDelta();
+        if(!userInteracting){
+          tAcc += dir * SPEED * dt;
+          if(tAcc>1){ tAcc=1; dir=-1; } else if(tAcc<0){ tAcc=0; dir=1; }
+        }
+        const y=yFor(tAcc);
+        const k1 = 4.0, k2 = 2.0;
+        yLag1 += (y - yLag1) * k1 * dt;
+        yLag2 += (y - yLag2) * k2 * dt;
+
+        SCAN.position.y = y;
+        GLOW.position.y = y;
+        GLOW_T1.position.y = yLag1;
+        GLOW_T2.position.y = yLag2;
+
+        plane.constant = HALF - y;
+
+        if(oreUniforms){
+          if(oreUniforms.uSliceY) oreUniforms.uSliceY.value = y;
+          if(oreUniforms.uSliceLagY) oreUniforms.uSliceLagY.value = yLag1;
+        }
+        sparkleMat.uniforms.uSliceY.value = y;
+        sparkleMat.uniforms.uSliceLagY.value = yLag1;
+
+        const et=clock.elapsedTime;
+        land.rotation.z = Math.sin(et*0.08)*0.002;
+        strataGroup.rotation.z = Math.sin(et*0.06)*0.0015;
+        const pulse = (Math.sin(et*3)+1)*0.5;
+        GLOW.material.opacity = 0.10 + 0.06*pulse;
+
+        const idxFloat=tAcc*(STRATA_COUNT-1), falloff=6;
+        strataGroup.children.forEach(child=>{ const d=Math.abs((child.userData.layerIndex||0)-idxFloat); const near=Math.max(0,1-d/falloff); child.material.opacity=THREE.MathUtils.lerp(0.05,0.6,near); child.material.color.setHex(d<0.5?0xffffff:0xeaeaea); });
+        goldGroup.children.forEach(pts=>{ const d=Math.abs((pts.userData.layerIndex||0)-idxFloat); const near=Math.max(0,1-d/falloff); pts.material.opacity=THREE.MathUtils.lerp(0.18,0.9,near); });
+
+        // Gold nugget visibility and animation
+        if(tAcc > NUGGET_THRESHOLD){
+          nuggetGroup.visible = true;
+          const nuggetFade = Math.min(1.0, (tAcc - NUGGET_THRESHOLD) / (1.0 - NUGGET_THRESHOLD));
+          const smoothFade = nuggetFade * nuggetFade * (3 - 2 * nuggetFade); // smoothstep
+
+          nuggetMat.opacity = smoothFade * 0.95;
+          glowMat.opacity = smoothFade * 0.25;
+          nuggetLight.intensity = smoothFade * 2.0;
+
+          nuggetGroup.rotation.y = et * 0.3;
+          nuggetGroup.rotation.x = Math.sin(et * 0.5) * 0.15;
+          nuggetGroup.position.y = Math.sin(et * 1.2) * 0.02;
+
+          const scalePulse = 1.0 + Math.sin(et * 2.0) * 0.05;
+          nugget.scale.setScalar(scalePulse);
+          glowMesh.scale.setScalar(scalePulse * 1.1);
+        } else {
+          nuggetGroup.visible = false;
+          nuggetMat.opacity = 0;
+          glowMat.opacity = 0;
+          nuggetLight.intensity = 0;
+        }
+
+        renderer.render(scene, camera);
+      }
+
+      if (renderer.setAnimationLoop) renderer.setAnimationLoop(()=>{ if(!visible) return; renderFrame(); });
+      else (function loop(){ if(visible) renderFrame(); requestAnimationFrame(loop); })();
+
+      renderer.domElement.addEventListener('webglcontextlost', (e)=>{ e.preventDefault(); setTimeout(()=>location.reload(), 150); }, false);
+    })();
+  </script>
+</body>
+</html>
