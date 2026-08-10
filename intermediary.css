@@ -1,0 +1,293 @@
+/* ══════════════════════════════════════════════════════════════
+   RealGold · Intermediary page supplement
+   Extends styles.css. Inherits all tokens, nav, footer and type.
+   Add nothing here that styles.css already provides.
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── PAGE HERO ── */
+/* The plate and its screen are one background stack on .im-hero.
+   Layer order is top-to-bottom: text pool, vertical fade, edge fade,
+   flat dimmer (THE DIAL), then the image itself.
+
+   The image path is NOT here. It is set inline on the <section> in
+   page.html via the --plate variable, so it resolves relative to the
+   HTML rather than to this stylesheet. */
+
+.im-hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  padding: 10rem 4rem 6rem;
+  overflow: hidden;
+
+  background-color: var(--black);
+  background-image:
+    radial-gradient(circle at 20% 78%, rgba(201,168,76,.10) 0%, transparent 52%),
+    radial-gradient(ellipse 44% 32% at 50% 44%,
+      rgba(10,10,8,.84) 0%, rgba(10,10,8,.44) 58%, transparent 82%),
+    linear-gradient(to bottom,
+      var(--black) 0%, rgba(10,10,8,.26) 20%, rgba(10,10,8,.12) 58%,
+      rgba(10,10,8,.70) 92%, var(--black) 100%),
+    linear-gradient(to right,
+      var(--black) 0%, transparent 14%, transparent 86%, var(--black) 100%),
+    linear-gradient(rgba(10,10,8,.30), rgba(10,10,8,.30)),
+    var(--plate, none);
+  background-repeat: no-repeat;
+  background-position: center, center, center, center, center, center 62%;
+  background-size: cover, cover, cover, cover, cover, cover;
+}
+
+.im-hero > * { position: relative; z-index: 2; }
+
+.im-hero h1 {
+  font-family: "Work Sans", sans-serif;
+  font-size: clamp(2.6rem, 6.4vw, 5.2rem);
+  font-weight: 100;
+  line-height: 1.06;
+  letter-spacing: -.01em;
+  color: var(--white);
+  margin-bottom: 1.75rem;
+  max-width: 16ch;
+  text-shadow: 0 2px 40px rgba(10,10,8,.95);
+}
+.im-hero h1 em { font-style: normal; color: var(--gold-light); }
+
+.im-hero-sub {
+  font-size: 1.15rem;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--text-muted);
+  max-width: 620px;
+  margin: 0 auto;
+  text-shadow: 0 1px 24px rgba(10,10,8,.95);
+}
+
+.im-hero-caption {
+  margin-top: 4rem;
+  font-size: .62rem;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  opacity: .35;
+}
+
+/* ── PILLAR ROW ── */
+.im-pillar-band {
+  background: var(--dark);
+  border-top: 1px solid rgba(201,168,76,.15);
+  border-bottom: 1px solid rgba(201,168,76,.15);
+  padding: 0 4rem;
+  margin-top: 0rem;
+}
+.im-pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.im-pillar {
+  padding: 2.5rem 2rem;
+  border-right: 1px solid rgba(201,168,76,.12);
+  text-align: left;
+}
+.im-pillar:last-child { border-right: none; }
+.im-pillar h3 {
+  font-family: "Work Sans", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: .6rem;
+}
+.im-pillar p {
+  font-size: .92rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  opacity: .85;
+}
+
+/* ── STATUS STRIP ── */
+.im-status {
+  margin-top: 3.5rem;
+  font-size: .68rem;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: .75;
+}
+
+/* ── NARRATIVE SECTIONS ── */
+.im-section { padding: 7rem 4rem; }
+.im-section.alt { background: var(--off-black); }
+.im-section.deep { background: var(--dark); }
+
+.im-inner { max-width: 1100px; margin: 0 auto; }
+.im-inner.narrow { max-width: 780px; }
+
+.im-lede {
+  color: var(--text-muted);
+  font-size: 1.15rem;
+  line-height: 1.85;
+  font-weight: 300;
+  max-width: 720px;
+}
+.im-lede + .im-lede { margin-top: 1.4rem; }
+.im-lede strong { color: var(--white); font-weight: 400; }
+
+.im-callout {
+  margin-top: 3rem;
+  padding: 2rem 2.5rem;
+  border-left: 2px solid var(--gold);
+  background: rgba(201,168,76,.04);
+}
+.im-callout p {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--text);
+  font-weight: 300;
+}
+
+/* ── FIGURE ── */
+.im-figure {
+  margin: 3.5rem auto 0;
+  max-width: 980px;
+  border: 1px solid rgba(201,168,76,.12);
+  background: var(--dark);
+  padding: 1.5rem;
+}
+.im-figure img,
+.im-figure svg { width: 100%; height: auto; display: block; }
+.im-figure figcaption {
+  margin-top: 1rem;
+  font-size: .7rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  opacity: .5;
+  text-align: center;
+}
+
+/* ── AUDIENCE INDEX ── */
+.im-aud-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 4rem;
+}
+.im-aud-card {
+  padding: 2.25rem 2rem;
+  border: 1px solid rgba(201,168,76,.1);
+  background: var(--dark);
+  text-decoration: none;
+  display: block;
+  transition: border-color .3s, transform .3s;
+}
+.im-aud-card:hover { border-color: rgba(201,168,76,.4); transform: translateY(-2px); }
+.im-aud-card h3 {
+  font-family: "Work Sans", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: .75rem;
+}
+.im-aud-card p {
+  font-size: .95rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+/* ── AUDIENCE DETAIL SECTIONS ── */
+.im-aud { padding: 7rem 4rem; border-top: 1px solid rgba(201,168,76,.08); }
+.im-aud:nth-of-type(even) { background: var(--off-black); }
+
+.im-aud-head { max-width: 1100px; margin: 0 auto 3.5rem; }
+.im-aud-head h2 {
+  font-family: "Work Sans", sans-serif;
+  font-size: clamp(1.9rem, 3.5vw, 2.9rem);
+  font-weight: 300;
+  line-height: 1.15;
+  color: var(--white);
+  max-width: 22ch;
+}
+.im-aud-head h2 em { font-style: normal; color: var(--gold-light); }
+
+.im-points {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+}
+.im-point { border-top: 1px solid rgba(201,168,76,.18); padding-top: 1.5rem; }
+.im-point .n {
+  display: block;
+  font-family: "Work Sans", sans-serif;
+  font-size: 2.2rem; font-weight: 300;
+  color: var(--gold-light);
+  line-height: 1; margin-bottom: 1rem;
+}
+.im-point h4 {
+  font-family: "Work Sans", sans-serif;
+  font-size: 1.05rem; font-weight: 400;
+  color: var(--white); margin-bottom: .6rem;
+}
+.im-point p { font-size: .95rem; color: var(--text-muted); line-height: 1.75; }
+
+.im-constraint {
+  max-width: 1100px; margin: 3rem auto 0;
+  padding: 1.5rem 0 0;
+  border-top: 1px solid rgba(201,168,76,.08);
+  font-size: .95rem;
+  color: var(--text-muted);
+  opacity: .7;
+}
+
+.im-question {
+  max-width: 1100px; margin: 2.5rem auto 0;
+  font-size: 1.3rem;
+  font-weight: 300;
+  color: var(--gold-light);
+  line-height: 1.5;
+}
+
+/* ── STEWARDSHIP BLOCK ── */
+.im-steward {
+  max-width: 1100px; margin: 3.5rem auto 0;
+  padding: 2.5rem;
+  border: 1px solid rgba(201,168,76,.12);
+  background: rgba(201,168,76,.025);
+}
+.im-steward h4 {
+  font-size: .65rem; letter-spacing: .3em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 1.25rem;
+}
+.im-steward p { font-size: 1rem; color: var(--text-muted); line-height: 1.85; }
+
+/* ── DISCLOSURES ── */
+.im-disclosures { padding: 5rem 4rem; background: var(--dark); }
+.im-disclosures .im-inner { max-width: 900px; }
+.im-disclosures h2 {
+  font-size: .65rem; letter-spacing: .3em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 2rem;
+}
+.im-disclosures p {
+  font-size: .78rem;
+  line-height: 1.85;
+  color: var(--text-muted);
+  opacity: .6;
+}
+.im-disclosures p + p { margin-top: 1rem; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .im-hero { padding: 8rem 1.5rem 4rem; min-height: 88vh; }
+  .im-hero { background-position: center, center, center, center, center, center 58%; }
+  .im-hero-caption { margin-top: 2.5rem; }
+  .im-pillar-band { padding: 0 1.5rem; margin-top: 0; }
+  .im-pillars { grid-template-columns: 1fr; }
+  .im-pillar { border-right: none; border-bottom: 1px solid rgba(201,168,76,.12); }
+  .im-pillar:last-child { border-bottom: none; }
+  .im-section, .im-aud, .im-disclosures { padding: 4rem 1.5rem; }
+  .im-points { grid-template-columns: 1fr; gap: 2rem; }
+  .im-figure { padding: .75rem; }
+}
