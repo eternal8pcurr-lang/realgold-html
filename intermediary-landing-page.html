@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Real Gold &mdash; For Intermediaries &amp; Advisors</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+:root{
+  --gold:#C4993B;
+  --gold-light:#E8D5A3;
+  --ink:#0C1118;
+  --panel-a:#151D27;
+  --panel-b:#10161E;
+  --panel-c:#0D1219;
+  --text:#E7E2D6;
+  --text-dim:rgba(231,226,214,0.62);
+  --text-faint:rgba(231,226,214,0.42);
+  --rule:rgba(232,213,163,0.16);
+  --rule-soft:rgba(232,213,163,0.09);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--ink);
+  color:var(--text);
+  font-size:14px;
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+
+.wrap{max-width:860px;margin:0 auto;padding:0 28px;}
+
+/* ============ TOP BAND ============ */
+.topband{border-bottom:1px solid var(--rule-soft);background:#080C11;padding:11px 0;}
+.topband .wrap{display:flex;justify-content:center;}
+.topband span{
+  font-size:9.5px;letter-spacing:3.4px;text-transform:uppercase;
+  color:var(--gold-light);font-weight:500;text-align:center;
+}
+
+/* ============ HEADER ============ */
+header{
+  background:linear-gradient(165deg,var(--panel-a) 0%,var(--panel-b) 70%,var(--panel-c) 100%);
+  border-bottom:1px solid var(--rule-soft);
+  padding:30px 0 44px;
+}
+.logo{display:flex;align-items:center;gap:11px;margin-bottom:40px;}
+.logo img.sym{height:34px;width:auto;display:block;}
+.logo img.word{height:21px;width:auto;display:block;}
+
+h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:38px;font-weight:600;line-height:1.14;
+  color:#F3EEE2;max-width:640px;margin-bottom:12px;
+}
+h1 em{font-style:italic;color:var(--gold-light);}
+.hero-cue{display:flex;align-items:flex-start;gap:6px;}
+.hero-sub{font-size:15px;color:var(--text-dim);max-width:560px;line-height:1.68;}
+.cue-arrow{width:34px;height:42px;flex-shrink:0;color:rgba(232,213,163,0.45);margin-top:-2px;}
+@media (max-width:720px){ .cue-arrow{display:none;} }
+
+/* ============ VIDEO ============ */
+.video-wrap{padding:14px 0 0;max-width:640px;}
+.video-frame{
+  position:relative;width:100%;padding-top:56.25%;
+  background:#05080B;border:1px solid var(--rule);overflow:hidden;
+}
+.video-frame iframe,.video-frame video{
+  position:absolute;top:0;left:0;width:100%;height:100%;border:0;display:block;
+}
+.video-placeholder{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:16px;
+  background:radial-gradient(ellipse 80% 80% at 50% 45%,#131B25 0%,#05080B 100%);
+}
+.play-mark{
+  width:56px;height:56px;border-radius:50%;
+  border:1px solid rgba(232,213,163,0.34);
+  display:flex;align-items:center;justify-content:center;
+}
+.play-mark::after{
+  content:"";display:block;
+  border-left:13px solid var(--gold-light);
+  border-top:8px solid transparent;border-bottom:8px solid transparent;
+  margin-left:4px;opacity:0.85;
+}
+.video-placeholder p{
+  font-size:10px;letter-spacing:2.4px;text-transform:uppercase;color:var(--text-faint);
+}
+
+/* ============ SECTIONS ============ */
+section.block{padding:48px 0;border-top:1px solid var(--rule-soft);}
+section.block:first-of-type{border-top:none;}
+.sec-title{
+  font-family:'Cormorant Garamond',serif;font-size:29px;font-weight:600;
+  color:#F3EEE2;line-height:1.14;margin-bottom:20px;
+}
+.lede{font-size:14.5px;color:var(--text-dim);max-width:620px;margin-bottom:26px;}
+
+/* ============ FORM ============ */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px 24px;max-width:700px;}
+.field{display:flex;flex-direction:column;}
+.field.full{grid-column:1 / -1;}
+label{
+  font-size:9.5px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--text-faint);font-weight:500;margin-bottom:8px;
+}
+label .req{color:var(--gold);margin-left:3px;}
+input,textarea{
+  font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);
+  background:rgba(255,255,255,0.028);
+  border:1px solid var(--rule-soft);
+  border-bottom:1px solid var(--rule);
+  padding:11px 13px;outline:none;width:100%;
+  transition:border-color .18s ease, background .18s ease;
+}
+textarea{resize:vertical;min-height:104px;line-height:1.6;}
+input:focus,textarea:focus{border-color:rgba(232,213,163,0.4);background:rgba(255,255,255,0.05);}
+input::placeholder,textarea::placeholder{color:rgba(231,226,214,0.22);}
+.field-err{font-size:11px;color:#D98C6A;margin-top:6px;display:none;}
+.field.invalid .field-err{display:block;}
+.field.invalid input,.field.invalid textarea{border-color:rgba(217,140,106,0.5);}
+
+.btn{
+  font-family:'DM Sans',sans-serif;
+  font-size:10.5px;letter-spacing:2.6px;text-transform:uppercase;font-weight:500;
+  color:var(--ink);background:var(--gold-light);
+  border:1px solid var(--gold-light);
+  padding:13px 34px;cursor:pointer;
+  transition:background .18s ease;
+}
+.btn:hover{background:var(--gold);border-color:var(--gold);}
+.btn.ghost{background:transparent;color:var(--gold-light);border:1px solid rgba(232,213,163,0.32);}
+.btn.ghost:hover{background:rgba(232,213,163,0.08);}
+.btn:disabled{opacity:0.35;cursor:default;}
+.btn:disabled:hover{background:transparent;}
+.form-actions{margin-top:28px;}
+
+.form-done{
+  display:none;border:1px solid var(--rule);border-left:2px solid var(--gold);
+  padding:26px 28px;max-width:700px;
+}
+.form-done h4{
+  font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;
+  color:#F3EEE2;margin-bottom:8px;
+}
+.form-done p{font-size:13.5px;color:var(--text-dim);}
+body.sent .form-grid,body.sent .form-actions{display:none;}
+body.sent .form-done{display:block;}
+
+/* ============ CALENDAR ============ */
+.cal{max-width:430px;border:1px solid var(--rule-soft);
+  background:linear-gradient(165deg,var(--panel-a) 0%,var(--panel-b) 100%);}
+.cal-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:15px 18px;border-bottom:1px solid var(--rule-soft);
+}
+.cal-month{font-family:'Cormorant Garamond',serif;font-size:19px;color:#F3EEE2;}
+.cal-nav{display:flex;gap:6px;}
+.cal-nav button{
+  width:26px;height:26px;background:transparent;cursor:pointer;
+  border:1px solid var(--rule-soft);color:var(--gold-light);
+  font-size:12px;line-height:1;transition:background .15s ease;
+}
+.cal-nav button:hover{background:rgba(232,213,163,0.08);}
+.cal-nav button:disabled{opacity:0.25;cursor:default;}
+.cal-nav button:disabled:hover{background:transparent;}
+.cal-dow{
+  display:grid;grid-template-columns:repeat(7,1fr);
+  padding:10px 12px 4px;
+}
+.cal-dow span{
+  text-align:center;font-size:8.5px;letter-spacing:1.4px;
+  text-transform:uppercase;color:var(--text-faint);font-weight:500;
+}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);padding:0 12px 14px;gap:2px;}
+.cal-cell{
+  aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;
+  font-size:12.5px;color:rgba(231,226,214,0.28);border:1px solid transparent;
+}
+.cal-cell.open{
+  color:var(--text);cursor:pointer;
+  border-color:rgba(232,213,163,0.26);
+  transition:background .15s ease,border-color .15s ease;
+}
+.cal-cell.open:hover{background:rgba(232,213,163,0.09);border-color:rgba(232,213,163,0.5);}
+.cal-cell.picked{background:var(--gold-light);color:var(--ink);border-color:var(--gold-light);font-weight:500;}
+.cal-foot{
+  border-top:1px solid var(--rule-soft);padding:13px 18px;
+  font-size:12px;color:var(--text-faint);min-height:46px;
+  display:flex;align-items:center;
+}
+.cal-foot strong{color:var(--text);font-weight:500;}
+.cal-legend{
+  display:flex;align-items:center;gap:8px;margin-top:12px;
+  font-size:10.5px;color:var(--text-faint);
+}
+.cal-legend i{
+  width:11px;height:11px;display:inline-block;
+  border:1px solid rgba(232,213,163,0.4);
+}
+.session-actions{margin-top:24px;}
+
+.dev-note{
+  margin-top:26px;border:1px dashed rgba(232,213,163,0.22);
+  padding:18px 20px;max-width:620px;
+}
+.dev-note p{font-size:11.5px;color:var(--text-faint);line-height:1.6;}
+
+/* ============ NEXT STEPS ============ */
+.steps{max-width:660px;}
+.step{display:flex;gap:20px;padding:16px 0;border-top:1px solid var(--rule-soft);}
+.step:first-child{border-top:none;padding-top:0;}
+.step-n{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold);line-height:1.3;min-width:24px;}
+.step-body h5{font-size:14.5px;font-weight:500;color:#F3EEE2;margin-bottom:4px;}
+.step-body p{font-size:13.5px;color:var(--text-dim);line-height:1.62;}
+.contact-ph{color:var(--gold-light);white-space:nowrap;}
+
+/* ============ FOOTER ============ */
+footer{border-top:1px solid var(--rule-soft);background:#080C11;padding:38px 0 46px;margin-top:20px;}
+.disc-title{
+  font-size:9.5px;letter-spacing:2.4px;text-transform:uppercase;
+  color:var(--text-faint);font-weight:500;margin-bottom:16px;
+}
+.disc p{font-size:10.8px;line-height:1.66;color:rgba(231,226,214,0.46);margin-bottom:11px;max-width:760px;}
+.disc strong{color:rgba(231,226,214,0.6);font-weight:500;}
+.foot-rule{height:1px;background:var(--rule-soft);margin:26px 0 18px;}
+.foot-line{
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(231,226,214,0.34);
+}
+.foot-line a{color:var(--gold-light);text-decoration:none;}
+
+@media (max-width:720px){
+  .wrap{padding:0 20px;}
+  h1{font-size:31px;}
+  .form-grid{grid-template-columns:1fr;}
+  .sec-title{font-size:24px;}
+  section.block{padding:40px 0;}
+}
+</style>
+</head>
+<body>
+
+<div class="topband"><div class="wrap">
+  <span>For Intermediaries &amp; Advisors &middot; By Invitation</span>
+</div></div>
+
+<header>
+  <div class="wrap">
+    <div class="logo">
+      <img class="sym" src="data:image/webp;base64,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" alt="">
+      <img class="word" src="data:image/webp;base64,UklGRnwFAABXRUJQVlA4THAFAAAvCoEREH8gEEjyx1lyhZmerYlI6DiwhW3b6lbKt5JMpLrGcYI7xZ3udYbTHA5HDQ6j2ThsSdHDadjIGROcI67iDunGvR3ca+O2erWpRJ+D9X/fv7Zk8OuK6P8EyH+WMn0ObAOpbAP/VyT86F/57hWBX/jWb9M6dukZeNO3hivHsmck/MCdrB3LmsIP3AnffWY65Q7JGzLSg2lDtYvzytR+THItb9lGRMpfH55wPalDci1vqHZxvjSN8BD3SY/qAPWalH6AeyXrUe5B3RF2cLcySmWAWkrh++gl05P6GJ+XSg191uNmtJvhyqyE7x8y6wq7cPzhIq/u0vILh4a66RascT6NjiHeNVXhjdlyogqXS/IocdY1jB8jyXKPotdprANDFft1KdSw3m1q8zhx7/N4cW/xAIe0HyvuBnNeh4lXZMrvG5BU9hNLL5Doswnyfu3EDY+QV/dwKuGwKe6IpqhPGtZdTxK9v+QTATxWRKQ2tEQAzYyIyKnEnFc4AJYCEYkGtgYl5UZKmrTJOKxtAo8vAE1xblk2gDgnzi0gDnxqAHlJnrbttEQ9WAkMH6fotUzeow2MuSLLIfAAcYd9oOizAVwnzrBviTtPVEKOiLHMlFeNokcH4sAlHa0MxFlFNoEZn31gzCW7ltawoNQoWaQ/5xUx7jGERVF3tQYwL3oENH16EAdKw0IcKKtkTQd1rzKTticBM9qytgGMGaQLcWALgUVRy6amqLsrYm63vIRpWw2Y0Ba0fSBr2QXytgowo0nXMq8dLNp2zlgDKGkVrQMrYl0GSrYaMGk4sExpnXnbNmfqC0BBi7Q+1E01YML2BaBk2LWMaT18DdHbv3Un4LMK5DTRgDlTBEz7FQzbloI2TOtJP0X12E4nBB5sCoEH29aBnGHVktPwjV3VAWdTBEybBJizbXt8IZ1pSTMawOdf/zQRkfOcnKF91h4l7lExnEmjxlpOUvoCUNBCJQRmTGXgwbZ1j9VUenNptCnJmShqkSLAnCkCpm1fAAqG7VS69TQGTdEjnxowoVW1PtRNNWDcr2jYSeVgKYUKDzJUfarAg7UF7RBWTMtA0VYDJgz7qbTjFBoUDA2fMnCdtqrtATlLG7jAVgFmDJ1U1sn7fYGsYdVH+rCmtbV1YNzSg1hsZaCuhcNUFhj320aMe14HQEHpaQ1g3lABmh7ShzhQaqRSZv7M9Lw2gFlXBa0MxFltC5jRMo4DoKhspiOdtSCFQIvwWgDirGPLIAfArFLuA4XEOpB37ADzSj+lHUpeXyCvLcd9n3AInExUhpYbgTjnuglYCxJfAB7oaABxzvEJUqqxaKkkFhjXDutD7YhD9gFO5OTVfSxPAmhmEqcAjkhyAVh7wSUiEg6BeiAi0SAt6VIydPIi8iTqSpUHovTqrkbC3TLIPsDSCyT6HMm8o0JyTkTkAOD6S+QtfVhK6TStjPIDHiQi0uMC1wFZ7XAtcEjH8ERLNWG8TtwDQyOhviOlsMdixnEKSolN6kHiS1wn2g4vdTW0OGuRW0xxXtkzSN/QaqQkC7D0ApHoJ3BSkk8acn1Oyp+FvGEByCXkFmVWTOW+5XGiVi0fNNz/C2nJD1GbGYf8APfLxCCHWniroxnYpDrQrhHj7w1yq1KX9OQzrmZG1D84Tgam6M+KyPvvZOXKQEKbVLuuK8X80R7Pd4W3OpoZS4qv+iZ874pAjO+/k5U3BnKGI2DSIOFbv03r2KWS/lt/wffeGMj5NzFuGdkLQOlewCqQvxewD2RG35OGsCQj+0JtC5gbXbc/y3UUYHxkhfCxFwQSfQ4gDkZWDfOsjOx1U5wdXfumx8noPjowXCOjvHK7cqWM+Dd/c0Dr2KXyzyE=" alt="Real Gold">
+    </div>
+    <h1>Welcome, advisors <em>&amp;</em> intermediaries.</h1>
+    <div class="hero-cue">
+      <p class="hero-sub">Start with a quick video.</p>
+      <svg class="cue-arrow" viewBox="0 0 64 78" fill="none" aria-hidden="true">
+        <path d="M6 4 C 34 6, 54 24, 50 60" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+        <path d="M41 48 L50 62 L58 47" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+    </div>
+
+    <div class="video-wrap">
+      <div class="video-frame" id="videoFrame">
+        <!-- Replace with the Vimeo / video embed iframe -->
+        <div class="video-placeholder">
+          <div class="play-mark"></div>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/K3tFmsP9MdM?si=DXH0NViLohb4CyvG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- ===== INTRODUCE YOURSELF ===== -->
+  <section class="block" id="connect">
+    <h2 class="sec-title">Introduce yourself</h2>
+
+    <form id="introForm" novalidate>
+      <div class="form-grid">
+        <div class="field" id="f-name">
+          <label for="name">Name<span class="req">*</span></label>
+          <input type="text" id="name" name="name" autocomplete="name" placeholder="First and last">
+          <div class="field-err">Please enter your name.</div>
+        </div>
+        <div class="field" id="f-email">
+          <label for="email">Email<span class="req">*</span></label>
+          <input type="email" id="email" name="email" autocomplete="email" placeholder="you@firm.com">
+          <div class="field-err">Please enter a valid email address.</div>
+        </div>
+        <div class="field full" id="f-li">
+          <label for="linkedin">LinkedIn profile</label>
+          <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/&hellip;">
+        </div>
+        <div class="field full" id="f-conn">
+          <label for="connection">Anything else you&rsquo;d like to tell us</label>
+          <textarea id="connection" name="connection" placeholder="How did you hear about Real Gold? Do you already know us?"></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn">Send</button>
+      </div>
+    </form>
+
+    <div class="form-done">
+      <h4>Thank you &mdash; we have your note.</h4>
+      <p>You&rsquo;ll receive a confirmation by email shortly. If you reserved a roundtable, the calendar invitation will follow in the same message.</p>
+    </div>
+  </section>
+
+  <!-- ===== ROUNDTABLE ===== -->
+  <section class="block" id="sessions">
+    <h2 class="sec-title">Join a Real Gold roundtable</h2>
+    <p class="lede">Open sessions run twice a week, about forty-five minutes.</p>
+
+    <div class="cal" id="cal">
+      <div class="cal-head">
+        <div class="cal-month" id="calMonth"></div>
+        <div class="cal-nav">
+          <button type="button" id="calPrev" aria-label="Previous month">&#8249;</button>
+          <button type="button" id="calNext" aria-label="Next month">&#8250;</button>
+        </div>
+      </div>
+      <div class="cal-dow">
+        <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+      <div class="cal-foot" id="calFoot">Select an available date.</div>
+    </div>
+
+    <div class="cal-legend"><i></i> Available session dates</div>
+
+    <div class="session-actions">
+      <button type="button" class="btn ghost" id="reserveBtn" disabled>Reserve This Session</button>
+    </div>
+
+    <div class="dev-note">
+      <p><strong style="color:var(--text-dim);font-weight:500;">Developer note.</strong> This calendar is a front-end mock. Wire it to Google Calendar (Appointment Schedules) or Calendly so that reserving writes the event and sends the invitation to the address entered above. Available dates are currently generated as Tuesdays and Thursdays.</p>
+    </div>
+  </section>
+
+  <!-- ===== NEXT ===== -->
+  <section class="block" id="next">
+    <h2 class="sec-title">What happens next</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n">1</div>
+        <div class="step-body">
+          <h5>Confirmation email</h5>
+          <p>With links to the intermediary documents.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">2</div>
+        <div class="step-body">
+          <h5>Roundtable confirmed</h5>
+          <p>Calendar invitation follows.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">3</div>
+        <div class="step-body">
+          <h5>If the roundtable doesn&rsquo;t work</h5>
+          <p>Reach Ken directly. <span class="contact-ph">[PHONE] &middot; [EMAIL]</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="disc-title">Important Disclosures</div>
+    <div class="disc">
+      <p><strong>Educational purpose.</strong> This page and the material presented on it are provided for educational and informational purposes to financial intermediaries. Nothing here constitutes an offer to sell or a solicitation of an offer to buy any security, nor a recommendation regarding the suitability of any investment for any person. Any offer may be made only through definitive offering documents delivered by a FINRA-registered broker-dealer.</p>
+      <p><strong>Not investment, legal, or tax advice.</strong> Real Gold does not provide investment, legal, accounting, or tax advice. Intermediaries and their clients should consult their own advisors. Statements regarding treatment under Section 1031 of the Internal Revenue Code reflect the intended structure and remain subject to a pending federal tax opinion; no assurance can be given as to the tax treatment of any interest.</p>
+      <p><strong>Resource estimates.</strong> Mineral resource figures referenced in Real Gold materials are classified as inferred resources. Inferred resources carry a low level of geological confidence, are estimated from limited sampling, and may not be realized. Resource estimates are stated at the property level and are not attributed to any individual parcel or block.</p>
+      <p><strong>Risk.</strong> Interests in a Delaware Statutory Trust are illiquid, are not listed on any exchange, and involve substantial risk including the possible loss of the entire amount invested. There is no secondary market and none is expected to develop. Past performance of any asset class is not indicative of future results.</p>
+      <p><strong>Distribution.</strong> This page is provided by invitation and is intended solely for the recipient. It is not for forwarding, reproduction, or public distribution.</p>
+    </div>
+    <div class="foot-rule"></div>
+    <div class="foot-line">
+      <span>Real Gold &mdash; Draft, Pending BD Principal Approval</span>
+      <span><a href="https://real.gold">real.gold</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var MON=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var DAYN=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var SLOTS={2:'11:00 AM PT / 2:00 PM ET', 4:'2:00 PM PT / 5:00 PM ET'};
+
+  var today=new Date(); today.setHours(0,0,0,0);
+  var view=new Date(today.getFullYear(), today.getMonth(), 1);
+  var chosen=null;
+
+  var grid=document.getElementById('calGrid');
+  var monthEl=document.getElementById('calMonth');
+  var footEl=document.getElementById('calFoot');
+  var prevBtn=document.getElementById('calPrev');
+  var nextBtn=document.getElementById('calNext');
+  var reserveBtn=document.getElementById('reserveBtn');
+
+  function isOpen(d){
+    return (d.getDay()===2 || d.getDay()===4) && d.getTime()>today.getTime();
+  }
+
+  function render(){
+    monthEl.textContent = MON[view.getMonth()] + ' ' + view.getFullYear();
+    grid.innerHTML='';
+    var first=new Date(view.getFullYear(),view.getMonth(),1);
+    var days=new Date(view.getFullYear(),view.getMonth()+1,0).getDate();
+    for(var b=0;b<first.getDay();b++){
+      var pad=document.createElement('div'); pad.className='cal-cell'; grid.appendChild(pad);
+    }
+    for(var n=1;n<=days;n++){
+      (function(n){
+        var d=new Date(view.getFullYear(),view.getMonth(),n);
+        var c=document.createElement('div');
+        c.className='cal-cell'; c.textContent=n;
+        if(isOpen(d)){
+          c.classList.add('open');
+          c.setAttribute('role','button'); c.setAttribute('tabindex','0');
+          if(chosen && chosen.getTime()===d.getTime()){ c.classList.add('picked'); }
+          function pick(){
+            chosen=d;
+            render();
+            footEl.innerHTML='<strong>'+DAYN[d.getDay()]+', '+MON[d.getMonth()]+' '+d.getDate()+'</strong>&nbsp;&middot;&nbsp;'+SLOTS[d.getDay()];
+            reserveBtn.disabled=false;
+          }
+          c.addEventListener('click',pick);
+          c.addEventListener('keydown',function(e){
+            if(e.key==='Enter'||e.key===' '){ e.preventDefault(); pick(); }
+          });
+        }
+        grid.appendChild(c);
+      })(n);
+    }
+    prevBtn.disabled = (view.getFullYear()===today.getFullYear() && view.getMonth()===today.getMonth());
+    if(chosen){
+      footEl.innerHTML='<strong>'+DAYN[chosen.getDay()]+', '+MON[chosen.getMonth()]+' '+chosen.getDate()+'</strong>&nbsp;&middot;&nbsp;'+SLOTS[chosen.getDay()];
+    }
+  }
+
+  prevBtn.addEventListener('click',function(){ view.setMonth(view.getMonth()-1); render(); });
+  nextBtn.addEventListener('click',function(){ view.setMonth(view.getMonth()+1); render(); });
+  render();
+
+  reserveBtn.addEventListener('click',function(){
+    document.getElementById('connect').scrollIntoView({behavior:'smooth',block:'start'});
+    var n=document.getElementById('name');
+    if(n && !document.body.classList.contains('sent')){ setTimeout(function(){ n.focus(); },420); }
+  });
+
+  /* ---------- Form ---------- */
+  var form=document.getElementById('introForm');
+  function mark(id,bad){
+    var f=document.getElementById(id);
+    if(bad){f.classList.add('invalid');}else{f.classList.remove('invalid');}
+    return !bad;
+  }
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var name=document.getElementById('name').value.trim();
+    var email=document.getElementById('email').value.trim();
+    var ok=true;
+    ok = mark('f-name', name.length<2) && ok;
+    ok = mark('f-email', !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) && ok;
+    if(!ok){
+      var bad=form.querySelector('.field.invalid input');
+      if(bad){bad.focus();}
+      return;
+    }
+
+    /* ---- Backend hook: POST this payload to your form endpoint ---- */
+    var payload={
+      name:name,
+      email:email,
+      linkedin:document.getElementById('linkedin').value.trim(),
+      notes:document.getElementById('connection').value.trim(),
+      session: chosen ? chosen.toISOString().slice(0,10)+' '+(SLOTS[chosen.getDay()]||'') : null,
+      submittedAt:new Date().toISOString()
+    };
+    console.log('SUBMIT PAYLOAD',payload);
+
+    document.body.classList.add('sent');
+    document.getElementById('connect').scrollIntoView({behavior:'smooth',block:'start'});
+  });
+})();
+</script>
+
+</body>
+</html>
