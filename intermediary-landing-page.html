@@ -307,10 +307,17 @@ footer{border-top:1px solid var(--rule-soft);background:#080C11;padding:38px 0 4
         </div>
       </div>
 
+      <input type="text" name="website" id="website" tabindex="-1" autocomplete="off"
+             aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+
       <div class="form-actions">
         <button type="submit" class="btn">Send</button>
       </div>
     </form>
+
+    <p id="formError" style="display:none;margin-top:1rem;color:#c2554d;font-size:.9rem">
+      Something went wrong sending that. Please try again, or email us directly and we will pick it up.
+    </p>
 
     <div class="form-done">
       <h4>Thank you &mdash; we have your note.</h4>
@@ -466,6 +473,9 @@ footer{border-top:1px solid var(--rule-soft);background:#080C11;padding:38px 0 4
   });
 
   /* ---------- Form ---------- */
+  /* Cloudflare Worker that holds the EmailOctopus key server-side. */
+  var ENDPOINT='https://weathered-heart-1e2d.real-gold.workers.dev';
+
   var form=document.getElementById('introForm');
   function mark(id,bad){
     var f=document.getElementById(id);
@@ -485,19 +495,41 @@ footer{border-top:1px solid var(--rule-soft);background:#080C11;padding:38px 0 4
       return;
     }
 
-    /* ---- Backend hook: POST this payload to your form endpoint ---- */
     var payload={
       name:name,
       email:email,
       linkedin:document.getElementById('linkedin').value.trim(),
       notes:document.getElementById('connection').value.trim(),
       session: chosen ? chosen.toISOString().slice(0,10)+' '+(SLOTS[chosen.getDay()]||'') : null,
+      website:document.getElementById('website').value,
       submittedAt:new Date().toISOString()
     };
-    console.log('SUBMIT PAYLOAD',payload);
 
-    document.body.classList.add('sent');
-    document.getElementById('connect').scrollIntoView({behavior:'smooth',block:'start'});
+    var btn=form.querySelector('button[type=submit]');
+    var label=btn.textContent;
+    btn.disabled=true;
+    btn.textContent='Sending\u2026';
+
+    fetch(ENDPOINT,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(payload)
+    })
+    .then(function(r){
+      return r.json().catch(function(){return {};}).then(function(d){return {ok:r.ok,d:d};});
+    })
+    .then(function(res){
+      if(!res.ok){ throw new Error((res.d && res.d.error) || 'failed'); }
+      document.body.classList.add('sent');
+      document.getElementById('connect').scrollIntoView({behavior:'smooth',block:'start'});
+    })
+    .catch(function(err){
+      btn.disabled=false;
+      btn.textContent=label;
+      var box=document.getElementById('formError');
+      if(box){ box.style.display='block'; }
+      console.error('Subscribe failed:',err);
+    });
   });
 })();
 </script>
