@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow, noarchive">
-<title>Real Gold &mdash; For Intermediaries &amp; Advisors</title>
+<title>Real Gold &mdash; For Wealth Advisors</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:wght@300;400;500;600&display=swap');
 
@@ -38,21 +38,23 @@ body{
 
 /* ============ TOP BAND ============ */
 .topband{border-bottom:1px solid var(--rule-soft);background:#080C11;padding:11px 0;}
-.topband .wrap{display:flex;justify-content:center;}
+/** .topband .wrap{display:flex;justify-content:center;max-width:640px;}
 .topband span{
   font-size:9.5px;letter-spacing:3.4px;text-transform:uppercase;
   color:var(--gold-light);font-weight:500;text-align:center;
 }
-
+*/
+.topband .wrap{display:block;}
+.topband span{display:block;max-width:640px;text-align:center;}
 /* ============ HEADER ============ */
 header{
   background:linear-gradient(165deg,var(--panel-a) 0%,var(--panel-b) 70%,var(--panel-c) 100%);
   border-bottom:1px solid var(--rule-soft);
   padding:30px 0 44px;
 }
-.logo{display:flex;align-items:center;gap:11px;margin-bottom:40px;}
-.logo img.sym{height:34px;width:auto;display:block;}
-.logo img.word{height:21px;width:auto;display:block;}
+.logo{display:flex;align-items:center;gap:11px;margin-bottom:40px;justify-content:center;max-width:640px;}
+.logo img.sym{height:44px;width:auto;display:block;}
+.logo img.words{height:34px;width:auto;display:block;}
 
 h1{
   font-family:'Cormorant Garamond',serif;
@@ -60,6 +62,16 @@ h1{
   color:#F3EEE2;max-width:640px;margin-bottom:12px;
 }
 h1 em{font-style:italic;color:var(--gold-light);}
+.headline{
+  text-align: center;
+  font-family:'Cormorant Garamond',serif;
+  font-size:38px;font-weight:600;line-height:1.14;
+  color:#F3EEE2;max-width:640px;margin-bottom:12px;
+}
+.hero-intro{
+  font-size:15.5px;color:var(--text-dim);max-width:600px;
+  line-height:1.72;margin-bottom:26px;
+}
 .hero-cue{display:flex;align-items:flex-start;gap:6px;}
 .hero-sub{font-size:15px;color:var(--text-dim);max-width:560px;line-height:1.68;}
 .cue-arrow{width:34px;height:42px;flex-shrink:0;color:rgba(232,213,163,0.45);margin-top:-2px;}
@@ -108,7 +120,7 @@ section.block:first-of-type{border-top:none;}
 .field{display:flex;flex-direction:column;}
 .field.full{grid-column:1 / -1;}
 label{
-  font-size:9.5px;letter-spacing:2px;text-transform:uppercase;
+  font-size:9.5px;letter-spacing:2px;
   color:var(--text-faint);font-weight:500;margin-bottom:8px;
 }
 label .req{color:var(--gold);margin-left:3px;}
@@ -158,7 +170,7 @@ body.sent .form-done{display:block;}
 .cal{max-width:430px;border:1px solid var(--rule-soft);
   background:linear-gradient(165deg,var(--panel-a) 0%,var(--panel-b) 100%);}
 .opt{
-  font-size:10px;letter-spacing:0.12em;text-transform:uppercase;
+  font-size:10px;letter-spacing:0.12em;
   color:var(--text-dim);opacity:0.55;margin-left:6px;font-weight:400;
 }
 .rt-opt{
@@ -280,10 +292,12 @@ footer{border-top:1px solid var(--rule-soft);background:#080C11;padding:38px 0 4
 <header>
   <div class="wrap">
     <div class="logo">
-      <img class="sym" src="data:image/webp;base64,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" alt="">
-      <img class="word" src="data:image/webp;base64,UklGRnwFAABXRUJQVlA4THAFAAAvCoEREH8gEEjyx1lyhZmerYlI6DiwhW3b6lbKt5JMpLrGcYI7xZ3udYbTHA5HDQ6j2ThsSdHDadjIGROcI67iDunGvR3ca+O2erWpRJ+D9X/fv7Zk8OuK6P8EyH+WMn0ObAOpbAP/VyT86F/57hWBX/jWb9M6dukZeNO3hivHsmck/MCdrB3LmsIP3AnffWY65Q7JGzLSg2lDtYvzytR+THItb9lGRMpfH55wPalDci1vqHZxvjSN8BD3SY/qAPWalH6AeyXrUe5B3RF2cLcySmWAWkrh++gl05P6GJ+XSg191uNmtJvhyqyE7x8y6wq7cPzhIq/u0vILh4a66RascT6NjiHeNVXhjdlyogqXS/IocdY1jB8jyXKPotdprANDFft1KdSw3m1q8zhx7/N4cW/xAIe0HyvuBnNeh4lXZMrvG5BU9hNLL5Doswnyfu3EDY+QV/dwKuGwKe6IpqhPGtZdTxK9v+QTATxWRKQ2tEQAzYyIyKnEnFc4AJYCEYkGtgYl5UZKmrTJOKxtAo8vAE1xblk2gDgnzi0gDnxqAHlJnrbttEQ9WAkMH6fotUzeow2MuSLLIfAAcYd9oOizAVwnzrBviTtPVEKOiLHMlFeNokcH4sAlHa0MxFlFNoEZn31gzCW7ltawoNQoWaQ/5xUx7jGERVF3tQYwL3oENH16EAdKw0IcKKtkTQd1rzKTticBM9qytgGMGaQLcWALgUVRy6amqLsrYm63vIRpWw2Y0Ba0fSBr2QXytgowo0nXMq8dLNp2zlgDKGkVrQMrYl0GSrYaMGk4sExpnXnbNmfqC0BBi7Q+1E01YML2BaBk2LWMaT18DdHbv3Un4LMK5DTRgDlTBEz7FQzbloI2TOtJP0X12E4nBB5sCoEH29aBnGHVktPwjV3VAWdTBEybBJizbXt8IZ1pSTMawOdf/zQRkfOcnKF91h4l7lExnEmjxlpOUvoCUNBCJQRmTGXgwbZ1j9VUenNptCnJmShqkSLAnCkCpm1fAAqG7VS69TQGTdEjnxowoVW1PtRNNWDcr2jYSeVgKYUKDzJUfarAg7UF7RBWTMtA0VYDJgz7qbTjFBoUDA2fMnCdtqrtATlLG7jAVgFmDJ1U1sn7fYGsYdVH+rCmtbV1YNzSg1hsZaCuhcNUFhj320aMe14HQEHpaQ1g3lABmh7ShzhQaqRSZv7M9Lw2gFlXBa0MxFltC5jRMo4DoKhspiOdtSCFQIvwWgDirGPLIAfArFLuA4XEOpB37ADzSj+lHUpeXyCvLcd9n3AInExUhpYbgTjnuglYCxJfAB7oaABxzvEJUqqxaKkkFhjXDutD7YhD9gFO5OTVfSxPAmhmEqcAjkhyAVh7wSUiEg6BeiAi0SAt6VIydPIi8iTqSpUHovTqrkbC3TLIPsDSCyT6HMm8o0JyTkTkAOD6S+QtfVhK6TStjPIDHiQi0uMC1wFZ7XAtcEjH8ERLNWG8TtwDQyOhviOlsMdixnEKSolN6kHiS1wn2g4vdTW0OGuRW0xxXtkzSN/QaqQkC7D0ApHoJ3BSkk8acn1Oyp+FvGEByCXkFmVWTOW+5XGiVi0fNNz/C2nJD1GbGYf8APfLxCCHWniroxnYpDrQrhHj7w1yq1KX9OQzrmZG1D84Tgam6M+KyPvvZOXKQEKbVLuuK8X80R7Pd4W3OpoZS4qv+iZ874pAjO+/k5U3BnKGI2DSIOFbv03r2KWS/lt/wffeGMj5NzFuGdkLQOlewCqQvxewD2RG35OGsCQj+0JtC5gbXbc/y3UUYHxkhfCxFwQSfQ4gDkZWDfOsjOx1U5wdXfumx8noPjowXCOjvHK7cqWM+Dd/c0Dr2KXyzyE=" alt="Real Gold">
+      <img class="sym" src="assets/RealGold-Symbol-Clear.png" alt="RealGold Logo"><img class="words" src="assets/RealGold-Logo-TextOnly.png" alt="RealGold">
     </div>
-    <h1>Welcome, advisors <em>&amp;</em> intermediaries.</h1>
+    
+        
+    <h1 class="headline">Connect with us to discover<br> what a <i>Certified Mineral Estate</i><br> can make possible.</h1>
+<p class="hero-intro">Welcome Wealth Advisors, <br>This is your invitation to explore what RealGold is and can be. </p>
     <div class="hero-cue">
       <p class="hero-sub">Start with a quick video.</p>
       <svg class="cue-arrow" viewBox="0 0 64 78" fill="none" aria-hidden="true">
