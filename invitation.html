@@ -615,6 +615,7 @@ $("join-form").addEventListener("submit", async e => {
   const btn = $("join-btn"); btn.disabled = true; btn.textContent = "Joining…";
   const rec = {
     first: f.first.value.trim(), last: f.last.value.trim(), email: f.email.value.trim().toLowerCase(),
+    name: (f.first.value.trim() + " " + f.last.value.trim()).trim(), // also read by the original advisors Worker
     phone: $("phone").value.trim(), invitedBy: $("ref").value.trim(),
     website: $("website").value,
     consent: true, list: "special-invite", source: "vault-invitation-v1", submittedAt: new Date().toISOString()
