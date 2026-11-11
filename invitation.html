@@ -443,7 +443,8 @@ const CONFIG = {
   liveHosts: /(^|\.)real\.gold$|^localhost$|^127\.0\.0\.1$/, // the Worker is only called from these sites
   dillUrl: "",        // link to Dill
   dillEmbedUrl: "",   // Dill embed/iframe URL (works on your own domain)
-  trailerUrl: ""      // MP4 URL of the 1–2 minute trailer
+  trailerUrl: "trailer.mp4",          // the trailer, uploaded next to this page
+  trailerPoster: "trailer-poster.jpg" // still frame shown before play
 };
 
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -576,6 +577,8 @@ $("msg-next").addEventListener("click", step);
 if(CONFIG.trailerUrl){
   const v = document.createElement("video");
   v.src = CONFIG.trailerUrl; v.controls = true; v.playsInline = true; v.preload = "metadata";
+  if(CONFIG.trailerPoster) v.poster = CONFIG.trailerPoster;
+  v.setAttribute("aria-label","RealGold invitation film");
   $("frame").innerHTML = ""; $("frame").appendChild(v);
 }
 $("to-join").addEventListener("click", () => {
