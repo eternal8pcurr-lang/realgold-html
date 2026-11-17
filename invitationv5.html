@@ -224,6 +224,7 @@ h2{font-size:clamp(1.9rem,4.6vw,2.8rem);line-height:1.12}
 @keyframes dl-blink{0%,90%,100%{transform:scaleY(1)}93%{transform:scaleY(.12)}96%{transform:scaleY(1)}}
 @keyframes dl-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
 @media (prefers-reduced-motion:reduce){.dill *{animation:none!important}}
+.replay{margin:0;text-align:center}.replay a{color:var(--gold-bright,#f0d68e);font-size:.85rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(240,214,142,.35);padding-bottom:2px}.replay a:hover{border-bottom-color:currentColor}
 .chat-head strong{font-family:var(--f-display);font-size:1.3rem;font-weight:600;display:block;line-height:1.1}
 .chat-head span{font-size:.82rem;color:var(--muted)}
 .chat-body{flex:1;padding:18px;display:flex;flex-direction:column;gap:12px;overflow:auto}
@@ -301,7 +302,7 @@ h2{font-size:clamp(1.9rem,4.6vw,2.8rem);line-height:1.12}
       <circle cx="200" cy="200" r="150" fill="url(#faceG)" stroke="#5a4419" stroke-width="2"/>
       <circle cx="200" cy="200" r="134" fill="none" stroke="#f1d690" stroke-opacity=".45" stroke-width="1"/>
       <circle cx="200" cy="200" r="100" fill="none" stroke="#3d2d12" stroke-opacity=".5" stroke-width="1.5"/>
-      <text font-family="Marcellus SC, Georgia, serif" font-size="14" letter-spacing="5" fill="#3d2d12" fill-opacity=".8"><textPath href="#arc" startOffset="50%" text-anchor="middle">REALGOLD · KEPT IN THE EARTH</textPath></text>
+      <text font-family="Marcellus SC, Georgia, serif" font-size="14" letter-spacing="5" fill="#3d2d12" fill-opacity=".8"><textPath href="#arc" startOffset="50%" text-anchor="middle">REALGOLD · NATURE’S VAULT</textPath></text>
       <g class="wheel">
         <g stroke="url(#hubG)" stroke-width="9" stroke-linecap="round">
           <line x1="200" y1="200" x2="200" y2="112"/>
@@ -450,6 +451,7 @@ h2{font-size:clamp(1.9rem,4.6vw,2.8rem);line-height:1.12}
     </div>
   </div>
   <p class="disclose">This page is for informational purposes only and is not an offer to sell, or a solicitation of an offer to buy, any security. Any offer will be made only through definitive offering documents delivered to qualified persons. Nothing here is investment, legal or tax advice.</p>
+  <p class="replay"><a href="#" id="replay">Watch the invitation again</a></p>
 </section>
 
 <script>
@@ -646,6 +648,11 @@ function renderWelcome(){
   show("welcome");
 }
 $("dill-link").addEventListener("click", e => { if(!CONFIG.dillUrl) e.preventDefault(); });
+document.getElementById("replay").addEventListener("click", e => {
+  e.preventDefault();
+  history.replaceState(null, "", location.pathname + location.search);
+  location.reload();
+});
 function route(){ if(location.hash === "#welcome") renderWelcome(); }
 addEventListener("hashchange", route);
 route();
