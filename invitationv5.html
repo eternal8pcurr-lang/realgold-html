@@ -181,6 +181,7 @@ h2{font-size:clamp(1.9rem,4.6vw,2.8rem);line-height:1.12}
 .reduced .lines{min-height:0}
 
 /* ---------- trailer ---------- */
+#to-join[hidden],.skip-film[hidden]{display:none!important}.skip-film{margin-top:6px;font-size:.85rem;color:var(--muted);text-decoration:underline;text-underline-offset:3px}.skip-film:hover{color:var(--gold-bright)}#to-join.reveal{animation:stepIn .9s ease both}@keyframes stepIn{from{opacity:0;transform:translateY(8px)}}
 .frame{width:min(820px,100%);aspect-ratio:16/9;max-width:100%;border:1px solid rgba(201,164,78,.45);background:radial-gradient(circle at 50% 45%,rgba(201,164,78,.14),transparent 60%),var(--basalt-2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;border-radius:3px;position:relative;overflow:hidden}
 .frame video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .play{width:74px;height:74px;border-radius:50%;border:1px solid var(--gold);display:grid;place-items:center;background:rgba(13,12,10,.5)}
@@ -370,14 +371,15 @@ h2{font-size:clamp(1.9rem,4.6vw,2.8rem);line-height:1.12}
 <!-- 4. Trailer -->
 <section class="stage" id="trailer" hidden aria-labelledby="trailer-h">
   <div class="gate-head">
-    <span class="eyebrow">A short film</span>
-    <h2 id="trailer-h">The land, and the people caring for it.</h2>
+    <span class="eyebrow">Two minutes</span>
+    <h2 id="trailer-h">A heartbeat before we show you what we're building.</h2>
   </div>
   <div class="frame" id="frame">
     <div class="play"><svg viewBox="0 0 24 24"><path d="M5 3l16 9-16 9z"/></svg></div>
     <small>Trailer · 1–2 minutes · Coming soon</small>
   </div>
-  <button class="btn" type="button" id="to-join">Accept the invitation</button>
+  <button class="btn" type="button" id="to-join">Step inside</button>
+  <a href="#" class="skip-film" id="skip-film" hidden>Skip the film</a>
 </section>
 
 <!-- 5. Invitation list form -->
@@ -585,6 +587,13 @@ if(CONFIG.trailerUrl){
   if(CONFIG.trailerPoster) v.poster = CONFIG.trailerPoster;
   v.setAttribute("aria-label","RealGold invitation film");
   $("frame").innerHTML = ""; $("frame").appendChild(v);
+  /* "Step inside" appears once the film is nearly done; until then a quiet skip link */
+  const btn = $("to-join"), skip = $("skip-film");
+  btn.hidden = true; skip.hidden = false;
+  const reveal = () => { if(!btn.hidden) return; btn.hidden = false; skip.hidden = true; btn.classList.add("reveal"); };
+  v.addEventListener("timeupdate", () => { if(v.duration && v.currentTime >= v.duration - 6) reveal(); });
+  v.addEventListener("ended", reveal);
+  skip.addEventListener("click", e => { e.preventDefault(); btn.click(); });
 }
 $("to-join").addEventListener("click", () => {
   show("join");
